@@ -1,6 +1,10 @@
-import {NavLink, Outlet} from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 
-export const Layout = () => (
+type LayoutProps = {
+  children: JSX.Element;
+}
+
+export const Layout = ({children}: LayoutProps) => (
   <div className='page page--gray'>
     <header className="header">
       <div className="container">
@@ -41,7 +45,7 @@ export const Layout = () => (
       </div>
     </header>
     <main>
-      <Outlet/>
+      {children}
     </main>
   </div>
 

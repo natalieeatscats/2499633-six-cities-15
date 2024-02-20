@@ -1,8 +1,8 @@
 export enum Addresses {
-    Main = 'main',
-    Login = 'login',
-    Favorites = 'favorites',
-    Offer = 'offer/:id',
+    Main = '/main',
+    Login = '/login',
+    Favorites = '/favorites',
+    Offer = '/offer/:id',
 }
 
 export enum AuthorizationStatus {

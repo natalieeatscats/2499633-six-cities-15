@@ -1,5 +1,3 @@
-
-
 export const Offer = () => (
   <div className="page">
     <header className="header">
