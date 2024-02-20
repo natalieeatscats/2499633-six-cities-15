@@ -2,6 +2,8 @@
 import Card from '../../components/Card/Card';
 import { Layout } from '../../components/Layout/Layout';
 
+
+
 type MainPageProps = {
   offerQuant: number;
 }
@@ -12,8 +14,6 @@ export const MainPage = ({offerQuant}: MainPageProps) => {
   const offers = Array.from({ length: offerQuant },(_, index) => (<Card key={index} />));
 
   return (
-
-
     <Layout>
       <>
         <h1 className="visually-hidden">Cities</h1>
@@ -95,8 +95,6 @@ export const MainPage = ({offerQuant}: MainPageProps) => {
         </div>
       </>
     </Layout>
-
-
   );
 };
 

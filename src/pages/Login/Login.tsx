@@ -41,5 +41,4 @@ export const Login = () => (
       </section>
     </div>
   </Layout>
-
 );

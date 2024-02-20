@@ -185,5 +185,4 @@ export const Favorites = () => (
       </footer>
     </div>
   </Layout>
-
 );
