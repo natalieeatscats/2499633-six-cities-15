@@ -1,5 +1,5 @@
 export enum Addresses {
-    Main = '/main',
+    Main = '/',
     Login = '/login',
     Favorites = '/favorites',
     Offer = '/offer/:id',
