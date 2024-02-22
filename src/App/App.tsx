@@ -6,11 +6,16 @@ import { Favorites } from '../pages/Favorites/Favorites';
 import { Offer } from '../pages/Offer/Offer';
 import { NotFound } from '../pages/404/404';
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
+import { OfferData } from '../mocks/offers';
 
-export const App = () => (
+type AppProps = {
+  offers: OfferData[];
+}
+
+export const App = ({offers}: AppProps) => (
   <BrowserRouter>
     <Routes>
-      <Route path={Addresses.Main} element={<MainPage offerQuant={5}/>} />
+      <Route path={Addresses.Main} element={<MainPage offers={offers}/>} />
       <Route path={Addresses.Login} element={<Login/>} />
       <Route path={Addresses.Favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}><Favorites/></PrivateRoute>} />
       <Route path={Addresses.Offer} element={<Offer/>} />
