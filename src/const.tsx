@@ -10,3 +10,6 @@ export enum AuthorizationStatus {
     NoAuth = 'NO_AUTH',
     Unknown = 'UNKNOWN'
 }
+
+
+export const handleStars = (width: number) => `${String(width * 20)}%`;

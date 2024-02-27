@@ -1,25 +1,15 @@
+import { handleStars } from '../../const';
 import { OfferData } from '../../mocks/offers';
 
 type CardProps = {
   offer: OfferData;
+  isActive?: boolean;
 }
 
 
-export const Card = ({ offer }: CardProps) => {
-  let ratingStyle = { width: '80%' };
-
-  switch (offer.rating) {
-    case 1: ratingStyle = { width: '100%' };
-      break;
-    case 2: ratingStyle = { width: '80%' };
-      break;
-    case 3: ratingStyle = { width: '60%' };
-      break;
-    case 4: ratingStyle = { width: '40%' };
-      break;
-    case 5: ratingStyle = { width: '20%' };
-      break;
-  }
+export const Card = ({ offer, isActive }: CardProps) => {
+  const ratingStyle = { width: '80%' };
+  ratingStyle.width = handleStars(offer.rating);
 
   return (
     <article className="cities__card place-card">
@@ -31,7 +21,7 @@ export const Card = ({ offer }: CardProps) => {
         <a href="#">
           <img
             className="place-card__image"
-            src="img/apartment-01.jpg"
+            src={offer.images[0]}
             width={260}
             height={200}
             alt="Place image"
@@ -44,19 +34,20 @@ export const Card = ({ offer }: CardProps) => {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button
-            className="place-card__bookmark-button button"
-            type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
+          {isActive ?
+            <button
+              className="place-card__bookmark-button button"
+              type="button"
             >
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+              <svg
+                className="place-card__bookmark-icon"
+                width={18}
+                height={19}
+              >
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">To bookmarks</span>
+            </button> : null}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

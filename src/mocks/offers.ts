@@ -1,43 +1,163 @@
 export type OfferData = {
-  id: number;
-  isPremium?: boolean;
-  type: 'Apartment' | 'House' | 'Room';
-  rating: 1 | 2 | 3 | 4 | 5;
-  price: number;
+  id: string;
   title: string;
+  type: string;
+  price: number;
+  city: {
+  name: string;
+  location: {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  };};
+  location: {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+  };
+  images: string[];
+  maxAdults: number;
 };
 
 const OFFERS: OfferData[] = [
   {
-    id: 122,
-    isPremium: true,
+    id: '6af6f711',
+    title: 'Luxurious apartment in the centre of Brussels',
     type: 'Apartment',
-    rating: 4,
     price: 300,
-    title: 'Luxurious flat in the centre of Brussels',
-  },
-  {
-    id: 32,
-    type: 'Room',
-    rating: 3,
-    price: 120,
-    title: 'Spacious room in a historical building',
-  },
-  {
-    id: 5223,
+    city: {
+      name: 'Brussels',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8,
+      },},
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8,
+    },
+    isFavorite: false,
     isPremium: true,
-    type: 'House',
-    rating: 5,
-    price: 400,
-    title: 'Lovely cabin in the countryside',
+    rating: 4.6,
+    description: 'This luxury apartment has all you need for a dream vacation in Europe',
+    bedrooms: 2,
+    goods: ['Heating', 'TV'],
+    host: {
+      name: 'Heimich Balooney',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
+    maxAdults: 3,
+
   },
   {
-    id: 23568,
-    isPremium: true,
+    id: 'c28d',
+    title: 'Luxurious apartment in the centre of Cologne',
     type: 'Apartment',
-    rating: 2,
-    price: 620,
-    title: 'Overpriced crumbling apartment',
+    price: 300,
+    city: {
+      name: 'Cologne',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8,
+      },},
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8,
+    },
+    isFavorite: true,
+    isPremium: true,
+    rating: 1.2,
+    description: 'This luxury apartment has all you need for a dream vacation in Europe',
+    bedrooms: 2,
+    goods: ['Heating', 'TV'],
+    host: {
+      name: 'Heimich Balooney',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
+    maxAdults: 3,
+
+  },
+  {
+    id: '4121',
+    title: 'Luxurious apartment in the centre of Paris',
+    type: 'Apartment',
+    price: 300,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8,
+      },},
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8,
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 3.5,
+    description: 'This luxury apartment has all you need for a dream vacation in Europe',
+    bedrooms: 2,
+    goods: ['Heating', 'TV'],
+    host: {
+      name: 'Heimich Balooney',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
+    maxAdults: 3,
+
+  },
+  {
+    id: '82cd',
+    title: 'Luxurious apartment in the centre of Amsterdam',
+    type: 'Apartment',
+    price: 300,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8,
+      },},
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8,
+    },
+    isFavorite: true,
+    isPremium: true,
+    rating: 2.3,
+    description: 'This luxury apartment has all you need for a dream vacation in Europe',
+    bedrooms: 2,
+    goods: ['Heating', 'TV'],
+    host: {
+      name: 'Heimich Balooney',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
+    maxAdults: 3,
+
   }
 ];
 
