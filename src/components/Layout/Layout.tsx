@@ -1,4 +1,4 @@
-import { Link, NavLink} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
 
 type LayoutProps = {

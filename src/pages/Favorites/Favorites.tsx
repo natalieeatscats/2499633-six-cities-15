@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData } from '../../mocks/offers';
@@ -11,7 +10,6 @@ type FavoritesProps = {
 
 
 export const Favorites = ({ offers, reviews }: FavoritesProps) => {
-  const params = useParams();
   const favoriteOffers = offers.filter((offer) => offer.isFavorite === true);
 
 

@@ -1,4 +1,4 @@
-import { Outlet, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData } from '../../mocks/offers';
 import { ReviewData } from '../../mocks/reviews';
