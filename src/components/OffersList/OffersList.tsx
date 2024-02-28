@@ -9,14 +9,14 @@ type OffersProps = {
   reviews: ReviewData[];
 }
 
-export const OffersList = ({ offers, reviews }: OffersProps) => {
+export const OffersList = ({ offers }: OffersProps) => {
 
   const [activeOffer, setActiveOffer] = useState('');
 
   return (
 
     offers.map((offer) => (
-      <Link to={`../offer/${offer.id}`} state={{offers: offers, reviews: reviews}} onMouseEnter={() => setActiveOffer(offer.id)} onMouseLeave={() => setActiveOffer('')} key={offer.id} >
+      <Link to={`/offer/${offer.id}`} onMouseEnter={() => setActiveOffer(offer.id)} onMouseLeave={() => setActiveOffer('')} key={offer.id} >
         {activeOffer === offer.id ? <Card isActive offer={offer}/> : <Card offer={offer}/>}
       </Link>
     ))
