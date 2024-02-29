@@ -6,14 +6,24 @@ import { Favorites } from '../pages/Favorites/Favorites';
 import { Offer } from '../pages/Offer/Offer';
 import { NotFound } from '../pages/404/404';
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
+import { OfferData } from '../mocks/offers';
+import { ReviewData } from '../mocks/reviews';
+import { MainContent } from '../pages/Main/MainContent';
 
-export const App = () => (
+type AppProps = {
+  offers: OfferData[];
+  reviews: ReviewData[];
+}
+
+export const App = ({offers, reviews}: AppProps) => (
   <BrowserRouter>
     <Routes>
-      <Route path={Addresses.Main} element={<MainPage offerQuant={5}/>} />
+      <Route path={Addresses.Main} element={<MainPage/>}>
+        <Route path=':city' element={<MainContent reviews={reviews} offers={offers}/>}></Route>
+      </Route>
       <Route path={Addresses.Login} element={<Login/>} />
-      <Route path={Addresses.Favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}><Favorites/></PrivateRoute>} />
-      <Route path={Addresses.Offer} element={<Offer/>} />
+      <Route path={Addresses.Favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><Favorites reviews={reviews} offers={offers}/></PrivateRoute>} />
+      <Route path={Addresses.Offer} element={<Offer offers={offers} reviews={reviews} />} />
       <Route path={'*'} element={<NotFound/>} />
     </Routes>
 

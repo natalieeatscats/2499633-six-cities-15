@@ -1,16 +1,10 @@
-
-import Card from '../../components/Card/Card';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
 
 
-type MainPageProps = {
-  offerQuant: number;
-}
+export const MainPage = () => {
 
-
-export const MainPage = ({offerQuant}: MainPageProps) => {
-
-  const offers = Array.from({ length: offerQuant },(_, index) => (<Card key={index} />));
+  const params = useParams();
 
   return (
     <Layout>
@@ -20,78 +14,40 @@ export const MainPage = ({offerQuant}: MainPageProps) => {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <NavLink className={({isActive}) => !isActive ? 'locations__item-link tabs__item' : 'locations__item-link tabs__item tabs__item--active'} to={'/Paris'}>
                   <span>Paris</span>
-                </a>
+                </NavLink>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <NavLink className={({isActive}) => !isActive ? 'locations__item-link tabs__item' : 'locations__item-link tabs__item tabs__item--active'} to={'/Cologne'}>
                   <span>Cologne</span>
-                </a>
+                </NavLink>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <NavLink className={({isActive}) => !isActive ? 'locations__item-link tabs__item' : 'locations__item-link tabs__item tabs__item--active'} to={'/Brussels'}>
                   <span>Brussels</span>
-                </a>
+                </NavLink>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
+                <NavLink className={({isActive}) => !isActive ? 'locations__item-link tabs__item' : 'locations__item-link tabs__item tabs__item--active'} to ={'/Amsterdam'}>
                   <span>Amsterdam</span>
-                </a>
+                </NavLink>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <NavLink className={({isActive}) => !isActive ? 'locations__item-link tabs__item' : 'locations__item-link tabs__item tabs__item--active'} to={'/Hamburg'}>
                   <span>Hamburg</span>
-                </a>
+                </NavLink>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <NavLink className={({isActive}) => !isActive ? 'locations__item-link tabs__item' : 'locations__item-link tabs__item tabs__item--active'} to={'/Dusseldorf'}>
                   <span>Dusseldorf</span>
-                </a>
+                </NavLink>
               </li>
             </ul>
           </section>
         </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-              Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                Top rated first
-                  </li>
-                </ul>
-              </form>
-              <div className="cities__places-list places__list tabs__content">
-                {offers}
-              </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map" />
-            </div>
-          </div>
-        </div>
+        {params.city === undefined ? <h1>Select a city to get started!</h1> : null}
+        <Outlet />
       </>
     </Layout>
   );
