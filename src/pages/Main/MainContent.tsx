@@ -39,7 +39,10 @@ export const MainContent = ({ reviews, offers }: MainContentProps) => {
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{filteredOffers.length} places to stay in {selectedCity}</b>
+          {filteredOffers.length !== 0 ?
+            <b className="places__found">{filteredOffers.length} place{filteredOffers.length > 1 ? 's' : null} to stay in {selectedCity}</b>
+            :
+            <b className="places__found">No places found in {selectedCity}</b>}
           <form className="places__sorting" action="#" method="get" >
             <span className="places__sorting-caption">Sort by{' '}</span>
             <span className="places__sorting-type" tabIndex={0} onClick={() => sortVisibilityHandler()}>
@@ -48,7 +51,13 @@ export const MainContent = ({ reviews, offers }: MainContentProps) => {
                 <use xlinkHref="#icon-arrow-select" />
               </svg>
             </span>
-            <SortOptions sortIsOpened={sortState.sortIsOpened} sortVisibilityHandler={sortVisibilityHandler} sortBy={sortState.sortBy} sortByValues={sortByValues} sortByHandler={sortByHandler}></SortOptions>
+            <SortOptions
+              sortIsOpened={sortState.sortIsOpened}
+              sortVisibilityHandler={sortVisibilityHandler}
+              sortBy={sortState.sortBy}
+              sortByValues={sortByValues}
+              sortByHandler={sortByHandler}
+            />
           </form>
           <div className="cities__places-list places__list tabs__content">
             <OffersList reviews={reviews} offers={filteredOffers} />
