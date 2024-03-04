@@ -1,16 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData } from '../../mocks/offers';
-import { ReviewData } from '../../mocks/reviews';
 import { useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
+import { MapComponent } from '../../components/Map/MapComponent';
 
 type MainContentProps = {
-  reviews: ReviewData[];
   offers: OfferData[];
 }
 
-export const MainContent = ({ reviews, offers }: MainContentProps) => {
+export const MainContent = ({ offers }: MainContentProps) => {
 
   const params = useParams();
   const selectedCity = params.city;
@@ -33,6 +32,18 @@ export const MainContent = ({ reviews, offers }: MainContentProps) => {
     ...prev,
     sortBy
   }));
+  const [activeOffer, setActiveOffer] = useState(filteredOffers[0]);
+  const onActiveOfferChangeHandler = (offer: OfferData) => setActiveOffer(offer);
+  const activePoints = filteredOffers.map((offer) => ({
+    id: offer.id,
+    latitude: offer.location.latitude,
+    longitude: offer.location.longitude,
+  }));
+  const selectedPoint = {
+    id: activeOffer.id,
+    latitude: activeOffer.location.latitude,
+    longitude: activeOffer.location.longitude,
+  };
 
   return (
     <div className="cities">
@@ -60,12 +71,10 @@ export const MainContent = ({ reviews, offers }: MainContentProps) => {
             />
           </form>
           <div className="cities__places-list places__list tabs__content">
-            <OffersList reviews={reviews} offers={filteredOffers} />
+            <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} activeOffer={activeOffer} />
           </div>
         </section>
-        <div className="cities__right-section">
-          <section className="cities__map map" />
-        </div>
+        <MapComponent activeOffer={activeOffer} activePoints={activePoints} selectedPoint={selectedPoint}/>
       </div>
     </div>
   );
