@@ -3,7 +3,7 @@ import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData } from '../../mocks/offers';
 import { useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
-import { MapComponent } from '../../components/Map/MapComponent';
+import Map from '../../components/Map/Map';
 
 type MainContentProps = {
   offers: OfferData[];
@@ -74,7 +74,7 @@ export const MainContent = ({ offers }: MainContentProps) => {
             <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} activeOffer={activeOffer} />
           </div>
         </section>
-        <MapComponent activeOffer={activeOffer} activePoints={activePoints} selectedPoint={selectedPoint}/>
+        <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>
       </div>
     </div>
   );

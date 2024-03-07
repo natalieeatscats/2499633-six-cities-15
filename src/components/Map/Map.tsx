@@ -53,7 +53,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, points, selectedPoint]);
 
-  return <div style={{height: 'auto'}} className="cities__map map" ref={mapRef}></div>;
+  return <div style={{height: 'auto'}} className="cities__right-section cities__map" id='map' ref={mapRef}></div>;
 }
 
 export default Map;
