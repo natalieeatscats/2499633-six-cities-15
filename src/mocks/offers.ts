@@ -128,7 +128,39 @@ const OFFERS: OfferData[] = [
 
   },
   {
-    id: '82cd',
+    id: '82cd32',
+    title: 'Luxurious apartment in the centre of Amsterdam',
+    type: 'Apartment',
+    price: 300,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
+        zoom: 11,
+      },},
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 18,
+    },
+    isFavorite: true,
+    isPremium: true,
+    rating: 2.3,
+    description: 'This luxury apartment has all you need for a dream vacation in Europe',
+    bedrooms: 2,
+    goods: ['Heating', 'TV'],
+    host: {
+      name: 'Heimich Balooney',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
+    maxAdults: 3,
+
+  },
+  {
+    id: '82cd43',
     title: 'Luxurious apartment in the centre of Amsterdam',
     type: 'Apartment',
     price: 300,
@@ -137,11 +169,43 @@ const OFFERS: OfferData[] = [
       location: {
         latitude: 52.35514938496378,
         longitude: 4.673877537499948,
-        zoom: 8,
+        zoom: 10,
       },},
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 48,
+    },
+    isFavorite: true,
+    isPremium: true,
+    rating: 2.3,
+    description: 'This luxury apartment has all you need for a dream vacation in Europe',
+    bedrooms: 2,
+    goods: ['Heating', 'TV'],
+    host: {
+      name: 'Heimich Balooney',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
+    maxAdults: 3,
+
+  },
+  {
+    id: '82cd44',
+    title: 'Luxurious apartment in the centre of Amsterdam',
+    type: 'Apartment',
+    price: 300,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 13,
+      },},
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 8,
     },
     isFavorite: true,
@@ -158,7 +222,39 @@ const OFFERS: OfferData[] = [
     images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
     maxAdults: 3,
 
-  }
+  },
+  {
+    id: '82cd45',
+    title: 'Luxurious apartment in the centre of Amsterdam',
+    type: 'Apartment',
+    price: 300,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 12,
+      },},
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 8,
+    },
+    isFavorite: true,
+    isPremium: true,
+    rating: 2.3,
+    description: 'This luxury apartment has all you need for a dream vacation in Europe',
+    bedrooms: 2,
+    goods: ['Heating', 'TV'],
+    host: {
+      name: 'Heimich Balooney',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    images: ['img/apartment-01.jpg','img/apartment-02.jpg','img/apartment-03.jpg','img/apartment-small-03.jpg'],
+    maxAdults: 3,
+
+  },
 ];
 
 export default OFFERS;

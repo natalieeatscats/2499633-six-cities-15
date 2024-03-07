@@ -2,7 +2,6 @@ import { Navigate, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
 import { OfferData } from '../../mocks/offers';
 import { handleStars } from '../../const';
-import { v4 as uuidv4 } from 'uuid';
 import { ReviewData } from '../../mocks/reviews';
 import { ReviewForm } from '../../components/ReviewForm/ReviewForm';
 
@@ -40,15 +39,18 @@ export const Offer = ({ offers, reviews }: OfferProps) => {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
 
-              {targetOffer.images.map((image) => (
-                <div className="offer__image-wrapper" key={uuidv4()}>
-                  <img
-                    className="offer__image"
-                    src={image}
-                    alt="Photo studio"
+              {targetOffer.images.map((image, index) => {
+                const key = index;
+                return(
+                  <div className="offer__image-wrapper" key={key}>
+                    <img
+                      className="offer__image"
+                      src={image}
+                      alt="Photo studio"
 
-                  />
-                </div>))}
+                    />
+                  </div>);
+              })}
 
             </div>
           </div>
@@ -93,7 +95,7 @@ export const Offer = ({ offers, reviews }: OfferProps) => {
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
                   {targetOffer.goods.map((good) => (
-                    <li className="offer__inside-item" key={uuidv4()}>
+                    <li className="offer__inside-item" key={good}>
                       {good}
                     </li>
                   ))}
@@ -127,7 +129,7 @@ export const Offer = ({ offers, reviews }: OfferProps) => {
                     const date = new Date(review.date).toDateString();
 
                     return (
-                      <li className="reviews__item" key={uuidv4()}>
+                      <li className="reviews__item" key={`${review.user.name}(${date})`}>
                         <div className="reviews__user user">
                           <div className="reviews__avatar-wrapper user__avatar-wrapper">
                             <img
