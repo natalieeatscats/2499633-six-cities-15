@@ -1,4 +1,4 @@
-import { OfferData } from '../../mocks/offers';
+import { OfferData } from '../../types';
 import { OfferFeature } from './OfferFeature';
 
 type TProps = {

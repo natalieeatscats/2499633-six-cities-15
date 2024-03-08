@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App/App';
-import OFFERS from './mocks/offers';
 import { REVIEWS } from './mocks/reviews';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
@@ -18,7 +17,7 @@ const store = configureStore({
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App reviews={REVIEWS} offers = {OFFERS}/>
+      <App reviews={REVIEWS}/>
     </Provider>
   </React.StrictMode>
 );

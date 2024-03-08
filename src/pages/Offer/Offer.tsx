@@ -1,6 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
-import { OfferData } from '../../mocks/offers';
 import { handleStars } from '../../const';
 import { ReviewData } from '../../mocks/reviews';
 import { RatingStars } from './RatingStars';
@@ -10,15 +9,16 @@ import { Host } from './Host';
 import { OfferReviews } from './OfferReviews';
 import { NearbyOffers } from './NearbyOffers';
 import { BookmarkButton } from '../../components/BookmarkButton/BookmarkButton';
+import { useSelector } from 'react-redux';
+import { TState } from '../../types';
 
 type OfferProps = {
-  offers: OfferData[];
   reviews: ReviewData[];
 };
 
 
-export const Offer = ({ offers, reviews }: OfferProps) => {
-
+export const Offer = ({reviews }: OfferProps) => {
+  const offers = useSelector((state: TState) => state.offers);
   const params = useParams();
   const targetOffer = offers.find((offer) => offer.id === params.id);
   const targetReviews = reviews.filter((review) => review.id === params.id);
@@ -64,8 +64,6 @@ export const Offer = ({ offers, reviews }: OfferProps) => {
                 </h1>
                 <BookmarkButton />
               </div>
-              <RatingStars rating={targetOffer.rating} />
-              <OfferFeatures features={targetOffer} />
               <RatingStars rating={targetOffer.rating} />
               <OfferFeatures features={targetOffer} />
               <div className="offer__price">

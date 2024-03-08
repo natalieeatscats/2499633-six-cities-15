@@ -1,4 +1,4 @@
-import { OfferData } from '../../mocks/offers';
+import { OfferData } from '../../types';
 import Card from '../Card/Card';
 import { Link } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ type OffersProps = {
   onActiveOfferChangeHandler: (offer: OfferData) => void;
 }
 
-export const OffersList = ({ offers, onActiveOfferChangeHandler}: OffersProps) => (
+export const OffersList = ({offers, onActiveOfferChangeHandler}: OffersProps) => (
 
   offers.map((offer) => (
     <Link to={`/offer/${offer.id}`} onMouseEnter={() => onActiveOfferChangeHandler(offer)} key={offer.id} >

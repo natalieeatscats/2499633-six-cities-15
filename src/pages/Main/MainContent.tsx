@@ -1,19 +1,36 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
-import { OfferData } from '../../mocks/offers';
-import { useState } from 'react';
+import { OfferData } from '../../types';
+import { useEffect, useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCity, setOffers } from '../../action';
+import { TState } from '../../types';
+import { cities } from '../../const';
 
-type MainContentProps = {
-  offers: OfferData[];
-}
 
-export const MainContent = ({ offers }: MainContentProps) => {
+export const MainContent = () => {
 
   const params = useParams();
-  const selectedCity = params.city;
-  const filteredOffers = offers.filter((offer) => offer.city.name === selectedCity);
+
+  const dispatch = useDispatch();
+  const selectedCity: typeof cities[number] = useSelector((state: TState) => state.city);
+  const offers = useSelector((state: TState) => state.offers);
+
+
+  useEffect(() => {
+    if (params.city === undefined) {
+      dispatch(setCity(cities[0]));
+    } else {
+      dispatch(setCity(params.city as typeof cities[number]));
+      dispatch(setOffers(params.city as typeof cities[number], offers),);
+    }
+  }, [params.city, dispatch, offers]);
+
+
+  const filteredOffers: OfferData[] = useSelector((state: TState) => state.activeOffers);
+
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
     sortBy: 'Popular',
@@ -40,11 +57,11 @@ export const MainContent = ({ offers }: MainContentProps) => {
     longitude,
   }));
 
-  const selectedPoint = {
+  const selectedPoint = activeOffer !== undefined ? {
     id: activeOffer.id,
     latitude: activeOffer.location.latitude,
     longitude: activeOffer.location.longitude,
-  };
+  } : undefined;
 
   return (
     <div className="cities">
@@ -75,7 +92,7 @@ export const MainContent = ({ offers }: MainContentProps) => {
             <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} />
           </div>
         </section>
-        <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>
+        {activeOffer !== undefined && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>}
       </div>
     </div>
   );

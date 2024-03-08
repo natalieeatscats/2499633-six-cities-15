@@ -1,5 +1,5 @@
 import { handleStars } from '../../const';
-import { OfferData } from '../../mocks/offers';
+import { OfferData } from '../../types';
 import { BookmarkButton } from '../BookmarkButton/BookmarkButton';
 
 type CardProps = {
