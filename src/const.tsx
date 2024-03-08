@@ -1,3 +1,12 @@
+export const cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf'
+];
+
 export enum Addresses {
     Main = '/',
     Login = '/login',
@@ -11,8 +20,8 @@ export enum AuthorizationStatus {
     Unknown = 'UNKNOWN'
 }
 
-
-export const handleStars = (width: number) => `${String(width * 20)}%`;
+export const handleStars = (width: number) => `${String(Math.round(width * 20))}%`;
 
 export const URL_MARKER_DEFAULT: string = 'img/pin.svg';
 export const URL_MARKER_CURRENT: string = 'img/pin-active.svg';
+

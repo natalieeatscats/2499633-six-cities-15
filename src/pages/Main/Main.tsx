@@ -1,18 +1,10 @@
 import { NavLink, Navigate, Outlet, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
-
+import { cities } from '../../const';
 
 export const MainPage = () => {
 
   const params = useParams();
-  const cities = [
-    'Paris',
-    'Cologne',
-    'Brussels',
-    'Amsterdam',
-    'Hamburg',
-    'Dusseldorf'
-  ];
 
   return (
     <Layout>
@@ -22,7 +14,17 @@ export const MainPage = () => {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               {cities.map((city) => (
-                <NavLink className={({isActive}) => !isActive ? 'locations__item-link tabs__item' : 'locations__item-link tabs__item tabs__item--active'} to={`/${city}`} key={city}>
+                <NavLink
+                  className=
+                    {
+                      ({ isActive }) => !isActive ?
+                        'locations__item-link tabs__item'
+                        :
+                        'locations__item-link tabs__item tabs__item--active'
+                    }
+                  to={`/${city}`}
+                  key={city}
+                >
                   <span>{city}</span>
                 </NavLink>
               ))}

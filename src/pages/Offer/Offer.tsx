@@ -3,8 +3,13 @@ import { Layout } from '../../components/Layout/Layout';
 import { OfferData } from '../../mocks/offers';
 import { handleStars } from '../../const';
 import { ReviewData } from '../../mocks/reviews';
-import { ReviewForm } from '../../components/ReviewForm/ReviewForm';
-
+import { RatingStars } from './RatingStars';
+import { OfferFeatures } from './OfferFeatures';
+import { OfferInside } from './OfferInside';
+import { Host } from './Host';
+import { OfferReviews } from './OfferReviews';
+import { NearbyOffers } from './NearbyOffers';
+import { BookmarkButton } from '../../components/BookmarkButton/BookmarkButton';
 
 type OfferProps = {
   offers: OfferData[];
@@ -64,29 +69,10 @@ export const Offer = ({ offers, reviews }: OfferProps) => {
                 <h1 className="offer__name">
                   {targetOffer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <BookmarkButton />
               </div>
-              <div className="offer__rating rating">
-                <div className="offer__stars rating__stars">
-                  <span style={ratingStyle} />
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="offer__rating-value rating__value">{targetOffer.rating}</span>
-              </div>
-              <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{targetOffer.type}</li>
-                <li className="offer__feature offer__feature--bedrooms">
-                  {targetOffer.bedrooms} Bedroom{targetOffer.bedrooms > 1 ? 's' : null}
-                </li>
-                <li className="offer__feature offer__feature--adults">
-                  Max {targetOffer.maxAdults} adult{targetOffer.maxAdults > 1 ? 's' : null}
-                </li>
-              </ul>
+              <RatingStars rating={targetOffer.rating} />
+              <OfferFeatures features={targetOffer} />
               <div className="offer__price">
                 <b className="offer__price-value">€{targetOffer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>

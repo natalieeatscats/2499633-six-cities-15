@@ -34,11 +34,12 @@ export const MainContent = ({ offers }: MainContentProps) => {
   }));
   const [activeOffer, setActiveOffer] = useState(filteredOffers[0]);
   const onActiveOfferChangeHandler = (offer: OfferData) => setActiveOffer(offer);
-  const activePoints = filteredOffers.map((offer) => ({
-    id: offer.id,
-    latitude: offer.location.latitude,
-    longitude: offer.location.longitude,
+  const activePoints = filteredOffers.map(({ id, location: { latitude, longitude } }) => ({
+    id,
+    latitude,
+    longitude,
   }));
+
   const selectedPoint = {
     id: activeOffer.id,
     latitude: activeOffer.location.latitude,
@@ -71,7 +72,7 @@ export const MainContent = ({ offers }: MainContentProps) => {
             />
           </form>
           <div className="cities__places-list places__list tabs__content">
-            <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} activeOffer={activeOffer} />
+            <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} />
           </div>
         </section>
         <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>
