@@ -30,27 +30,30 @@ function Map(props: MapProps): JSX.Element {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if (map) {
-      const markerLayer = layerGroup().addTo(map);
-      points.forEach((point) => {
-        const marker = new Marker({
-          lat: point.latitude,
-          lng: point.longitude
-        });
+    if (!map) {
+      return;
+    }
 
-        marker
-          .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
+    const markerLayer = layerGroup().addTo(map);
+
+    const addMarker = (point: Point) => {
+      const marker = new Marker({
+        lat: point.latitude,
+        lng: point.longitude
       });
 
-      return () => {
-        map.removeLayer(markerLayer);
-      };
-    }
+      marker.setIcon(
+        selectedPoint !== undefined && point.id === selectedPoint.id
+          ? currentCustomIcon
+          : defaultCustomIcon
+      ).addTo(markerLayer);
+    };
+
+    points.forEach(addMarker);
+
+    return () => {
+      map.removeLayer(markerLayer);
+    };
   }, [map, points, selectedPoint]);
 
   return <div style={{height: 'auto'}} className="cities__right-section cities__map" id='map' ref={mapRef}></div>;
