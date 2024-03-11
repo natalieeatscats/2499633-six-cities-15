@@ -1,6 +1,6 @@
 import { NavLink, Navigate, Outlet, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
-import { cities } from '../../const';
+import { CITIES } from '../../const';
 
 export const MainPage = () => {
 
@@ -13,15 +13,9 @@ export const MainPage = () => {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {cities.map((city) => (
+              {CITIES.map((city) => (
                 <NavLink
-                  className=
-                    {
-                      ({ isActive }) => !isActive ?
-                        'locations__item-link tabs__item'
-                        :
-                        'locations__item-link tabs__item tabs__item--active'
-                    }
+                  className={({ isActive }) => `locations__item-link tabs__item ${isActive && 'tabs__item--active'}`}
                   to={`/${city}`}
                   key={city}
                 >
@@ -31,7 +25,7 @@ export const MainPage = () => {
             </ul>
           </section>
         </div>
-        {params.city === undefined ? <Navigate to={'/Paris'} /> : null}
+        {!params.city && <Navigate to={`/${CITIES[0]}`} />}
         <Outlet />
       </>
     </Layout>

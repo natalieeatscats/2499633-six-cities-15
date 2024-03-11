@@ -10,7 +10,7 @@ import { OfferReviews } from './OfferReviews';
 import { NearbyOffers } from './NearbyOffers';
 import { BookmarkButton } from '../../components/BookmarkButton/BookmarkButton';
 import { useSelector } from 'react-redux';
-import { TState } from '../../types';
+import { State } from '../../types';
 
 type OfferProps = {
   reviews: ReviewData[];
@@ -18,7 +18,7 @@ type OfferProps = {
 
 
 export const Offer = ({reviews }: OfferProps) => {
-  const offers = useSelector((state: TState) => state.offers);
+  const offers = useSelector((state: State) => state.offers);
   const params = useParams();
   const targetOffer = offers.find((offer) => offer.id === params.id);
   const targetReviews = reviews.filter((review) => review.id === params.id);

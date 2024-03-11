@@ -1,4 +1,4 @@
-type TProps = {
+type Props = {
   host: {
     name: string;
     avatarUrl: string;
@@ -8,7 +8,7 @@ type TProps = {
   description: string;
 }
 
-export const Host = ({ host, avatarUrl, description }: TProps) => (
+export const Host = ({ host, avatarUrl, description }: Props) => (
   <div className="offer__host">
     <h2 className="offer__host-title">Meet the host</h2>
     <div className="offer__host-user user">

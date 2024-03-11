@@ -1,4 +1,4 @@
-import { cities } from './const';
+import { CITIES } from './const';
 
 export type City = {
   name: string;
@@ -49,8 +49,11 @@ export type OfferData = {
   maxAdults: number;
 };
 
-export type TState = {
-  city: typeof cities[number];
+export type cityName = typeof CITIES[number];
+
+export type State = {
+  city: cityName;
   offers: ReadonlyArray<OfferData>;
   activeOffers: OfferData[];
 };
+

@@ -1,4 +1,4 @@
-export const cities = [
+export const CITIES = [
   'Paris',
   'Cologne',
   'Brussels',
@@ -6,6 +6,13 @@ export const cities = [
   'Hamburg',
   'Dusseldorf'
 ] as const;
+
+export const SORT_BY_VALUES: string[] = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first',
+];
 
 export enum Addresses {
     Main = '/',
@@ -15,13 +22,14 @@ export enum Addresses {
 }
 
 export enum AuthorizationStatus {
-    Auth = 'AUTH',
-    NoAuth = 'NO_AUTH',
-    Unknown = 'UNKNOWN'
+    AUTH = 'AUTH',
+    NO_AUTH = 'NO_AUTH',
+    UNKNOWN = 'UNKNOWN'
 }
 
 export const handleStars = (width: number) => `${String(Math.round(width) * 20)}%`;
 
 export const URL_MARKER_DEFAULT: string = 'img/pin.svg';
 export const URL_MARKER_CURRENT: string = 'img/pin-active.svg';
+
 

@@ -11,11 +11,11 @@ type TReview = {
   };
 };
 
-type TProps = {
+type Props = {
   reviews: TReview[];
 };
 
-export const OfferReviews = ({ reviews }: TProps) => (
+export const OfferReviews = ({ reviews }: Props) => (
   <section className="offer__reviews reviews">
     <h2 className="reviews__title">
       Reviews {reviews.length > 0 && '·'}<span className="reviews__amount">{reviews.length}</span>

@@ -1,5 +1,5 @@
 type OfferFeatureProps = {
-  featureType: 'bedrooms' | 'adults' | 'entire';
+  featureType: string;
   value: number | string;
 };
 
@@ -11,7 +11,7 @@ const FEATURES = {
 
 export const OfferFeature = ({ featureType, value }: OfferFeatureProps) => (
   <li className={`offer__feature offer__feature--${featureType}`}>
-    {typeof value === 'number' ? `${value} ${FEATURES[featureType]}${value > 1 && 's'}` : value}
+    {typeof value === 'number' ? `${value} ${FEATURES[featureType as keyof typeof FEATURES]}${value > 1 && 's'}` : value}
   </li>
 );
 

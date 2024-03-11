@@ -20,7 +20,7 @@ export const App = ({ reviews }: AppProps) => (
         <Route path=':city' element={<MainContent/>}></Route>
       </Route>
       <Route path={Addresses.Login} element={<Login/>} />
-      <Route path={Addresses.Favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><Favorites/></PrivateRoute>} />
+      <Route path={Addresses.Favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.AUTH}><Favorites/></PrivateRoute>} />
       <Route path={Addresses.Offer} element={<Offer reviews={reviews} />} />
       <Route path={'*'} element={<NotFound/>} />
     </Routes>

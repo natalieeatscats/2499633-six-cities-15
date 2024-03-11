@@ -1,4 +1,4 @@
-type TReviewProps = {
+type ReviewProps = {
   review: {
     user: {
       avatarUrl: string;
@@ -14,7 +14,7 @@ const getReviewRatingStyle = (rating: number): React.CSSProperties => ({
   width: `${rating * 20}%`,
 });
 
-export const Review = ({ review }: TReviewProps) => (
+export const Review = ({ review }: ReviewProps) => (
   <li className="reviews__item" key={`${review.user.name}(${review.date})`}>
     <div className="reviews__user user">
       <div className="reviews__avatar-wrapper user__avatar-wrapper">

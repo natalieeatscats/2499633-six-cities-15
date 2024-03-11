@@ -1,15 +1,21 @@
 import { OfferData } from '../../types';
 import { OfferFeature } from './OfferFeature';
 
-type TProps = {
+type Props = {
   features: OfferData;
 };
 
-export const OfferFeatures = ({ features }: TProps) => (
-  <ul className="offer__features">
-    <OfferFeature featureType="entire" value={features.type} />
-    <OfferFeature featureType="bedrooms" value={features.bedrooms} />
-    <OfferFeature featureType="adults" value={features.maxAdults} />
-  </ul>
-);
-
+export const OfferFeatures = ({ features }: Props) => {
+  const Features = {
+    entire: features.type,
+    bedrooms: features.bedrooms,
+    adults: features.maxAdults,
+  };
+  return (
+    <ul className="offer__features">
+      {Object.entries(Features).map(([key, value]) => (
+        <OfferFeature featureType={key} value={value} key={key} />
+      ))}
+    </ul>
+  );
+};

@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
-import { OfferData } from '../../types';
+import { OfferData, cityName } from '../../types';
 import { useEffect, useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCity, setOffers } from '../../action';
-import { TState } from '../../types';
-import { cities } from '../../const';
+import { State } from '../../types';
+import { CITIES, SORT_BY_VALUES } from '../../const';
 
 
 export const MainContent = () => {
@@ -15,21 +15,21 @@ export const MainContent = () => {
   const params = useParams();
 
   const dispatch = useDispatch();
-  const selectedCity: typeof cities[number] = useSelector((state: TState) => state.city);
-  const offers = useSelector((state: TState) => state.offers);
+  const selectedCity: cityName = useSelector((state: State) => state.city);
+  const offers = useSelector((state: State) => state.offers);
 
 
   useEffect(() => {
     if (params.city === undefined) {
-      dispatch(setCity(cities[0]));
+      dispatch(setCity(CITIES[0]));
     } else {
-      dispatch(setCity(params.city as typeof cities[number]));
-      dispatch(setOffers(params.city as typeof cities[number], offers),);
+      dispatch(setCity(params.city as cityName));
     }
-  }, [params.city, dispatch, offers]);
+    dispatch(setOffers(selectedCity, offers),);
+  }, [params.city, dispatch, offers, selectedCity]);
 
 
-  const filteredOffers: OfferData[] = useSelector((state: TState) => state.activeOffers);
+  const filteredOffers: OfferData[] = useSelector((state: State) => state.activeOffers);
 
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
@@ -39,12 +39,6 @@ export const MainContent = () => {
     ...prev,
     sortIsOpened: !prev.sortIsOpened,
   }));
-  const sortByValues: string[] = [
-    'Popular',
-    'Price: low to high',
-    'Price: high to low',
-    'Top rated first',
-  ];
   const sortByHandler = (sortBy: string) => setSortState((prev) => ({
     ...prev,
     sortBy
@@ -57,11 +51,11 @@ export const MainContent = () => {
     longitude,
   }));
 
-  const selectedPoint = activeOffer !== undefined ? {
+  const selectedPoint = activeOffer && {
     id: activeOffer.id,
     latitude: activeOffer.location.latitude,
     longitude: activeOffer.location.longitude,
-  } : undefined;
+  };
 
   return (
     <div className="cities">
@@ -69,7 +63,7 @@ export const MainContent = () => {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           {filteredOffers.length !== 0 ?
-            <b className="places__found">{filteredOffers.length} place{filteredOffers.length > 1 ? 's' : null} to stay in {selectedCity}</b>
+            <b className="places__found">{filteredOffers.length} place{filteredOffers.length > 1 && 's' } to stay in {selectedCity}</b>
             :
             <b className="places__found">No places found in {selectedCity}</b>}
           <form className="places__sorting" action="#" method="get" >
@@ -84,7 +78,7 @@ export const MainContent = () => {
               sortIsOpened={sortState.sortIsOpened}
               sortVisibilityHandler={sortVisibilityHandler}
               sortBy={sortState.sortBy}
-              sortByValues={sortByValues}
+              sortByValues={SORT_BY_VALUES}
               sortByHandler={sortByHandler}
             />
           </form>
@@ -92,7 +86,9 @@ export const MainContent = () => {
             <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} />
           </div>
         </section>
-        {activeOffer !== undefined && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>}
+        <div className='cities__right-section'>
+          {activeOffer !== undefined && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>}
+        </div>
       </div>
     </div>
   );
