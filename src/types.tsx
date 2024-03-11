@@ -49,10 +49,10 @@ export type OfferData = {
   maxAdults: number;
 };
 
-export type cityName = typeof CITIES[number];
+export type CityName = typeof CITIES[number];
 
 export type State = {
-  city: cityName;
+  city: CityName;
   offers: ReadonlyArray<OfferData>;
   activeOffers: OfferData[];
 };

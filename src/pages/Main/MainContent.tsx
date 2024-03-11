@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
-import { OfferData, cityName } from '../../types';
+import { OfferData, CityName } from '../../types';
 import { useEffect, useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
@@ -15,7 +15,7 @@ export const MainContent = () => {
   const params = useParams();
 
   const dispatch = useDispatch();
-  const selectedCity: cityName = useSelector((state: State) => state.city);
+  const selectedCity: CityName = useSelector((state: State) => state.city);
   const offers = useSelector((state: State) => state.offers);
 
 
@@ -23,7 +23,7 @@ export const MainContent = () => {
     if (params.city === undefined) {
       dispatch(setCity(CITIES[0]));
     } else {
-      dispatch(setCity(params.city as cityName));
+      dispatch(setCity(params.city as CityName));
     }
     dispatch(setOffers(selectedCity, offers),);
   }, [params.city, dispatch, offers, selectedCity]);
