@@ -87,7 +87,7 @@ export const MainContent = () => {
           </div>
         </section>
         <div className='cities__right-section'>
-          {activeOffer !== undefined && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>}
+          {activeOffer && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>}
         </div>
       </div>
     </div>

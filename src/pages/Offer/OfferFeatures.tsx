@@ -1,20 +1,27 @@
 import { OfferData } from '../../types';
-import { OfferFeature } from './OfferFeature';
 
 type Props = {
   features: OfferData;
 };
 
 export const OfferFeatures = ({ features }: Props) => {
-  const Features = {
-    entire: features.type,
-    bedrooms: features.bedrooms,
-    adults: features.maxAdults,
+  const FEATURES = {
+    bedrooms: {
+      text: 'Bedroom',
+      value: features.bedrooms,
+    },
+    adults: {
+      text: 'Adult',
+      value: features.maxAdults,
+    },
   };
   return (
     <ul className="offer__features">
-      {Object.entries(Features).map(([key, value]) => (
-        <OfferFeature featureType={key} value={value} key={key} />
+      <li className='offer__feature offer__feature--entire'>{features.type}</li>
+      {Object.entries(FEATURES).map(([key, value]) => (
+        <li className={`offer__feature offer__feature--${key}`} key={key} >
+          {value.value} {value.text}{value.value > 1 && 's'}
+        </li>
       ))}
     </ul>
   );
