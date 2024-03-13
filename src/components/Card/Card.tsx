@@ -1,13 +1,13 @@
 import { handleStars } from '../../const';
-import { OfferData } from '../../mocks/offers';
+import { OfferData } from '../../types';
+import { BookmarkButton } from '../BookmarkButton/BookmarkButton';
 
 type CardProps = {
   offer: OfferData;
-  isActive?: boolean;
 }
 
 
-export const Card = ({ offer, isActive }: CardProps) => {
+export const Card = ({ offer}: CardProps) => {
   const ratingStyle = { width: '80%' };
   ratingStyle.width = handleStars(offer.rating);
 
@@ -34,20 +34,7 @@ export const Card = ({ offer, isActive }: CardProps) => {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          {isActive ?
-            <button
-              className="place-card__bookmark-button button"
-              type="button"
-            >
-              <svg
-                className="place-card__bookmark-icon"
-                width={18}
-                height={19}
-              >
-                <use xlinkHref="#icon-bookmark" />
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button> : null}
+          <BookmarkButton/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

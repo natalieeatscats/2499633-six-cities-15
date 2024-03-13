@@ -1,19 +1,36 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
-import { OfferData } from '../../mocks/offers';
-import { useState } from 'react';
+import { OfferData, CityName } from '../../types';
+import { useEffect, useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCity, setOffers } from '../../action';
+import { State } from '../../types';
+import { CITIES, SORT_BY_VALUES } from '../../const';
 
-type MainContentProps = {
-  offers: OfferData[];
-}
 
-export const MainContent = ({ offers }: MainContentProps) => {
+export const MainContent = () => {
 
   const params = useParams();
-  const selectedCity = params.city;
-  const filteredOffers = offers.filter((offer) => offer.city.name === selectedCity);
+
+  const dispatch = useDispatch();
+  const selectedCity: CityName = useSelector((state: State) => state.city);
+  const offers = useSelector((state: State) => state.offers);
+
+
+  useEffect(() => {
+    if (params.city === undefined) {
+      dispatch(setCity(CITIES[0]));
+    } else {
+      dispatch(setCity(params.city as CityName));
+    }
+    dispatch(setOffers(selectedCity, offers),);
+  }, [params.city, dispatch, offers, selectedCity]);
+
+
+  const filteredOffers: OfferData[] = useSelector((state: State) => state.activeOffers);
+
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
     sortBy: 'Popular',
@@ -22,24 +39,19 @@ export const MainContent = ({ offers }: MainContentProps) => {
     ...prev,
     sortIsOpened: !prev.sortIsOpened,
   }));
-  const sortByValues: string[] = [
-    'Popular',
-    'Price: low to high',
-    'Price: high to low',
-    'Top rated first',
-  ];
   const sortByHandler = (sortBy: string) => setSortState((prev) => ({
     ...prev,
     sortBy
   }));
   const [activeOffer, setActiveOffer] = useState(filteredOffers[0]);
   const onActiveOfferChangeHandler = (offer: OfferData) => setActiveOffer(offer);
-  const activePoints = filteredOffers.map((offer) => ({
-    id: offer.id,
-    latitude: offer.location.latitude,
-    longitude: offer.location.longitude,
+  const activePoints = filteredOffers.map(({ id, location: { latitude, longitude } }) => ({
+    id,
+    latitude,
+    longitude,
   }));
-  const selectedPoint = {
+
+  const selectedPoint = activeOffer && {
     id: activeOffer.id,
     latitude: activeOffer.location.latitude,
     longitude: activeOffer.location.longitude,
@@ -51,7 +63,7 @@ export const MainContent = ({ offers }: MainContentProps) => {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           {filteredOffers.length !== 0 ?
-            <b className="places__found">{filteredOffers.length} place{filteredOffers.length > 1 ? 's' : null} to stay in {selectedCity}</b>
+            <b className="places__found">{filteredOffers.length} place{filteredOffers.length > 1 && 's' } to stay in {selectedCity}</b>
             :
             <b className="places__found">No places found in {selectedCity}</b>}
           <form className="places__sorting" action="#" method="get" >
@@ -66,15 +78,17 @@ export const MainContent = ({ offers }: MainContentProps) => {
               sortIsOpened={sortState.sortIsOpened}
               sortVisibilityHandler={sortVisibilityHandler}
               sortBy={sortState.sortBy}
-              sortByValues={sortByValues}
+              sortByValues={SORT_BY_VALUES}
               sortByHandler={sortByHandler}
             />
           </form>
           <div className="cities__places-list places__list tabs__content">
-            <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} activeOffer={activeOffer} />
+            <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} />
           </div>
         </section>
-        <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>
+        <div className='cities__right-section'>
+          {activeOffer && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>}
+        </div>
       </div>
     </div>
   );
