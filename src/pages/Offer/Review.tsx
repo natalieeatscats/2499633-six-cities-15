@@ -8,13 +8,14 @@ type ReviewProps = {
     comment: string;
     date: string;
   };
+  date: string;
 }
 
 const getReviewRatingStyle = (rating: number): React.CSSProperties => ({
   width: `${rating * 20}%`,
 });
 
-export const Review = ({ review }: ReviewProps) => (
+export const Review = ({ review, date }: ReviewProps) => (
   <li className="reviews__item" key={`${review.user.name}(${review.date})`}>
     <div className="reviews__user user">
       <div className="reviews__avatar-wrapper user__avatar-wrapper">
@@ -39,7 +40,7 @@ export const Review = ({ review }: ReviewProps) => (
         {review.comment}
       </p>
       <time className="reviews__time" dateTime={review.date}>
-        {review.date}
+        {date}
       </time>
     </div>
   </li>

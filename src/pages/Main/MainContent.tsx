@@ -5,16 +5,18 @@ import { useEffect, useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCity, setOffers } from '../../action';
+import { loadOffers, setCity } from '../../store/action';
 import { State } from '../../types';
 import { CITIES, SORT_BY_VALUES } from '../../const';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { Spinner } from './Spinner';
 
 
 export const MainContent = () => {
 
   const params = useParams();
 
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const selectedCity: CityName = useSelector((state: State) => state.city);
   const offers = useSelector((state: State) => state.offers);
 
@@ -25,11 +27,14 @@ export const MainContent = () => {
     } else {
       dispatch(setCity(params.city as CityName));
     }
-    dispatch(setOffers(selectedCity, offers),);
-  }, [params.city, dispatch, offers, selectedCity]);
 
+    if (offers.length === 0) {
+      dispatch(loadOffers());
+    }
 
-  const filteredOffers: OfferData[] = useSelector((state: State) => state.activeOffers);
+  }, [params.city, dispatch, offers]);
+
+  const filteredOffers: OfferData[] = offers.filter((offer) => offer.city.name === selectedCity);
 
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
@@ -62,6 +67,7 @@ export const MainContent = () => {
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
+          {offers.length === 0 && <Spinner/>}
           {filteredOffers.length !== 0 ?
             <b className="places__found">{filteredOffers.length} place{filteredOffers.length > 1 && 's' } to stay in {selectedCity}</b>
             :
