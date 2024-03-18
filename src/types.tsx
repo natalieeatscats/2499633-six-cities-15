@@ -79,6 +79,7 @@ export type State = {
   offers: OfferData[];
   reviews: ReviewData[];
   activeOffer: SelectedOfferData;
+  error: string | null;
 };
 
 export type ReviewData = {

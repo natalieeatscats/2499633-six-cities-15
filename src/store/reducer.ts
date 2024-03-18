@@ -39,20 +39,24 @@ export const initialState : State = {
     images: [],
     maxAdults: 0
   },
+  error: null,
 };
 
 export const rootReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase('SET_CITY', (state, action: {type: 'SET_CITY'; payload: CityName}) => {
+    .addCase('SET_CITY', (state, action: { type: 'SET_CITY'; payload: CityName }) => {
       state.city = action.payload;
     })
-    .addCase('SET_OFFERS', (state, action: {type: 'SET_OFFERS'; payload: OfferData[]}) => {
+    .addCase('SET_OFFERS', (state, action: { type: 'SET_OFFERS'; payload: OfferData[] }) => {
       state.offers = action.payload;
     })
-    .addCase('SET_REVIEWS', (state, action: {type: 'SET_REVIEWS'; payload: ReviewData[]}) => {
+    .addCase('SET_REVIEWS', (state, action: { type: 'SET_REVIEWS'; payload: ReviewData[] }) => {
       state.reviews = action.payload;
     })
-    .addCase('SET_ACTIVE_OFFER', (state, action: {type: 'SET_ACTIVE_OFFER'; payload: SelectedOfferData}) => {
+    .addCase('SET_ACTIVE_OFFER', (state, action: { type: 'SET_ACTIVE_OFFER'; payload: SelectedOfferData }) => {
       state.activeOffer = action.payload;
+    })
+    .addCase('SET_ERROR', (state, action: { type: 'SET_ERROR'; payload: string | null }) => {
+      state.error = action.payload;
     });
 });
