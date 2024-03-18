@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { OfferData, ReviewData, CityName, SelectedOfferData } from '../types';
+import { OfferData, ReviewData, CityName, SelectedOfferData, AuthStatus } from '../types';
 import { api } from '.';
 import { AxiosError } from 'axios';
 
@@ -29,6 +29,9 @@ export const setReviews = createAction('SET_REVIEWS', (reviews: ReviewData[]) =>
 export const setActiveOffer = createAction('SET_ACTIVE_OFFER', (offer: SelectedOfferData | undefined) => ({
   payload: offer,
 }));
+export const setAuthStatus = createAction('SET_AUTH_STATUS', (status: AuthStatus) => ({
+  payload: status,
+}));
 
 export const loadOffers = createAsyncThunk(
   'SET_OFFERS',
@@ -43,9 +46,7 @@ export const loadOffers = createAsyncThunk(
       const errorMessage = extractError(errResponse);
       thunk.dispatch(setError(errorMessage));
     }
-
   }
-
 );
 
 export const loadReviews = createAsyncThunk(
@@ -76,6 +77,25 @@ export const loadActiveOffer = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
       thunk.dispatch(setError(errorMessage));
+    }
+  }
+);
+
+export const loadAuthStatus = createAsyncThunk(
+  'SET_AUTH_STATUS',
+  async (_, thunk) => {
+    try {
+      const response = await api.get('/login');
+
+      if (response.status === 200) {
+        thunk.dispatch(setAuthStatus('AUTH'));
+        return;
+      }
+
+      thunk.dispatch(setAuthStatus('UNKNOWN'));
+
+    } catch (err) {
+      thunk.dispatch(setAuthStatus('NO_AUTH'));
     }
   }
 );

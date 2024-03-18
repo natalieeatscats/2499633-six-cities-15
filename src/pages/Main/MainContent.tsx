@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
-import { OfferData, CityName } from '../../types';
+import { OfferData, CityName, AuthStatus } from '../../types';
 import { useEffect, useState } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadOffers, setCity } from '../../store/action';
+import { loadAuthStatus, loadOffers, setCity } from '../../store/action';
 import { State } from '../../types';
 import { CITIES, SORT_BY_VALUES } from '../../const';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
@@ -19,6 +19,14 @@ export const MainContent = () => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const selectedCity: CityName = useSelector((state: State) => state.city);
   const offers = useSelector((state: State) => state.offers);
+
+  const authStatus: AuthStatus = useSelector((state: State) => state.authorizationStatus);
+
+  useEffect(() => {
+    if (authStatus === 'UNKNOWN') {
+      dispatch(loadAuthStatus());
+    }
+  }, [authStatus, dispatch]);
 
 
   useEffect(() => {

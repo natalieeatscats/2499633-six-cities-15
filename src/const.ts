@@ -21,11 +21,11 @@ export enum Addresses {
     Offer = '/offer/:id',
 }
 
-export enum AuthorizationStatus {
-    AUTH = 'AUTH',
-    NO_AUTH = 'NO_AUTH',
-    UNKNOWN = 'UNKNOWN'
-}
+export const AUTH_STATUS_VALUES = [
+  'AUTH',
+  'NO_AUTH',
+  'UNKNOWN'
+] as const ;
 
 export const handleStars = (width: number) => `${String(Math.round(width) * 20)}%`;
 
