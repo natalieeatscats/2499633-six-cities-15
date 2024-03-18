@@ -1,7 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
 import { handleStars } from '../../const';
-import { ReviewData } from '../../mocks/reviews';
 import { RatingStars } from './RatingStars';
 import { OfferFeatures } from './OfferFeatures';
 import { OfferInside } from './OfferInside';
@@ -9,19 +8,25 @@ import { Host } from './Host';
 import { OfferReviews } from './OfferReviews';
 import { NearbyOffers } from './NearbyOffers';
 import { BookmarkButton } from '../../components/BookmarkButton/BookmarkButton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../types';
+import { useEffect } from 'react';
+import { loadActiveOffer, loadReviews } from '../../store/action';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
-type OfferProps = {
-  reviews: ReviewData[];
-};
 
-
-export const Offer = ({reviews }: OfferProps) => {
-  const offers = useSelector((state: State) => state.offers);
+export const Offer = () => {
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const targetReviews = useSelector((state: State) => state.reviews);
   const params = useParams();
-  const targetOffer = offers.find((offer) => offer.id === params.id);
-  const targetReviews = reviews.filter((review) => review.id === params.id);
+  const targetOffer = useSelector((state: State) => state.activeOffer);
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(loadActiveOffer(params.id));
+      dispatch(loadReviews(params.id));
+    }
+  }, [dispatch, params]);
 
   if (targetOffer === undefined) {
     return <Navigate to='*'/>;

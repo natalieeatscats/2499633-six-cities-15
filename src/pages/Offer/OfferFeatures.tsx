@@ -1,7 +1,7 @@
-import { OfferData } from '../../types';
+import { SelectedOfferData } from '../../types';
 
 type Props = {
-  features: OfferData;
+  features: SelectedOfferData;
 };
 
 export const OfferFeatures = ({ features }: Props) => {

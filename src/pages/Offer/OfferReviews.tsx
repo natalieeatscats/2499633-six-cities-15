@@ -1,7 +1,7 @@
 import { ReviewForm } from '../../components/ReviewForm/ReviewForm';
 import { Review } from './Review';
 
-type TReview = {
+type Review = {
   date: string;
   comment: string;
   rating: number;
@@ -12,7 +12,7 @@ type TReview = {
 };
 
 type Props = {
-  reviews: TReview[];
+  reviews: Review[];
 };
 
 export const OfferReviews = ({ reviews }: Props) => (
@@ -27,7 +27,8 @@ export const OfferReviews = ({ reviews }: Props) => (
         return (
           <Review
             review={review}
-            key={`${review.user.name}(${date})`}
+            key={`${review.user.name} (${date}) ${review.comment}`}
+            date={date}
           />
         );
       })}
