@@ -3,7 +3,12 @@ import { OfferData, ReviewData, CityName, SelectedOfferData } from '../types';
 import { api } from '.';
 import { AxiosError } from 'axios';
 
-const getErrorData = (err: unknown) => JSON.stringify(err, null, 2);
+const extractError = (err: AxiosError) => {
+  if (typeof err?.message === 'string') {
+    return err?.message;
+  }
+  return `Unknown error: ${JSON.stringify(err, null, 2)}`;
+};
 
 export const setError = createAction('SET_ERROR', (error: string | null) => ({
   payload: error,
@@ -34,14 +39,9 @@ export const loadOffers = createAsyncThunk(
       thunk.dispatch(setOffers(offers));
       thunk.dispatch(setError(null));
     } catch (err: unknown) {
-
       const errResponse: AxiosError = err as AxiosError;
-
-      if (typeof errResponse?.message === 'string') {
-        thunk.dispatch(setError(errResponse.message));
-        return;
-      }
-      thunk.dispatch(setError(`Unknown error: ${getErrorData(err)}`));
+      const errorMessage = extractError(errResponse);
+      thunk.dispatch(setError(errorMessage));
     }
 
   }
@@ -57,14 +57,9 @@ export const loadReviews = createAsyncThunk(
       thunk.dispatch(setReviews(reviews));
       thunk.dispatch(setError(null));
     } catch (err: unknown) {
-
       const errResponse: AxiosError = err as AxiosError;
-
-      if (typeof errResponse?.message === 'string') {
-        thunk.dispatch(setError(errResponse.message));
-        return;
-      }
-      thunk.dispatch(setError(`Unknown error: ${getErrorData(err)}`));
+      const errorMessage = extractError(errResponse);
+      thunk.dispatch(setError(errorMessage));
     }
   }
 );
@@ -78,14 +73,9 @@ export const loadActiveOffer = createAsyncThunk(
       thunk.dispatch(setActiveOffer(offer));
       thunk.dispatch(setError(null));
     } catch (err: unknown) {
-
       const errResponse: AxiosError = err as AxiosError;
-
-      if (typeof errResponse?.message === 'string') {
-        thunk.dispatch(setError(errResponse.message));
-        return;
-      }
-      thunk.dispatch(setError(`Unknown error: ${getErrorData(err)}`));
+      const errorMessage = extractError(errResponse);
+      thunk.dispatch(setError(errorMessage));
     }
   }
 );
