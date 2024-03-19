@@ -82,6 +82,13 @@ export type State = {
   activeOffer: SelectedOfferData;
   error: string | null;
   authorizationStatus: AuthStatus;
+  userData?: {
+    name: string;
+    email: string;
+    avatarUrl: string;
+    isPro: boolean;
+    token: string;
+  };
 };
 
 export type ReviewData = {
