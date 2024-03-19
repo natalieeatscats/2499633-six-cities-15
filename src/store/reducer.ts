@@ -1,7 +1,7 @@
 import { AuthStatus, SelectedOfferData } from './../types';
 import { createReducer } from '@reduxjs/toolkit';
 import { CityName, OfferData, ReviewData, State } from '../types';
-import { AuthorizationStatus, CITIES } from '../const';
+import { CITIES } from '../const';
 
 export const initialState : State = {
   city: CITIES[0],

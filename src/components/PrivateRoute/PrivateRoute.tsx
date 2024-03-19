@@ -1,20 +1,19 @@
 import { Navigate } from 'react-router-dom';
 import { Addresses } from '../../const';
-import { AuthStatus } from '../../types';
+import { AuthStatus, State } from '../../types';
+import { useSelector } from 'react-redux';
 
 type PrivateRouteProps = {
-    authorizationStatus: AuthStatus;
     children: JSX.Element;
 };
 
-function PrivateRoute(props: PrivateRouteProps): JSX.Element {
-  const { authorizationStatus, children } = props;
+export const PrivateRoute = ({ children }: PrivateRouteProps) => {
 
+  const authStatus: AuthStatus = useSelector((state: State) => state.authorizationStatus);
   return (
-    authorizationStatus === 'AUTH'
+    authStatus === 'AUTH'
       ? children
       : <Navigate to={Addresses.Login} />
   );
-}
+};
 
-export default PrivateRoute;
