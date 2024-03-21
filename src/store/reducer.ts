@@ -41,6 +41,7 @@ export const initialState : State = {
   },
   error: null,
   authorizationStatus: 'UNKNOWN',
+  userData: null
 };
 
 export const rootReducer = createReducer(initialState, (builder) => {
@@ -62,5 +63,8 @@ export const rootReducer = createReducer(initialState, (builder) => {
     })
     .addCase('SET_AUTH_STATUS', (state, action: { type: 'SET_AUTH_STATUS'; payload: AuthStatus }) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase('SET_USER_DATA', (state, action: { type: 'SET_USER_DATA'; payload: State['userData'] | null }) => {
+      state.userData = action.payload;
     });
 });

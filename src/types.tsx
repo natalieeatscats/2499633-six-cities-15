@@ -82,13 +82,13 @@ export type State = {
   activeOffer: SelectedOfferData;
   error: string | null;
   authorizationStatus: AuthStatus;
-  userData?: {
+  userData: {
     name: string;
     email: string;
     avatarUrl: string;
     isPro: boolean;
     token: string;
-  };
+  } | null;
 };
 
 export type ReviewData = {
