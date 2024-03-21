@@ -103,7 +103,7 @@ export const Offer = () => {
               <OfferReviews reviews={targetReviews} />
             </div>
           </div>
-          {activeOffer && nearbyOffers && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint} className={'offer__map map'}/>}
+          {activeOffer && nearbyOffers && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint} className='offer__map map'/>}
         </section>
         {nearbyOffers && <NearbyOffers offers={nearbyOffers} onActiveOfferChangeHandler={onActiveOfferChangeHandler}/>}
       </>
