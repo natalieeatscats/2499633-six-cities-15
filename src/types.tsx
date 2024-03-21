@@ -1,4 +1,4 @@
-import { CITIES } from './const';
+import { AUTH_STATUS_VALUES, CITIES } from './const';
 
 export type City = {
   name: string;
@@ -73,6 +73,7 @@ export type SelectedOfferData = {
 };
 
 export type CityName = typeof CITIES[number];
+export type AuthStatus = typeof AUTH_STATUS_VALUES[number];
 
 export type State = {
   city: CityName;
@@ -80,6 +81,14 @@ export type State = {
   reviews: ReviewData[];
   activeOffer: SelectedOfferData;
   error: string | null;
+  authorizationStatus: AuthStatus;
+  userData?: {
+    name: string;
+    email: string;
+    avatarUrl: string;
+    isPro: boolean;
+    token: string;
+  };
 };
 
 export type ReviewData = {

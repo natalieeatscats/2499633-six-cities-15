@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { OfferData, ReviewData, CityName, SelectedOfferData } from '../types';
+import { OfferData, ReviewData, CityName, SelectedOfferData, AuthStatus, State } from '../types';
 import { api } from '.';
 import { AxiosError } from 'axios';
 
@@ -30,22 +30,32 @@ export const setActiveOffer = createAction('SET_ACTIVE_OFFER', (offer: SelectedO
   payload: offer,
 }));
 
+export const setAuthStatus = createAction('SET_AUTH_STATUS', (status: AuthStatus) => ({
+  payload: status,
+}));
+
+export const setUserData = createAction('SET_USER_DATA', (data: State['userData'] | null) => ({
+  payload: data,
+}));
+
+
 export const loadOffers = createAsyncThunk(
   'SET_OFFERS',
   async (_, thunk) => {
     try {
       const response = await api.get('/offers');
       const offers: OfferData[] = response.data as OfferData[];
+
       thunk.dispatch(setOffers(offers));
       thunk.dispatch(setError(null));
+
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
+
       thunk.dispatch(setError(errorMessage));
     }
-
   }
-
 );
 
 export const loadReviews = createAsyncThunk(
@@ -54,11 +64,14 @@ export const loadReviews = createAsyncThunk(
     try {
       const response = await api.get(`/comments/${id}`);
       const reviews: ReviewData[] = response.data as ReviewData[];
+
       thunk.dispatch(setReviews(reviews));
       thunk.dispatch(setError(null));
+
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
+
       thunk.dispatch(setError(errorMessage));
     }
   }
@@ -70,11 +83,53 @@ export const loadActiveOffer = createAsyncThunk(
     try {
       const response = await api.get(`/offers/${id}`);
       const offer: SelectedOfferData = response.data as SelectedOfferData;
+
       thunk.dispatch(setActiveOffer(offer));
       thunk.dispatch(setError(null));
+
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
+
+      thunk.dispatch(setError(errorMessage));
+    }
+  }
+);
+
+export const loadAuthStatus = createAsyncThunk(
+  'SET_AUTH_STATUS',
+  async (_, thunk) => {
+    try {
+      const response = await api.get('/login');
+
+      if (response.status === 200) {
+        thunk.dispatch(setAuthStatus('AUTH'));
+        return;
+      }
+
+      thunk.dispatch(setAuthStatus('UNKNOWN'));
+      thunk.dispatch(setUserData(null));
+
+    } catch (err) {
+      thunk.dispatch(setAuthStatus('NO_AUTH'));
+      thunk.dispatch(setUserData(null));
+    }
+  }
+);
+
+export const tryAuth = createAsyncThunk(
+  'TRY_AUTH',
+  async (data: {email: string; password: string}, thunk) => {
+    try {
+      const response = await api.post('/login', data);
+
+      thunk.dispatch(setAuthStatus('AUTH'));
+      thunk.dispatch(setUserData(response.data as State['userData']));
+
+    } catch (err: unknown) {
+      const errResponse: AxiosError = err as AxiosError;
+      const errorMessage = extractError(errResponse);
+
       thunk.dispatch(setError(errorMessage));
     }
   }

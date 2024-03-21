@@ -1,4 +1,4 @@
-import { SelectedOfferData } from './../types';
+import { AuthStatus, SelectedOfferData } from './../types';
 import { createReducer } from '@reduxjs/toolkit';
 import { CityName, OfferData, ReviewData, State } from '../types';
 import { CITIES } from '../const';
@@ -40,6 +40,7 @@ export const initialState : State = {
     maxAdults: 0
   },
   error: null,
+  authorizationStatus: 'UNKNOWN',
 };
 
 export const rootReducer = createReducer(initialState, (builder) => {
@@ -58,5 +59,8 @@ export const rootReducer = createReducer(initialState, (builder) => {
     })
     .addCase('SET_ERROR', (state, action: { type: 'SET_ERROR'; payload: string | null }) => {
       state.error = action.payload;
+    })
+    .addCase('SET_AUTH_STATUS', (state, action: { type: 'SET_AUTH_STATUS'; payload: AuthStatus }) => {
+      state.authorizationStatus = action.payload;
     });
 });
