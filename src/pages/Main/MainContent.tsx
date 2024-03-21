@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData, CityName } from '../../types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,7 +48,7 @@ export const MainContent = () => {
     ...prev,
     sortBy
   }));
-  const sortedOffers = filteredOffers.sort((a, b) => {
+  const sortedOffers = useMemo(() => filteredOffers.sort((a, b) => {
     switch (sortState.sortBy) {
       case 'Price: low to high':
         return a.price - b.price;
@@ -59,7 +59,7 @@ export const MainContent = () => {
       default:
         return 0;
     }
-  });
+  }), [sortState, filteredOffers]);
 
   const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
   const onActiveOfferChangeHandler = (offer: OfferData) => setActiveOffer(offer);
