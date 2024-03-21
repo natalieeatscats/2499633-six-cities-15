@@ -16,7 +16,8 @@ function useMap(
           lat: city.location.latitude,
           lng: city.location.longitude
         },
-        zoom: city.location.zoom
+        zoom: city.location.zoom,
+        scrollWheelZoom: false
       });
 
       const layer = new TileLayer(

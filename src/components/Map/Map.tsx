@@ -7,8 +7,9 @@ import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: City;
-  points: Points;
+  points: Points | null;
   selectedPoint: Point | undefined;
+  className: string;
 };
 
 const defaultCustomIcon = new Icon({
@@ -49,14 +50,14 @@ function Map(props: MapProps): JSX.Element {
       ).addTo(markerLayer);
     };
 
-    points.forEach(addMarker);
+    points?.forEach(addMarker);
 
     return () => {
       map.removeLayer(markerLayer);
     };
   }, [map, points, selectedPoint]);
 
-  return <div style={{height: 'auto'}} className="cities__map map" id='map' ref={mapRef}></div>;
+  return <div className={props.className} id='map' ref={mapRef}></div>;
 }
 
 export default Map;
