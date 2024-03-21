@@ -81,7 +81,7 @@ export const Offer = () => {
                 avatarUrl={targetOffer.host.avatarUrl}
                 description={targetOffer.description}
               />
-              <OfferReviews reviews={targetReviews} id={targetOffer.id} />
+              <OfferReviews reviews={targetReviews} />
             </div>
           </div>
           <section className="offer__map map" />
