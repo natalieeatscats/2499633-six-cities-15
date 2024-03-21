@@ -1,10 +1,11 @@
 type props = {
   value: number;
-  onChange: (value:number) => void;
+  onChange: (value: number) => void;
+  isChecked: boolean;
 }
 
 
-export const RatingStar = ({ value, onChange}: props) => {
+export const RatingStar = ({ value, onChange, isChecked}: props) => {
   const ratingText = `${value}-stars`;
 
   return(
@@ -16,6 +17,7 @@ export const RatingStar = ({ value, onChange}: props) => {
         defaultValue={value}
         id={ratingText}
         type="radio"
+        checked={isChecked}
       />
       <label
         htmlFor={ratingText}
