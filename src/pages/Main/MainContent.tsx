@@ -93,7 +93,7 @@ export const MainContent = () => {
           </div>
         </section>
         <div className='cities__right-section'>
-          {activeOffer && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint}/>}
+          {activeOffer && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint} className='cities__map map'/>}
         </div>
       </div>
     </div>

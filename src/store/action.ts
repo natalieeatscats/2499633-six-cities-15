@@ -38,6 +38,10 @@ export const setUserData = createAction('SET_USER_DATA', (data: State['userData'
   payload: data,
 }));
 
+export const setNearbyOffers = createAction('SET_NEARBY_OFFERS', (offers: OfferData[]) => ({
+  payload: offers,
+}));
+
 
 export const loadOffers = createAsyncThunk(
   'SET_OFFERS',
@@ -91,6 +95,21 @@ export const loadActiveOffer = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
 
+      thunk.dispatch(setError(errorMessage));
+    }
+  }
+);
+
+export const loadNearbyOffers = createAsyncThunk(
+  'SET_NEARBY_OFFERS',
+  async (id: string, thunk) => {
+    try {
+      const response = await api.get(`/offers/${id}/nearby`);
+      const offers: OfferData[] = response.data as OfferData[];
+      thunk.dispatch(setNearbyOffers(offers));
+    } catch (err: unknown) {
+      const errResponse: AxiosError = err as AxiosError;
+      const errorMessage = extractError(errResponse);
       thunk.dispatch(setError(errorMessage));
     }
   }

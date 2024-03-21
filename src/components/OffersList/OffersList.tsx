@@ -7,11 +7,15 @@ type OffersProps = {
   onActiveOfferChangeHandler?: (offer: OfferData) => void;
 }
 
-export const OffersList = ({offers, onActiveOfferChangeHandler}: OffersProps) => (
+export const OffersList = ({ offers, onActiveOfferChangeHandler }: OffersProps) => {
+  const handleScroll = () => window.scrollTo({top: 0});
 
-  offers.map((offer) => (
-    <Link to={`/offer/${offer.id}`} onMouseEnter={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(offer))} key={offer.id} >
-      <Card offer={offer}/>
-    </Link>
-  ))
-);
+  return (
+
+    offers.map((offer) => (
+      <Link to={`/offer/${offer.id}`} onMouseEnter={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(offer))} onClick={handleScroll} key={offer.id} >
+        <Card offer={offer}/>
+      </Link>
+    ))
+  );
+};
