@@ -1,8 +1,15 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { RatingSelect } from './RatingSelect/RatingSelect';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { State } from '../../types';
+import { useDispatch, useSelector } from 'react-redux';
+import { postComment } from '../../store/action';
 
-export const ReviewForm = () => {
-  const [, setValues] = useState({
+type ReviewFormProps = {
+  id: string;
+}
+export const ReviewForm = ({id}: ReviewFormProps) => {
+  const [values, setValues] = useState({
     rating: 0,
     comment: '',
   });
@@ -12,10 +19,24 @@ export const ReviewForm = () => {
       rating,
     }));
   };
+  const errorMessage = useSelector((state: State) => state.error);
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const handlePostReview = (evt: FormEvent) => {
+    evt.preventDefault();
+    dispatch(postComment({ ...values, id }));
+    if (!errorMessage) {
+      setValues({
+        rating: 0,
+        comment: '',
+      });
+    }
+  };
+
+  const isValidReview = values.rating !== 0 && values.comment.length > 50 && values.comment.length < 300;
 
   return (
-    <form className="reviews__form form" action="#" method="post">
-      <RatingSelect onRatingChange={handleRating}></RatingSelect>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handlePostReview}>
+      <RatingSelect onRatingChange={handleRating} selectedRating={values.rating}></RatingSelect>
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
@@ -27,6 +48,7 @@ export const ReviewForm = () => {
             ...prev,
             comment: e.target.value,
           })))}
+        value={values.comment}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -34,11 +56,12 @@ export const ReviewForm = () => {
           <span className="reviews__star">rating</span> and describe
                       your stay with at least{' '}
           <b className="reviews__text-amount">50 characters</b>.
+          <br/> {errorMessage}
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={!isValidReview}
         >
                       Submit
         </button>

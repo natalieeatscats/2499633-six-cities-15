@@ -100,7 +100,7 @@ export const Offer = () => {
                 avatarUrl={targetOffer.host.avatarUrl}
                 description={targetOffer.description}
               />
-              <OfferReviews reviews={targetReviews} />
+              <OfferReviews reviews={targetReviews} id={targetOffer.id} />
             </div>
           </div>
           {activeOffer && nearbyOffers && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint} className='offer__map map'/>}
