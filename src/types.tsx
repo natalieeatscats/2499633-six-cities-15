@@ -80,15 +80,16 @@ export type State = {
   offers: OfferData[];
   reviews: ReviewData[];
   activeOffer: SelectedOfferData;
+  nearbyOffers: OfferData[] | null;
   error: string | null;
   authorizationStatus: AuthStatus;
-  userData?: {
+  userData: {
     name: string;
     email: string;
     avatarUrl: string;
     isPro: boolean;
     token: string;
-  };
+  } | null;
 };
 
 export type ReviewData = {

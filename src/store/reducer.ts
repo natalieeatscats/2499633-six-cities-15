@@ -39,8 +39,10 @@ export const initialState : State = {
     images: [],
     maxAdults: 0
   },
+  nearbyOffers: null,
   error: null,
   authorizationStatus: 'UNKNOWN',
+  userData: null
 };
 
 export const rootReducer = createReducer(initialState, (builder) => {
@@ -57,10 +59,16 @@ export const rootReducer = createReducer(initialState, (builder) => {
     .addCase('SET_ACTIVE_OFFER', (state, action: { type: 'SET_ACTIVE_OFFER'; payload: SelectedOfferData }) => {
       state.activeOffer = action.payload;
     })
+    .addCase('SET_NEARBY_OFFERS', (state, action: { type: 'SET_NEARBY_OFFERS'; payload: OfferData[] | null }) => {
+      state.nearbyOffers = action.payload;
+    })
     .addCase('SET_ERROR', (state, action: { type: 'SET_ERROR'; payload: string | null }) => {
       state.error = action.payload;
     })
     .addCase('SET_AUTH_STATUS', (state, action: { type: 'SET_AUTH_STATUS'; payload: AuthStatus }) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase('SET_USER_DATA', (state, action: { type: 'SET_USER_DATA'; payload: State['userData'] | null }) => {
+      state.userData = action.payload;
     });
 });

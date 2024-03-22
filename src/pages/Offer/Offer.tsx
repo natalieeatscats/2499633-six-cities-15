@@ -9,10 +9,11 @@ import { OfferReviews } from './OfferReviews';
 import { NearbyOffers } from './NearbyOffers';
 import { BookmarkButton } from '../../components/BookmarkButton/BookmarkButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../types';
-import { useEffect } from 'react';
-import { loadActiveOffer, loadReviews } from '../../store/action';
+import { OfferData, State } from '../../types';
+import { useEffect, useState } from 'react';
+import { loadActiveOffer, loadNearbyOffers, loadReviews } from '../../store/action';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import Map from '../../components/Map/Map';
 
 
 export const Offer = () => {
@@ -20,11 +21,29 @@ export const Offer = () => {
   const targetReviews = useSelector((state: State) => state.reviews);
   const params = useParams();
   const targetOffer = useSelector((state: State) => state.activeOffer);
+  const nearbyOffers = useSelector((state: State) => state.nearbyOffers);
+  const [activeOffer, setActiveOffer] = useState(nearbyOffers?.[0]);
+  const onActiveOfferChangeHandler = (offer: OfferData) => {
+    setActiveOffer(offer);
+  };
+
+  const activePoints = nearbyOffers && nearbyOffers.map(({ id, location: { latitude, longitude } }) => ({
+    id,
+    latitude,
+    longitude,
+  }));
+
+  const selectedPoint = activeOffer && {
+    id: activeOffer.id,
+    latitude: activeOffer.location.latitude,
+    longitude: activeOffer.location.longitude,
+  };
 
   useEffect(() => {
     if (params.id) {
       dispatch(loadActiveOffer(params.id));
       dispatch(loadReviews(params.id));
+      dispatch(loadNearbyOffers(params.id));
     }
   }, [dispatch, params]);
 
@@ -67,7 +86,7 @@ export const Offer = () => {
                 <h1 className="offer__name">
                   {targetOffer.title}
                 </h1>
-                <BookmarkButton />
+                <BookmarkButton type={'offer'} isBookmarked={targetOffer.isFavorite} />
               </div>
               <RatingStars rating={targetOffer.rating} />
               <OfferFeatures features={targetOffer} />
@@ -84,9 +103,9 @@ export const Offer = () => {
               <OfferReviews reviews={targetReviews} />
             </div>
           </div>
-          <section className="offer__map map" />
+          {activeOffer && nearbyOffers && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint} className='offer__map map'/>}
         </section>
-        <NearbyOffers/>
+        {nearbyOffers && <NearbyOffers offers={nearbyOffers} onActiveOfferChangeHandler={onActiveOfferChangeHandler}/>}
       </>
     </Layout>
 
