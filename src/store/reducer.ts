@@ -98,31 +98,3 @@ export const apiSlice = createSlice({
 
 export const { setError, setAuthStatus, setUserData } = apiSlice.actions;
 export const apiReducer = apiSlice.reducer;
-
-// export const rootReducer = createReducer(initialState, (builder) => {
-//   builder
-//     .addCase('SET_CITY', (state, action: { type: 'SET_CITY'; payload: CityName }) => {
-//       state.city = action.payload;
-//     })
-//     .addCase('SET_OFFERS', (state, action: { type: 'SET_OFFERS'; payload: OfferData[] }) => {
-//       state.offers = action.payload;
-//     })
-//     .addCase('SET_REVIEWS', (state, action: { type: 'SET_REVIEWS'; payload: ReviewData[] }) => {
-//       state.reviews = action.payload;
-//     })
-//     .addCase('SET_ACTIVE_OFFER', (state, action: { type: 'SET_ACTIVE_OFFER'; payload: SelectedOfferData }) => {
-//       state.activeOffer = action.payload;
-//     })
-//     .addCase('SET_NEARBY_OFFERS', (state, action: { type: 'SET_NEARBY_OFFERS'; payload: OfferData[] | null }) => {
-//       state.nearbyOffers = action.payload;
-//     })
-//     .addCase('SET_ERROR', (state, action: { type: 'SET_ERROR'; payload: string | null }) => {
-//       state.error = action.payload;
-//     })
-//     .addCase('SET_AUTH_STATUS', (state, action: { type: 'SET_AUTH_STATUS'; payload: AuthStatus }) => {
-//       state.authorizationStatus = action.payload;
-//     })
-//     .addCase('SET_USER_DATA', (state, action: { type: 'SET_USER_DATA'; payload: State['userData'] | null }) => {
-//       state.userData = action.payload;
-//     });
-// });
