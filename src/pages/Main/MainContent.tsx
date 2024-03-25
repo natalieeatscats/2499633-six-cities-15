@@ -34,13 +34,9 @@ export const MainContent = () => {
 
   }, [params.city, dispatch, offers]);
 
-<<<<<<< Updated upstream
   const filteredOffers: OfferData[] = useMemo(() =>
     offers.filter((offer) => offer.city.name === selectedCity),
   [offers, selectedCity]);
-=======
-  const filteredOffers: OfferData[] = useMemo(() => offers.filter((offer) => offer.city.name === selectedCity), [offers, selectedCity]);
->>>>>>> Stashed changes
 
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
@@ -70,13 +66,8 @@ export const MainContent = () => {
   [sortState, filteredOffers]);
 
   const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
-<<<<<<< Updated upstream
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []);
   const activePoints = useMemo(() => sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
-=======
-  const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []) ;
-  const activePoints = sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
->>>>>>> Stashed changes
     id,
     latitude,
     longitude,
