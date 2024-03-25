@@ -9,18 +9,19 @@ import { loadOffers } from '../../store/action';
 import { setCity } from '../../store/reducer';
 import { State } from '../../types';
 import { CITIES, SORT_BY_VALUES } from '../../const';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import { Spinner } from './Spinner';
 
 
 export const MainContent = () => {
 
   const params = useParams();
-
+  const currentState = useSelector((state: State) => state);
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const selectedCity: CityName = useSelector((state: State) => state.city);
-  const offers = useSelector((state: State) => state.offers);
-
+  const getSelectedCity = createSelector([(state: State) => state.city], (city) => city);
+  const selectedCity: CityName = getSelectedCity(currentState);
+  const getOffers = createSelector([(state: State) => state.offers], (offers) => offers);
+  const offers = getOffers(currentState);
 
   useEffect(() => {
     if (params.city === undefined) {
@@ -28,6 +29,9 @@ export const MainContent = () => {
     } else {
       dispatch(setCity(params.city as CityName));
     }
+  }, [params.city, dispatch]);
+
+  useEffect(() => {
 
     if (offers.length === 0) {
       dispatch(loadOffers());

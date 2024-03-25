@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { ReviewForm } from '../../components/ReviewForm/ReviewForm';
 import { Review } from './Review';
 import { State } from '../../types';
+import { createSelector } from '@reduxjs/toolkit';
 
 type Review = {
   date: string;
@@ -19,7 +20,9 @@ type Props = {
 };
 
 export const OfferReviews = ({ reviews, id }: Props) => {
-  const isAuth = useSelector((state: State) => state.authorizationStatus) === 'AUTH';
+  const currentState = useSelector((state: State) => state);
+  const getAuthStatus = createSelector([(state: State) => state.authorizationStatus], (status) => status);
+  const isAuth = getAuthStatus(currentState) === 'AUTH';
 
   return (
     <section className="offer__reviews reviews">
