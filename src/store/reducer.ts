@@ -1,4 +1,3 @@
-import { activeOfferState } from './reducer';
 import { AuthStatus, SelectedOfferData } from './../types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { CityName, OfferData, ReviewData, State } from '../types';
