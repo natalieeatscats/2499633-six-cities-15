@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData } from '../../types';
 
@@ -6,7 +7,7 @@ type NearbyOffersProps = {
   onActiveOfferChangeHandler: (offer: OfferData) => void;
 }
 
-export const NearbyOffers = ({offers, onActiveOfferChangeHandler}: NearbyOffersProps) => (
+const NearbyOffers = ({offers, onActiveOfferChangeHandler}: NearbyOffersProps) => (
   <div className="container">
     <section className="near-places places">
       <h2 className="near-places__title">
@@ -20,3 +21,4 @@ export const NearbyOffers = ({offers, onActiveOfferChangeHandler}: NearbyOffersP
   </div>
 );
 
+export default memo(NearbyOffers) as typeof NearbyOffers;
