@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData, CityName } from '../../types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,9 +48,22 @@ export const MainContent = () => {
     ...prev,
     sortBy
   }));
-  const [activeOffer, setActiveOffer] = useState(filteredOffers[0]);
+  const sortedOffers = useMemo(() => filteredOffers.sort((a, b) => {
+    switch (sortState.sortBy) {
+      case 'Price: low to high':
+        return a.price - b.price;
+      case 'Price: high to low':
+        return b.price - a.price;
+      case 'Top rated first':
+        return b.rating - a.rating;
+      default:
+        return 0;
+    }
+  }), [sortState, filteredOffers]);
+
+  const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
   const onActiveOfferChangeHandler = (offer: OfferData) => setActiveOffer(offer);
-  const activePoints = filteredOffers.map(({ id, location: { latitude, longitude } }) => ({
+  const activePoints = sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
     id,
     latitude,
     longitude,
@@ -68,8 +81,8 @@ export const MainContent = () => {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           {offers.length === 0 && <Spinner/>}
-          {filteredOffers.length !== 0 ?
-            <b className="places__found">{filteredOffers.length} place{filteredOffers.length > 1 && 's' } to stay in {selectedCity}</b>
+          {sortedOffers.length !== 0 ?
+            <b className="places__found">{sortedOffers.length} place{sortedOffers.length > 1 && 's' } to stay in {selectedCity}</b>
             :
             <b className="places__found">No places found in {selectedCity}</b>}
           <form className="places__sorting" action="#" method="get" >
@@ -89,7 +102,7 @@ export const MainContent = () => {
             />
           </form>
           <div className="cities__places-list places__list tabs__content">
-            <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={filteredOffers} />
+            <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={sortedOffers} />
           </div>
         </section>
         <div className='cities__right-section'>
