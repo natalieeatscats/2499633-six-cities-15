@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData, CityName } from '../../types';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,40 +34,44 @@ export const MainContent = () => {
 
   }, [params.city, dispatch, offers]);
 
-  const filteredOffers: OfferData[] = offers.filter((offer) => offer.city.name === selectedCity);
+  const filteredOffers: OfferData[] = useMemo(() =>
+    offers.filter((offer) => offer.city.name === selectedCity),
+  [offers, selectedCity]);
 
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
     sortBy: 'Popular',
   });
-  const sortVisibilityHandler = () => setSortState((prev) => ({
+  const sortVisibilityHandler = useCallback(() => setSortState((prev) => ({
     ...prev,
     sortIsOpened: !prev.sortIsOpened,
-  }));
-  const sortByHandler = (sortBy: string) => setSortState((prev) => ({
+  })), []);
+  const sortByHandler = useCallback((sortBy: string) => setSortState((prev) => ({
     ...prev,
     sortBy
-  }));
-  const sortedOffers = useMemo(() => filteredOffers.sort((a, b) => {
-    switch (sortState.sortBy) {
-      case 'Price: low to high':
-        return a.price - b.price;
-      case 'Price: high to low':
-        return b.price - a.price;
-      case 'Top rated first':
-        return b.rating - a.rating;
-      default:
-        return 0;
-    }
-  }), [sortState, filteredOffers]);
+  })), []);
+  const sortedOffers = useMemo(() =>
+    filteredOffers.sort((a, b) => {
+      switch (sortState.sortBy) {
+        case 'Price: low to high':
+          return a.price - b.price;
+        case 'Price: high to low':
+          return b.price - a.price;
+        case 'Top rated first':
+          return b.rating - a.rating;
+        default:
+          return 0;
+      }
+    }),
+  [sortState, filteredOffers]);
 
   const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
-  const onActiveOfferChangeHandler = (offer: OfferData) => setActiveOffer(offer);
-  const activePoints = sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
+  const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []);
+  const activePoints = useMemo(() => sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
     id,
     latitude,
     longitude,
-  }));
+  })), [sortedOffers]);
 
   const selectedPoint = activeOffer && {
     id: activeOffer.id,
