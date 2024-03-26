@@ -42,7 +42,8 @@ export const initialState : State = {
   nearbyOffers: null,
   error: null,
   authorizationStatus: 'UNKNOWN',
-  userData: null
+  userData: null,
+  favoriteOffers: null,
 };
 
 export const offersSlice = createSlice({
@@ -93,8 +94,11 @@ export const apiSlice = createSlice({
     setUserData: (state, action: PayloadAction<State['userData'] | null>) => {
       state.userData = action.payload;
     },
+    setFavorites: (state, action: PayloadAction<OfferData[] | null>) => {
+      state.favoriteOffers = action.payload;
+    },
   }
 });
 
-export const { setError, setAuthStatus, setUserData } = apiSlice.actions;
+export const { setError, setAuthStatus, setUserData, setFavorites } = apiSlice.actions;
 export const apiReducer = apiSlice.reducer;

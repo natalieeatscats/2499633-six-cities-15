@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { MouseEventHandler, memo, useMemo } from 'react';
 
 type BookmarkButtonProps = {
   type: 'offer' | 'place';
   isBookmarked: boolean;
+  handleBookmark: MouseEventHandler<HTMLButtonElement>;
 }
 const mapBookmarkType = {
   offer: {
@@ -19,12 +20,11 @@ const mapBookmarkType = {
   }
 };
 
-export const BookmarkButton = ({ type, isBookmarked }: BookmarkButtonProps) => {
-
+const BookmarkButton = ({ type, isBookmarked, handleBookmark }: BookmarkButtonProps) => {
   const {className, width, height, classNameIcon} = useMemo(() => mapBookmarkType[type], [type]);
 
   return (
-    <button className={`${className} button ${isBookmarked && `${className}--active`}`} type="button">
+    <button className={`${className} button ${isBookmarked && `${className}--active`}`} type="button" onClick={handleBookmark}>
       <svg className={classNameIcon} width={width} height={height}>
         <use xlinkHref="#icon-bookmark" />
       </svg>
@@ -32,3 +32,5 @@ export const BookmarkButton = ({ type, isBookmarked }: BookmarkButtonProps) => {
     </button>
   );
 };
+
+export default memo(BookmarkButton) as typeof BookmarkButton;

@@ -1,24 +1,42 @@
-import { memo } from 'react';
-import { handleStars } from '../../const';
-import { OfferData } from '../../types';
-import { BookmarkButton } from '../BookmarkButton/BookmarkButton';
+import { MouseEventHandler, memo } from 'react';
+import { Addresses, handleStars } from '../../const';
+import { OfferData, State } from '../../types';
+import BookmarkButton from '../BookmarkButton/BookmarkButton';
+import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorite } from '../../store/action';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 type CardProps = {
   offer: OfferData;
+  type: string;
 }
 
 
-const Card = ({offer}: CardProps) => {
+const Card = ({ offer, type }: CardProps) => {
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const currentState = useSelector((state: State) => state);
+  const getAuthStatus = createSelector([(state: State) => state.authorizationStatus], (status) => status);
+  const isAuth = getAuthStatus(currentState) === 'AUTH';
   const ratingStyle = { width: '80%' };
+  const navigate = useNavigate();
+  const handleBookmark: MouseEventHandler = (evt) => {
+    evt.preventDefault();
+    if (isAuth) {
+      dispatch(toggleFavorite({ id: offer.id, status: offer.isFavorite }));
+      return;
+    }
+    navigate(Addresses.Login);
+  };
   ratingStyle.width = handleStars(offer.rating);
 
   return (
-    <article className="cities__card place-card">
+    <article className={`${type}__card place-card`}>
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${type}__image-wrapper place-card__image-wrapper`}>
         <img
           className="place-card__image"
           src={offer.previewImage}
@@ -33,7 +51,7 @@ const Card = ({offer}: CardProps) => {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <BookmarkButton type="place" isBookmarked={offer.isFavorite}/>
+          <BookmarkButton type="place" isBookmarked={offer.isFavorite} handleBookmark={handleBookmark}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

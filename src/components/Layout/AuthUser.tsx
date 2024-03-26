@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { ThunkDispatch, AnyAction, createSelector } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../types';
 import { setAuthStatus } from '../../store/reducer';
 
 export const AuthUser = () => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const currentState = useSelector((state: State) => state);
+  const getFavorites = createSelector([(state: State) => state.favoriteOffers], (favoriteOffers) => favoriteOffers);
+  const favoriteOffers = getFavorites(currentState);
   const handleSignOut = () => {
     dispatch(setAuthStatus('NO_AUTH'));
   };
@@ -21,7 +24,7 @@ export const AuthUser = () => {
           <span className="header__user-name user__name">
                   Oliver.conner@gmail.com
           </span>
-          <span className="header__favorite-count">3</span>
+          {favoriteOffers && favoriteOffers.length > 0 && <span className="header__favorite-count">{favoriteOffers.length}</span>}
         </Link>
       </li>
       <li className="header__nav-item">

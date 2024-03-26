@@ -1,17 +1,17 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout/Layout';
-import { handleStars } from '../../const';
+import { Addresses, handleStars } from '../../const';
 import { RatingStars } from './RatingStars';
 import { OfferFeatures } from './OfferFeatures';
 import { OfferInside } from './OfferInside';
 import { Host } from './Host';
 import { OfferReviews } from './OfferReviews';
 import NearbyOffers from './NearbyOffers';
-import { BookmarkButton } from '../../components/BookmarkButton/BookmarkButton';
+import BookmarkButton from '../../components/BookmarkButton/BookmarkButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { OfferData, State } from '../../types';
-import { useCallback, useEffect, useState } from 'react';
-import { loadActiveOffer, loadNearbyOffers, loadReviews } from '../../store/action';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
 import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import Map from '../../components/Map/Map';
 
@@ -30,6 +30,18 @@ export const Offer = () => {
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
     setActiveOffer(offer);
   }, []);
+
+  const getAuthStatus = createSelector([(state: State) => state.authorizationStatus], (status) => status);
+  const isAuth = getAuthStatus(currentState) === 'AUTH';
+  const navigate = useNavigate();
+  const handleBookmark: MouseEventHandler = (evt) => {
+    evt.preventDefault();
+    if (isAuth) {
+      dispatch(toggleFavorite({ id: targetOffer.id, status: targetOffer.isFavorite }));
+      return;
+    }
+    navigate(Addresses.Login);
+  };
 
   const activePoints = nearbyOffers && nearbyOffers.map(({ id, location: { latitude, longitude } }) => ({
     id,
@@ -90,7 +102,7 @@ export const Offer = () => {
                 <h1 className="offer__name">
                   {targetOffer.title}
                 </h1>
-                <BookmarkButton type={'offer'} isBookmarked={targetOffer.isFavorite} />
+                <BookmarkButton type={'offer'} isBookmarked={targetOffer.isFavorite} handleBookmark={handleBookmark} />
               </div>
               <RatingStars rating={targetOffer.rating} />
               <OfferFeatures features={targetOffer} />

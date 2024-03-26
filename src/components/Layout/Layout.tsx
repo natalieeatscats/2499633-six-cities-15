@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { useEffect } from 'react';
-import { loadAuthStatus } from '../../store/action';
+import { loadAuthStatus, loadFavorites } from '../../store/action';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { AuthStatus, State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,10 @@ export const Layout = ({ children }: LayoutProps) => {
   useEffect(() => {
     if (authStatus === 'UNKNOWN') {
       dispatch(loadAuthStatus());
+      return;
+    }
+    if (authStatus === 'AUTH') {
+      dispatch(loadFavorites());
     }
   }, [authStatus, dispatch]);
 

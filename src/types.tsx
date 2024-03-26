@@ -90,6 +90,7 @@ export type State = {
     isPro: boolean;
     token: string;
   } | null;
+  favoriteOffers: OfferData[] | null;
 };
 
 export type ReviewData = {
