@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 type BookmarkButtonProps = {
   type: 'offer' | 'place';
   isBookmarked: boolean;
@@ -19,7 +21,7 @@ const mapBookmarkType = {
 
 export const BookmarkButton = ({ type, isBookmarked }: BookmarkButtonProps) => {
 
-  const {className, width, height, classNameIcon} = mapBookmarkType[type];
+  const {className, width, height, classNameIcon} = useMemo(() => mapBookmarkType[type], [type]);
 
   return (
     <button className={`${className} button ${isBookmarked && `${className}--active`}`} type="button">

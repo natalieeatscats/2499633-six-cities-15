@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { handleStars } from '../../const';
 import { OfferData } from '../../types';
 import { BookmarkButton } from '../BookmarkButton/BookmarkButton';
@@ -7,16 +8,16 @@ type CardProps = {
 }
 
 
-export const Card = ({offer}: CardProps) => {
+const Card = ({offer}: CardProps) => {
   const ratingStyle = { width: '80%' };
   ratingStyle.width = handleStars(offer.rating);
 
   return (
     <article className="cities__card place-card">
-      {offer.isPremium ?
+      {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
-        </div> : null}
+        </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <img
           className="place-card__image"
@@ -49,4 +50,4 @@ export const Card = ({offer}: CardProps) => {
   );
 };
 
-export default Card;
+export default memo(Card) as typeof Card;

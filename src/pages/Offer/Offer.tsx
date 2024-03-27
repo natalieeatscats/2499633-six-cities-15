@@ -6,26 +6,30 @@ import { OfferFeatures } from './OfferFeatures';
 import { OfferInside } from './OfferInside';
 import { Host } from './Host';
 import { OfferReviews } from './OfferReviews';
-import { NearbyOffers } from './NearbyOffers';
+import NearbyOffers from './NearbyOffers';
 import { BookmarkButton } from '../../components/BookmarkButton/BookmarkButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { OfferData, State } from '../../types';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews } from '../../store/action';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import Map from '../../components/Map/Map';
 
 
 export const Offer = () => {
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const targetReviews = useSelector((state: State) => state.reviews);
   const params = useParams();
-  const targetOffer = useSelector((state: State) => state.activeOffer);
-  const nearbyOffers = useSelector((state: State) => state.nearbyOffers);
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const currentState = useSelector((state: State) => state);
+  const getTargetReviews = createSelector([(state: State) => state.reviews], (reviews) => reviews);
+  const targetReviews = getTargetReviews(currentState);
+  const getTargetOffer = createSelector([(state: State) => state.activeOffer], (offer) => offer);
+  const targetOffer = getTargetOffer(currentState);
+  const getNearbyOffers = createSelector([(state: State) => state.nearbyOffers], (offers) => offers);
+  const nearbyOffers = getNearbyOffers(currentState);
   const [activeOffer, setActiveOffer] = useState(nearbyOffers?.[0]);
-  const onActiveOfferChangeHandler = (offer: OfferData) => {
+  const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
     setActiveOffer(offer);
-  };
+  }, []);
 
   const activePoints = nearbyOffers && nearbyOffers.map(({ id, location: { latitude, longitude } }) => ({
     id,

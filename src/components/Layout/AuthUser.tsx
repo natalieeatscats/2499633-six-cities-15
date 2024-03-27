@@ -3,7 +3,7 @@ import { Addresses } from '../../const';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { State } from '../../types';
-import { setAuthStatus } from '../../store/action';
+import { setAuthStatus } from '../../store/reducer';
 
 export const AuthUser = () => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();

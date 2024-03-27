@@ -1,7 +1,8 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { OfferData, ReviewData, CityName, SelectedOfferData, AuthStatus, State } from '../types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { OfferData, ReviewData, SelectedOfferData, State } from '../types';
 import { api } from '.';
 import { AxiosError } from 'axios';
+import { setOffers, setError, setReviews, setActiveOffer, setNearbyOffers, setAuthStatus, setUserData } from './reducer';
 
 const extractError = (err: AxiosError) => {
   if (typeof err?.message === 'string') {
@@ -9,39 +10,6 @@ const extractError = (err: AxiosError) => {
   }
   return `Unknown error: ${JSON.stringify(err, null, 2)}`;
 };
-
-export const setError = createAction('SET_ERROR', (error: string | null) => ({
-  payload: error,
-}));
-
-export const setCity = createAction('SET_CITY', (city: CityName) => ({
-  payload: city,
-}));
-
-export const setOffers = createAction('SET_OFFERS', (offers: OfferData[]) => ({
-  payload: offers,
-}));
-
-export const setReviews = createAction('SET_REVIEWS', (reviews: ReviewData[]) => ({
-  payload: reviews,
-}));
-
-export const setActiveOffer = createAction('SET_ACTIVE_OFFER', (offer: SelectedOfferData | undefined) => ({
-  payload: offer,
-}));
-
-export const setAuthStatus = createAction('SET_AUTH_STATUS', (status: AuthStatus) => ({
-  payload: status,
-}));
-
-export const setUserData = createAction('SET_USER_DATA', (data: State['userData'] | null) => ({
-  payload: data,
-}));
-
-export const setNearbyOffers = createAction('SET_NEARBY_OFFERS', (offers: OfferData[]) => ({
-  payload: offers,
-}));
-
 
 export const loadOffers = createAsyncThunk(
   'SET_OFFERS',

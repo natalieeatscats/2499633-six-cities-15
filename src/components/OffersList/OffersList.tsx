@@ -19,3 +19,4 @@ export const OffersList = ({ offers, onActiveOfferChangeHandler }: OffersProps) 
     ))
   );
 };
+

@@ -1,25 +1,27 @@
 import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/OffersList/OffersList';
 import { OfferData, CityName } from '../../types';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './SortOptions/SortOptions';
 import Map from '../../components/Map/Map';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadOffers, setCity } from '../../store/action';
+import { loadOffers } from '../../store/action';
+import { setCity } from '../../store/reducer';
 import { State } from '../../types';
 import { CITIES, SORT_BY_VALUES } from '../../const';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import { Spinner } from './Spinner';
 
 
 export const MainContent = () => {
 
   const params = useParams();
-
+  const currentState = useSelector((state: State) => state);
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const selectedCity: CityName = useSelector((state: State) => state.city);
-  const offers = useSelector((state: State) => state.offers);
-
+  const getSelectedCity = createSelector([(state: State) => state.city], (city) => city);
+  const selectedCity: CityName = getSelectedCity(currentState);
+  const getOffers = createSelector([(state: State) => state.offers], (offers) => offers);
+  const offers = getOffers(currentState);
 
   useEffect(() => {
     if (params.city === undefined) {
@@ -27,6 +29,9 @@ export const MainContent = () => {
     } else {
       dispatch(setCity(params.city as CityName));
     }
+  }, [params.city, dispatch]);
+
+  useEffect(() => {
 
     if (offers.length === 0) {
       dispatch(loadOffers());
@@ -34,40 +39,44 @@ export const MainContent = () => {
 
   }, [params.city, dispatch, offers]);
 
-  const filteredOffers: OfferData[] = offers.filter((offer) => offer.city.name === selectedCity);
+  const filteredOffers: OfferData[] = useMemo(() =>
+    offers.filter((offer) => offer.city.name === selectedCity),
+  [offers, selectedCity]);
 
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
     sortBy: 'Popular',
   });
-  const sortVisibilityHandler = () => setSortState((prev) => ({
+  const sortVisibilityHandler = useCallback(() => setSortState((prev) => ({
     ...prev,
     sortIsOpened: !prev.sortIsOpened,
-  }));
-  const sortByHandler = (sortBy: string) => setSortState((prev) => ({
+  })), []);
+  const sortByHandler = useCallback((sortBy: string) => setSortState((prev) => ({
     ...prev,
     sortBy
-  }));
-  const sortedOffers = useMemo(() => filteredOffers.sort((a, b) => {
-    switch (sortState.sortBy) {
-      case 'Price: low to high':
-        return a.price - b.price;
-      case 'Price: high to low':
-        return b.price - a.price;
-      case 'Top rated first':
-        return b.rating - a.rating;
-      default:
-        return 0;
-    }
-  }), [sortState, filteredOffers]);
+  })), []);
+  const sortedOffers = useMemo(() =>
+    filteredOffers.sort((a, b) => {
+      switch (sortState.sortBy) {
+        case 'Price: low to high':
+          return a.price - b.price;
+        case 'Price: high to low':
+          return b.price - a.price;
+        case 'Top rated first':
+          return b.rating - a.rating;
+        default:
+          return 0;
+      }
+    }),
+  [sortState, filteredOffers]);
 
   const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
-  const onActiveOfferChangeHandler = (offer: OfferData) => setActiveOffer(offer);
-  const activePoints = sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
+  const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []);
+  const activePoints = useMemo(() => sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
     id,
     latitude,
     longitude,
-  }));
+  })), [sortedOffers]);
 
   const selectedPoint = activeOffer && {
     id: activeOffer.id,
