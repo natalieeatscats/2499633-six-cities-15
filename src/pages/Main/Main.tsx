@@ -3,10 +3,8 @@ import { Layout } from '../../components/layout/layout';
 import { CITIES } from '../../const';
 
 export const MainPage = () => {
-
   const params = useParams();
-
-  return (
+  return(
     <Layout>
       <>
         <h1 className="visually-hidden">Cities</h1>

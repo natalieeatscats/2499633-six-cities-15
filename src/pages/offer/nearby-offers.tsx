@@ -20,4 +20,6 @@ const NearbyOffers = ({offers, onActiveOfferChangeHandler}: NearbyOffersProps) =
   </div>
 );
 
-export default memo(NearbyOffers) as typeof NearbyOffers;
+const memoizedNearbyOffers = memo(NearbyOffers);
+
+export default memoizedNearbyOffers;

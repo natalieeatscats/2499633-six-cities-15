@@ -1,27 +1,24 @@
-import { useParams } from 'react-router-dom';
 import { OffersList } from '../../components/offers-list/offers-list';
-import { OfferData, CityName } from '../../types';
+import { OfferData, CityName, State } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
 import Map from '../../components/map/map';
-import { useDispatch, useSelector } from 'react-redux';
 import { loadOffers } from '../../store/action';
 import { setCity } from '../../store/reducer';
-import { State } from '../../types';
 import { CITIES, SORT_BY_VALUES } from '../../const';
-import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import { Spinner } from './spinner';
 import { MainEmpty } from './main-empty';
+import { getOffers, getSelectedCity } from '../../store/selector';
+import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 
 export const MainContent = () => {
-
-  const params = useParams();
-  const currentState = useSelector((state: State) => state);
+  const currentState: State = useSelector((state: State) => state);
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const getSelectedCity = createSelector([(state: State) => state.city], (city) => city);
+  const params = useParams();
   const selectedCity: CityName = getSelectedCity(currentState);
-  const getOffers = createSelector([(state: State) => state.offers], (offers) => offers);
   const offers = getOffers(currentState);
 
   useEffect(() => {
@@ -30,15 +27,11 @@ export const MainContent = () => {
     } else {
       dispatch(setCity(params.city as CityName));
     }
-  }, [params.city, dispatch]);
+  }, [params.city]);
 
   useEffect(() => {
-
-    if (offers.length === 0) {
-      dispatch(loadOffers());
-    }
-
-  }, [params.city, dispatch, offers]);
+    dispatch(loadOffers());
+  }, []);
 
   const filteredOffers: OfferData[] = useMemo(() =>
     offers.filter((offer) => offer.city.name === selectedCity),

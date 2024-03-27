@@ -2,9 +2,10 @@ import { MouseEventHandler, memo } from 'react';
 import { Addresses, handleStars } from '../../const';
 import { OfferData, State } from '../../types';
 import BookmarkButton from '../bookmark-button/bookmark-button';
-import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../store/action';
+import { getAuthStatus } from '../../store/selector';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 type CardProps = {
@@ -15,11 +16,10 @@ type CardProps = {
 
 const Card = ({ offer, type }: CardProps) => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const currentState = useSelector((state: State) => state);
-  const getAuthStatus = createSelector([(state: State) => state.authorizationStatus], (status) => status);
+  const navigate = useNavigate();
+  const currentState: State = useSelector((state: State) => state);
   const isAuth = getAuthStatus(currentState) === 'AUTH';
   const ratingStyle = { width: '80%' };
-  const navigate = useNavigate();
   const handleBookmark: MouseEventHandler = (evt) => {
     evt.preventDefault();
     if (isAuth) {
@@ -68,4 +68,6 @@ const Card = ({ offer, type }: CardProps) => {
   );
 };
 
-export default memo(Card) as typeof Card;
+const memoizedCard = memo(Card);
+
+export default memoizedCard;

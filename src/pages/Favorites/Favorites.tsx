@@ -1,17 +1,16 @@
 import { Layout } from '../../components/layout/layout';
-import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../types';
-import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { loadFavorites } from '../../store/action';
 import { FavoritesList } from './favorites-list';
+import { getFavorites } from '../../store/selector';
+import { State } from '../../types';
+import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export const Favorites = () => {
-
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const currentState = useSelector((state: State) => state);
-  const getFavorites = createSelector([(state: State) => state.favoriteOffers], (favoriteOffers) => favoriteOffers);
+  const currentState: State = useSelector((state: State) => state);
   const favoriteOffers = getFavorites(currentState);
   useEffect(() => {
     if (favoriteOffers === null) {

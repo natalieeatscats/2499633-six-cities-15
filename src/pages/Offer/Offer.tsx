@@ -12,26 +12,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OfferData, State } from '../../types';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
-import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import Map from '../../components/map/map';
-
+import { getTargetReviews, getTargetOffer, getNearbyOffers, getAuthStatus } from '../../store/selector';
 
 export const Offer = () => {
   const params = useParams();
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const currentState = useSelector((state: State) => state);
-  const getTargetReviews = createSelector([(state: State) => state.reviews], (reviews) => reviews);
+  const currentState: State = useSelector((state: State) => state);
   const targetReviews = getTargetReviews(currentState);
-  const getTargetOffer = createSelector([(state: State) => state.activeOffer], (offer) => offer);
   const targetOffer = getTargetOffer(currentState);
-  const getNearbyOffers = createSelector([(state: State) => state.nearbyOffers], (offers) => offers);
   const nearbyOffers = getNearbyOffers(currentState);
   const [activeOffer, setActiveOffer] = useState(nearbyOffers?.[0]);
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
     setActiveOffer(offer);
   }, []);
-
-  const getAuthStatus = createSelector([(state: State) => state.authorizationStatus], (status) => status);
   const isAuth = getAuthStatus(currentState) === 'AUTH';
   const navigate = useNavigate();
   const handleBookmark: MouseEventHandler = (evt) => {

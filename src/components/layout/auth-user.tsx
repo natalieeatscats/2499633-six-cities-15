@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
-import { ThunkDispatch, AnyAction, createSelector } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../types';
 import { setAuthStatus } from '../../store/reducer';
-
+import { getFavorites } from '../../store/selector';
+import { State } from '../../types';
+import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
 export const AuthUser = () => {
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const currentState = useSelector((state: State) => state);
-  const getFavorites = createSelector([(state: State) => state.favoriteOffers], (favoriteOffers) => favoriteOffers);
+  const currentState: State = useSelector((state: State) => state);
   const favoriteOffers = getFavorites(currentState);
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const handleSignOut = () => {
     dispatch(setAuthStatus('NO_AUTH'));
   };

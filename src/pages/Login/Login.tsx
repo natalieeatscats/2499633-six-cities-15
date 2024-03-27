@@ -1,22 +1,24 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Layout } from '../../components/layout/layout';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthStatus, State } from '../../types';
 import { tryAuth } from '../../store/action';
 import { Navigate } from 'react-router-dom';
 import { Addresses } from '../../const';
+import { getAuthStatus } from '../../store/selector';
+import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 
 
 export const Login = () => {
-  const authStatus: AuthStatus = useSelector((state: State) => state.authorizationStatus);
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const currentState: State = useSelector((state: State) => state);
+  const authStatus: AuthStatus = getAuthStatus(currentState);
   const errorMessage = useSelector((state: State) => state.error);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
   };
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const handleSignIn = (evt: FormEvent) => {
     evt.preventDefault();
     dispatch(tryAuth(formData));
