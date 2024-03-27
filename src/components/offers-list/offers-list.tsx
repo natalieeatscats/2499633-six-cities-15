@@ -1,5 +1,5 @@
 import { OfferData } from '../../types';
-import Card from '../Card/Card';
+import Card from '../card/card';
 import { Link } from 'react-router-dom';
 
 type OffersProps = {
@@ -20,4 +20,3 @@ export const OffersList = ({ offers, onActiveOfferChangeHandler, type }: OffersP
     ))
   );
 };
-

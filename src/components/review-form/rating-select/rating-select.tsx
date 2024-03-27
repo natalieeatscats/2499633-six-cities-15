@@ -1,4 +1,4 @@
-import { RatingStar } from './RatingStar/RatingStar';
+import { RatingStar } from './rating-star/rating-star';
 
 type TProps = {
   onRatingChange: (rating: number) => void;

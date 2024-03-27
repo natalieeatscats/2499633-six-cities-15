@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { ReviewForm } from '../../components/ReviewForm/ReviewForm';
-import { Review } from './Review';
+import { ReviewForm } from '../../components/review-form/review-form';
+import { Review } from './review';
 import { State } from '../../types';
 import { createSelector } from '@reduxjs/toolkit';
 

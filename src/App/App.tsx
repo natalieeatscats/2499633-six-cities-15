@@ -1,12 +1,12 @@
-import MainPage from '../pages/Main/Main';
+import MainPage from '../pages/main/main';
 import { Addresses } from '../const';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Login } from '../pages/Login/Login';
-import { Favorites } from '../pages/Favorites/Favorites';
-import { Offer } from '../pages/Offer/Offer';
+import { Login } from '../pages/login/login';
+import { Favorites } from '../pages/favorites/favorites';
+import { Offer } from '../pages/offer/offer';
 import { NotFound } from '../pages/404/404';
-import { PrivateRoute } from '../components/PrivateRoute/PrivateRoute';
-import { MainContent } from '../pages/Main/MainContent';
+import { PrivateRoute } from '../components/private-route/private-route';
+import { MainContent } from '../pages/main/main-content';
 
 export const App = () => (
   <BrowserRouter>

@@ -5,8 +5,8 @@ import { loadAuthStatus, loadFavorites } from '../../store/action';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { AuthStatus, State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthUser } from './AuthUser';
-import { NoAuthUser } from './NoAuthUser';
+import { AuthUser } from './auth-user';
+import { NoAuthUser } from './no-auth-user';
 
 type LayoutProps = {
   children: JSX.Element;

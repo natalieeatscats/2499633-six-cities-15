@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { RatingSelect } from './RatingSelect/RatingSelect';
+import { RatingSelect } from './rating-select/rating-select';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';

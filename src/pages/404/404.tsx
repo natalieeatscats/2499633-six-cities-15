@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
-import { Layout } from '../../components/Layout/Layout';
+import { Layout } from '../../components/layout/layout';
 
 export const NotFound = () => (
   <Layout>

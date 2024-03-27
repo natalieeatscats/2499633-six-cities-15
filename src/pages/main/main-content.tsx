@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { OffersList } from '../../components/OffersList/OffersList';
+import { OffersList } from '../../components/offers-list/offers-list';
 import { OfferData, CityName } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
-import { SortOptions } from './SortOptions/SortOptions';
-import Map from '../../components/Map/Map';
+import { SortOptions } from './sort-options/sort-options';
+import Map from '../../components/map/map';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadOffers } from '../../store/action';
 import { setCity } from '../../store/reducer';
 import { State } from '../../types';
 import { CITIES, SORT_BY_VALUES } from '../../const';
 import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
-import { Spinner } from './Spinner';
+import { Spinner } from './spinner';
 import { MainEmpty } from './main-empty';
 
 

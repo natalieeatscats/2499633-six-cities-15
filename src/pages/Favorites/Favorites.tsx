@@ -1,4 +1,4 @@
-import { Layout } from '../../components/Layout/Layout';
+import { Layout } from '../../components/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../types';
 import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';

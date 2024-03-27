@@ -1,7 +1,7 @@
 import { MouseEventHandler, memo } from 'react';
 import { Addresses, handleStars } from '../../const';
 import { OfferData, State } from '../../types';
-import BookmarkButton from '../BookmarkButton/BookmarkButton';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../store/action';

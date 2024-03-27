@@ -1,19 +1,19 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { Layout } from '../../components/Layout/Layout';
+import { Layout } from '../../components/layout/layout';
 import { Addresses, handleStars } from '../../const';
-import { RatingStars } from './RatingStars';
-import { OfferFeatures } from './OfferFeatures';
-import { OfferInside } from './OfferInside';
-import { Host } from './Host';
-import { OfferReviews } from './OfferReviews';
-import NearbyOffers from './NearbyOffers';
-import BookmarkButton from '../../components/BookmarkButton/BookmarkButton';
+import { RatingStars } from './rating-stars';
+import { OfferFeatures } from './offer-features';
+import { OfferInside } from './offer-inside';
+import { Host } from './host';
+import { OfferReviews } from './offer-reviews';
+import NearbyOffers from './nearby-offers';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 import { useDispatch, useSelector } from 'react-redux';
 import { OfferData, State } from '../../types';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
 import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
-import Map from '../../components/Map/Map';
+import Map from '../../components/map/map';
 
 
 export const Offer = () => {
