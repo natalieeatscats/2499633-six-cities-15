@@ -5,7 +5,7 @@ import BookmarkButton from '../BookmarkButton/BookmarkButton';
 import { AnyAction, ThunkDispatch, createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../store/action';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type CardProps = {
   offer: OfferData;

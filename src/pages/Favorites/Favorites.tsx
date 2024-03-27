@@ -24,7 +24,7 @@ export const Favorites = () => {
       {favoriteOffers && favoriteOffers.length > 0 ?
         <div className="page__favorites-container container">
           <section className="favorites">
-            <FavoritesList offers={favoriteOffers} type='favorites'/>
+            <FavoritesList offers={favoriteOffers}/>
           </section>
           <footer className="footer container">
             <a className="footer__logo-link" href="main.html">
