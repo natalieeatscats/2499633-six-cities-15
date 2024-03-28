@@ -10,8 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export const Favorites = () => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const currentState: State = useSelector((state: State) => state);
-  const favoriteOffers = getFavorites(currentState);
+  const favoriteOffers = useSelector(getFavorites);
   useEffect(() => {
     if (favoriteOffers === null) {
       dispatch(loadFavorites());

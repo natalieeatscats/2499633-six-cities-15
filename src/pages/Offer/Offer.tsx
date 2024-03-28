@@ -19,15 +19,14 @@ import { getTargetReviews, getTargetOffer, getNearbyOffers, getAuthStatus } from
 export const Offer = () => {
   const params = useParams();
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const currentState: State = useSelector((state: State) => state);
-  const targetReviews = getTargetReviews(currentState);
-  const targetOffer = getTargetOffer(currentState);
-  const nearbyOffers = getNearbyOffers(currentState);
+  const targetReviews = useSelector(getTargetReviews);
+  const targetOffer = useSelector(getTargetOffer);
+  const nearbyOffers = useSelector(getNearbyOffers);
   const [activeOffer, setActiveOffer] = useState(nearbyOffers?.[0]);
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
     setActiveOffer(offer);
   }, []);
-  const isAuth = getAuthStatus(currentState) === 'AUTH';
+  const isAuth = useSelector(getAuthStatus) === 'AUTH';
   const navigate = useNavigate();
   const handleBookmark: MouseEventHandler = (evt) => {
     evt.preventDefault();

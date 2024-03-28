@@ -1,5 +1,5 @@
 import {useEffect, useState, MutableRefObject, useRef} from 'react';
-import {Map, TileLayer} from 'leaflet';
+import {Map, TileLayer, latLng} from 'leaflet';
 import {City} from '../../types';
 
 function useMap(
@@ -17,7 +17,7 @@ function useMap(
           lng: city.location.longitude
         },
         zoom: city.location.zoom,
-        scrollWheelZoom: false
+        scrollWheelZoom: false,
       });
 
       const layer = new TileLayer(
@@ -29,6 +29,8 @@ function useMap(
       );
 
       instance.addLayer(layer);
+
+      instance.setView(latLng(city.location.latitude, city.location.longitude), city.location.zoom);
 
       setMap(instance);
       isRenderedRef.current = true;

@@ -17,8 +17,7 @@ type CardProps = {
 const Card = ({ offer, type }: CardProps) => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const navigate = useNavigate();
-  const currentState: State = useSelector((state: State) => state);
-  const isAuth = getAuthStatus(currentState) === 'AUTH';
+  const isAuth = useSelector(getAuthStatus) === 'AUTH';
   const ratingStyle = { width: '80%' };
   const handleBookmark: MouseEventHandler = (evt) => {
     evt.preventDefault();

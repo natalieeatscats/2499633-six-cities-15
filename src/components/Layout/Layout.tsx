@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AuthUser } from './auth-user';
 import { NoAuthUser } from './no-auth-user';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { getAuthStatus } from '../../store/selector';
 
 type LayoutProps = {
   children: JSX.Element;
@@ -14,7 +15,7 @@ type LayoutProps = {
 
 export const Layout = ({ children }: LayoutProps) => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const authStatus: AuthStatus = useSelector((state: State) => state.authorizationStatus);
+  const authStatus: AuthStatus = useSelector(getAuthStatus);
   const isAuth = authStatus === 'AUTH';
 
   useEffect(() => {

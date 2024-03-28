@@ -11,8 +11,7 @@ import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 
 export const Login = () => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const currentState: State = useSelector((state: State) => state);
-  const authStatus: AuthStatus = getAuthStatus(currentState);
+  const authStatus: AuthStatus = useSelector(getAuthStatus);
   const errorMessage = useSelector((state: State) => state.error);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>) => {

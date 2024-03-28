@@ -8,18 +8,17 @@ import { setCity } from '../../store/reducer';
 import { CITIES, SORT_BY_VALUES } from '../../const';
 import { Spinner } from './spinner';
 import { MainEmpty } from './main-empty';
-import { getOffers, getSelectedCity } from '../../store/selector';
+import { getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 
 export const MainContent = () => {
-  const currentState: State = useSelector((state: State) => state);
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const params = useParams();
-  const selectedCity: CityName = getSelectedCity(currentState);
-  const offers = getOffers(currentState);
+  const selectedCity: CityName = useSelector(getSelectedCity);
+  const offers = useSelector(getOffers);
 
   useEffect(() => {
     if (params.city === undefined) {
@@ -33,9 +32,7 @@ export const MainContent = () => {
     dispatch(loadOffers());
   }, []);
 
-  const filteredOffers: OfferData[] = useMemo(() =>
-    offers.filter((offer) => offer.city.name === selectedCity),
-  [offers, selectedCity]);
+  const filteredOffers: OfferData[] = useSelector(getOffersByCity);
 
   const [sortState, setSortState] = useState({
     sortIsOpened: false,
@@ -65,6 +62,13 @@ export const MainContent = () => {
   [sortState, filteredOffers]);
 
   const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
+
+  useEffect(() => {
+    if (activeOffer === undefined || !sortedOffers.includes(activeOffer)) {
+      setActiveOffer(sortedOffers[0]);
+    }
+  }, [sortedOffers, selectedCity]);
+
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []);
   const activePoints = useMemo(() => sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
     id,

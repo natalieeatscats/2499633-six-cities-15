@@ -8,3 +8,4 @@ export const getNearbyOffers = createSelector([(state: State) => state.nearbyOff
 export const getAuthStatus = createSelector([(state: State) => state.authorizationStatus], (status) => status);
 export const getSelectedCity = createSelector([(state: State) => state.city], (city) => city);
 export const getFavorites = createSelector([(state: State) => state.favoriteOffers], (favoriteOffers) => favoriteOffers);
+export const getOffersByCity = createSelector([(state: State) => state.offers, (state: State) => state.city], (offers, city) => offers.filter((offer) => offer.city.name === city));

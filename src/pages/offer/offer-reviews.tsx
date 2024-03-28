@@ -1,7 +1,6 @@
 import { ReviewForm } from '../../components/review-form/review-form';
 import { Review } from './review';
 import { getAuthStatus } from '../../store/selector';
-import { State } from '../../types';
 import { useSelector } from 'react-redux';
 
 type Review = {
@@ -20,8 +19,7 @@ type Props = {
 };
 
 export const OfferReviews = ({ reviews, id }: Props) => {
-  const currentState: State = useSelector((state: State) => state);
-  const isAuth = getAuthStatus(currentState) === 'AUTH';
+  const isAuth = useSelector(getAuthStatus) === 'AUTH';
 
   return (
     <section className="offer__reviews reviews">

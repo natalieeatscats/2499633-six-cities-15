@@ -6,8 +6,7 @@ import { State } from '../../types';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 export const AuthUser = () => {
-  const currentState: State = useSelector((state: State) => state);
-  const favoriteOffers = getFavorites(currentState);
+  const favoriteOffers = useSelector(getFavorites);
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const handleSignOut = () => {
     dispatch(setAuthStatus('NO_AUTH'));
