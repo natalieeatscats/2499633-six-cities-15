@@ -1,10 +1,15 @@
-import { AuthStatus, SelectedOfferData } from './../types';
+import { AuthStatus, SelectedOfferData, CityData, OfferData, ReviewData, State } from './../types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CityName, OfferData, ReviewData, State } from '../types';
-import { CITIES } from '../const';
 
 export const initialState : State = {
-  city: CITIES[0],
+  city: {
+    name: 'Paris',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0
+    }
+  },
   offers: [],
   reviews: [],
   activeOffer: {
@@ -43,23 +48,27 @@ export const initialState : State = {
   error: null,
   authorizationStatus: 'UNKNOWN',
   userData: null,
-  favoriteOffers: null,
+  favoriteOffers: [],
 };
 
 export const offersSlice = createSlice({
   name: 'offers',
   initialState,
   reducers: {
-    setCity: (state, action: PayloadAction<CityName>) => {
+    setCity: (state, action: PayloadAction<CityData>) => {
       state.city = action.payload;
     },
     setOffers: (state, action: PayloadAction<OfferData[]>) => {
       state.offers = action.payload;
     },
+    updateOffer: (state, action: PayloadAction<{ id: string; offer: OfferData }>) => {
+      const offerToUpdate = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      state.offers[offerToUpdate] = action.payload.offer;
+    }
   }
 });
 
-export const { setCity, setOffers } = offersSlice.actions;
+export const { setCity, setOffers, updateOffer } = offersSlice.actions;
 export const offersReducer = offersSlice.reducer;
 
 export const activeOfferSlice = createSlice({
@@ -94,7 +103,7 @@ export const apiSlice = createSlice({
     setUserData: (state, action: PayloadAction<State['userData'] | null>) => {
       state.userData = action.payload;
     },
-    setFavorites: (state, action: PayloadAction<OfferData[] | null>) => {
+    setFavorites: (state, action: PayloadAction<OfferData[]>) => {
       state.favoriteOffers = action.payload;
     },
   }

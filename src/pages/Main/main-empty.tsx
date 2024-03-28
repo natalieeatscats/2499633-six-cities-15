@@ -1,7 +1,7 @@
 import { CityName } from '../../types';
 
 type Props = {
-  city: CityName;
+  city: string;
 };
 
 export const MainEmpty = ({ city }: Props) => (

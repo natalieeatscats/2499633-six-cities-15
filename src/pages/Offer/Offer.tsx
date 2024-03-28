@@ -9,18 +9,19 @@ import { OfferReviews } from './offer-reviews';
 import NearbyOffers from './nearby-offers';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 import { useDispatch, useSelector } from 'react-redux';
-import { OfferData, State } from '../../types';
+import { CityData, OfferData, State } from '../../types';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import Map from '../../components/map/map';
-import { getTargetReviews, getTargetOffer, getNearbyOffers, getAuthStatus } from '../../store/selector';
+import { getTargetReviews, getTargetOffer, getNearbyOffers, getAuthStatus, getSelectedCity } from '../../store/selector';
 
 export const Offer = () => {
   const params = useParams();
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const targetReviews = useSelector(getTargetReviews);
   const targetOffer = useSelector(getTargetOffer);
+  const selectedCity: CityData = targetOffer.city;
   const nearbyOffers = useSelector(getNearbyOffers);
   const [activeOffer, setActiveOffer] = useState(nearbyOffers?.[0]);
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
@@ -113,7 +114,7 @@ export const Offer = () => {
               <OfferReviews reviews={targetReviews} id={targetOffer.id} />
             </div>
           </div>
-          {activeOffer && nearbyOffers && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint} className='offer__map map'/>}
+          {nearbyOffers && <Map city={selectedCity} points={activePoints} selectedPoint={selectedPoint} className='offer__map map'/>}
         </section>
         {nearbyOffers && <NearbyOffers offers={nearbyOffers} onActiveOfferChangeHandler={onActiveOfferChangeHandler}/>}
       </>

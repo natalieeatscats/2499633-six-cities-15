@@ -1,9 +1,11 @@
 import { NavLink, Navigate, Outlet, useParams } from 'react-router-dom';
 import { Layout } from '../../components/layout/layout';
-import { CITIES } from '../../const';
+import { useSelector } from 'react-redux';
+import { extractCityNames } from '../../store/selector';
 
 export const MainPage = () => {
   const params = useParams();
+  const CITIES = useSelector(extractCityNames);
   return(
     <Layout>
       <>

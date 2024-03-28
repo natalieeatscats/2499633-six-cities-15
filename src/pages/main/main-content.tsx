@@ -1,14 +1,14 @@
 import { OffersList } from '../../components/offers-list/offers-list';
-import { OfferData, CityName, State } from '../../types';
+import { OfferData, CityName, State, CityData } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
 import Map from '../../components/map/map';
 import { loadOffers } from '../../store/action';
 import { setCity } from '../../store/reducer';
-import { CITIES, SORT_BY_VALUES } from '../../const';
+import { SORT_BY_VALUES } from '../../const';
 import { Spinner } from './spinner';
 import { MainEmpty } from './main-empty';
-import { getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
+import { extractCitiesData, getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -17,20 +17,22 @@ import { useParams } from 'react-router-dom';
 export const MainContent = () => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const params = useParams();
-  const selectedCity: CityName = useSelector(getSelectedCity);
+  const cities: CityData[] = useSelector(extractCitiesData);
+  const selectedCity: CityData = useSelector(getSelectedCity);
+  const cityFromParams = cities.find((city) => city.name === params.city);
   const offers = useSelector(getOffers);
-
-  useEffect(() => {
-    if (params.city === undefined) {
-      dispatch(setCity(CITIES[0]));
-    } else {
-      dispatch(setCity(params.city as CityName));
-    }
-  }, [params.city]);
-
   useEffect(() => {
     dispatch(loadOffers());
   }, []);
+
+  useEffect(() => {
+    if (cityFromParams === undefined) {
+      dispatch(setCity(cities[0]));
+    } else {
+      dispatch(setCity(cityFromParams));
+    }
+  }, [cityFromParams]);
+
 
   const filteredOffers: OfferData[] = useSelector(getOffersByCity);
 
@@ -62,13 +64,6 @@ export const MainContent = () => {
   [sortState, filteredOffers]);
 
   const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
-
-  useEffect(() => {
-    if (activeOffer === undefined || !sortedOffers.includes(activeOffer)) {
-      setActiveOffer(sortedOffers[0]);
-    }
-  }, [sortedOffers, selectedCity]);
-
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []);
   const activePoints = useMemo(() => sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
     id,
@@ -89,7 +84,7 @@ export const MainContent = () => {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             {offers.length === 0 && <Spinner/>}
-            <b className="places__found">{sortedOffers.length} place{sortedOffers.length > 1 && 's' } to stay in {selectedCity}</b>
+            <b className="places__found">{sortedOffers.length} place{sortedOffers.length > 1 && 's' } to stay in {selectedCity.name}</b>
             <form className="places__sorting" action="#" method="get" >
               <span className="places__sorting-caption">Sort by{' '}</span>
               <span className="places__sorting-type" tabIndex={0} onClick={() => sortVisibilityHandler()}>
@@ -110,10 +105,11 @@ export const MainContent = () => {
               <OffersList onActiveOfferChangeHandler={onActiveOfferChangeHandler} offers={sortedOffers} type='cities' />
             </div>
           </section>
-          <div className='cities__right-section'>
-            {activeOffer && <Map city={activeOffer.city} points={activePoints} selectedPoint={selectedPoint} className='cities__map map'/>}
-          </div>
-        </div> : <MainEmpty city={selectedCity}/>}
+          <section className='cities__right-section'>
+            {/* take city data from state instead of active offer */}
+            {<Map city={selectedCity} points={activePoints} selectedPoint={selectedPoint} className='cities__map map'/>}
+          </section>
+        </div> : <MainEmpty city={selectedCity ? selectedCity.name : 'Unknown'}/>}
     </div>
   );
 };

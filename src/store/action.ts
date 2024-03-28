@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { OfferData, ReviewData, SelectedOfferData, State } from '../types';
 import { api } from '.';
 import { AxiosError } from 'axios';
-import { setOffers, setError, setReviews, setActiveOffer, setNearbyOffers, setAuthStatus, setUserData, setFavorites } from './reducer';
+import { setOffers, setError, setReviews, setActiveOffer, setNearbyOffers, setAuthStatus, setUserData, setFavorites, updateOffer, setCity } from './reducer';
 
 const extractError = (err: AxiosError) => {
   if (typeof err?.message === 'string') {
@@ -21,6 +21,7 @@ export const loadOffers = createAsyncThunk(
       const offers: OfferData[] = response.data as OfferData[];
 
       thunk.dispatch(setOffers(offers));
+      thunk.dispatch(setCity(offers[0].city));
       thunk.dispatch(setError(null));
 
     } catch (err: unknown) {
@@ -171,10 +172,9 @@ export const toggleFavorite = createAsyncThunk(
       const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
       const setStatus = Number(!data.status);
-      await api.post(`/favorite/${data.id}/${setStatus}`, {},{ headers: { 'X-Token': user?.token } });
+      const response = await api.post(`/favorite/${data.id}/${setStatus}`, {},{ headers: { 'X-Token': user?.token } });
       thunk.dispatch(setError(null));
-      thunk.dispatch(loadFavorites());
-      thunk.dispatch(loadOffers());
+      thunk.dispatch(updateOffer({ id: data.id, offer: response.data as OfferData }));
       thunk.dispatch(loadActiveOffer(data.id));
       thunk.dispatch(loadNearbyOffers(data.id));
     } catch (err: unknown) {

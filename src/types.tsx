@@ -17,6 +17,15 @@ export type Point = {
 
 export type Points = Point[];
 
+export type CityData = {
+  name: string;
+  location: {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  };
+}
+
 export type OfferData = {
   id: string;
   title: string;
@@ -76,7 +85,7 @@ export type CityName = typeof CITIES[number];
 export type AuthStatus = typeof AUTH_STATUS_VALUES[number];
 
 export type State = {
-  city: CityName;
+  city: CityData;
   offers: OfferData[];
   reviews: ReviewData[];
   activeOffer: SelectedOfferData;
@@ -90,7 +99,7 @@ export type State = {
     isPro: boolean;
     token: string;
   } | null;
-  favoriteOffers: OfferData[] | null;
+  favoriteOffers: OfferData[];
 };
 
 export type ReviewData = {

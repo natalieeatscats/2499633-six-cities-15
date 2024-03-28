@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useMatches, useParams } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { useEffect } from 'react';
 import { loadAuthStatus, loadFavorites } from '../../store/action';
@@ -17,6 +17,41 @@ export const Layout = ({ children }: LayoutProps) => {
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
   const authStatus: AuthStatus = useSelector(getAuthStatus);
   const isAuth = authStatus === 'AUTH';
+  const location = useLocation();
+  const params = useParams();
+  const paramPathname = Object.values(params)[0] as string;
+  const pathname: string = location.pathname.replace(paramPathname, '');
+  const getClassName = (() => {
+    switch (pathname) {
+      case '/':
+        return {
+          wrapper: 'page page--gray page--main',
+          main: 'page__main page__main--index',
+        };
+      case '/favorites':
+        return {
+          wrapper: 'page',
+          main: 'page__main page__main--favorites',
+        };
+      case '/offer/':
+        return {
+          wrapper: 'page',
+          main: 'page__main page__main--offer',
+        };
+      case '/login':
+        return {
+          wrapper: 'page page--gray page--login',
+          main: 'page__main page__main--login'
+        };
+      default:
+        return {
+          wrapper: 'page page--gray',
+          main: 'page__main',
+        };
+    }
+  });
+  const { wrapper, main } = getClassName();
+  console.log(pathname);
 
   useEffect(() => {
     if (authStatus === 'UNKNOWN') {
@@ -29,7 +64,7 @@ export const Layout = ({ children }: LayoutProps) => {
   }, [authStatus]);
 
   return (
-    <div className='page page--gray'>
+    <div className={wrapper}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -50,7 +85,7 @@ export const Layout = ({ children }: LayoutProps) => {
           </div>
         </div>
       </header>
-      <main>
+      <main className={main}>
         {children}
       </main>
     </div>
