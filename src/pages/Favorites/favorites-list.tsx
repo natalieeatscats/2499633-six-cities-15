@@ -1,7 +1,8 @@
 import { OfferData } from '../../types';
 import Card from '../../components/card/card';
 import { Link } from 'react-router-dom';
-import { CITIES } from '../../const';
+import { useSelector } from 'react-redux';
+import { extractCityNames } from '../../store/selector';
 
 type FavoritesProps = {
   offers: OfferData[];
@@ -10,9 +11,10 @@ type FavoritesProps = {
 
 export const FavoritesList = ({ offers, onActiveOfferChangeHandler}: FavoritesProps) => {
   const handleScroll = () => window.scrollTo({ top: 0 });
+  const cities = useSelector(extractCityNames);
   return (
     <ul className="favorites__list">
-      {CITIES.map((city) => {
+      {cities.map((city) => {
         if (offers.some((offer) => offer.city.name === city)) {
           return(
             <li className="favorites__locations-items" key={city}>

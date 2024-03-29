@@ -1,12 +1,3 @@
-export const CITIES = [
-  'Paris',
-  'Cologne',
-  'Brussels',
-  'Amsterdam',
-  'Hamburg',
-  'Dusseldorf'
-] as const;
-
 export const SORT_BY_VALUES: string[] = [
   'Popular',
   'Price: low to high',
@@ -25,7 +16,14 @@ export const AUTH_STATUS_VALUES = [
   'AUTH',
   'NO_AUTH',
   'UNKNOWN'
-] as const ;
+] as const;
+
+export const COMMENT_REQUIREMENTS = {
+  MIN_LENGTH: 50,
+  MAX_LENGTH: 300
+};
+
+export const REVIEWS_TO_DISPLAY = 10;
 
 export const handleStars = (width: number) => `${String(Math.round(width) * 20)}%`;
 

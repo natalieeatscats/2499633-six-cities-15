@@ -1,14 +1,5 @@
-import { AUTH_STATUS_VALUES, CITIES } from './const';
-
-export type City = {
-  name: string;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
-};
-
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { AUTH_STATUS_VALUES } from './const';
 export type Point = {
   id: string;
   latitude: number;
@@ -20,9 +11,9 @@ export type Points = Point[];
 export type CityData = {
   name: string;
   location: {
-  latitude: number;
-  longitude: number;
-  zoom: number;
+    latitude: number;
+    longitude: number;
+    zoom: number;
   };
 }
 
@@ -31,13 +22,7 @@ export type OfferData = {
   title: string;
   type: string;
   price: number;
-  city: {
-  name: string;
-  location: {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-  };};
+  city: CityData;
   location: {
   latitude: number;
   longitude: number;
@@ -54,13 +39,7 @@ export type SelectedOfferData = {
   title: string;
   type: string;
   price: number;
-  city: {
-  name: string;
-  location: {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-  };};
+  city: CityData;
   location: {
   latitude: number;
   longitude: number;
@@ -81,7 +60,6 @@ export type SelectedOfferData = {
   maxAdults: number;
 };
 
-export type CityName = typeof CITIES[number];
 export type AuthStatus = typeof AUTH_STATUS_VALUES[number];
 
 export type State = {
@@ -114,3 +92,4 @@ comment: string;
 rating: number;
 }
 
+export type Dispatch = ThunkDispatch<State, void, AnyAction>;

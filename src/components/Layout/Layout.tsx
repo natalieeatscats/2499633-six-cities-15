@@ -1,12 +1,11 @@
-import { Link, useLocation, useMatches, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { useEffect } from 'react';
 import { loadAuthStatus, loadFavorites } from '../../store/action';
-import { AuthStatus, State } from '../../types';
+import { AuthStatus, Dispatch } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthUser } from './auth-user';
 import { NoAuthUser } from './no-auth-user';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { getAuthStatus } from '../../store/selector';
 
 type LayoutProps = {
@@ -14,7 +13,7 @@ type LayoutProps = {
 }
 
 export const Layout = ({ children }: LayoutProps) => {
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const authStatus: AuthStatus = useSelector(getAuthStatus);
   const isAuth = authStatus === 'AUTH';
   const location = useLocation();

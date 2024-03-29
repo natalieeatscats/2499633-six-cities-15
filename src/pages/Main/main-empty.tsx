@@ -1,5 +1,3 @@
-import { CityName } from '../../types';
-
 type Props = {
   city: string;
 };

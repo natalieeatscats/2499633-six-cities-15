@@ -9,17 +9,16 @@ import { OfferReviews } from './offer-reviews';
 import NearbyOffers from './nearby-offers';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 import { useDispatch, useSelector } from 'react-redux';
-import { CityData, OfferData, State } from '../../types';
+import { CityData, Dispatch, OfferData } from '../../types';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import Map from '../../components/map/map';
-import { getTargetReviews, getTargetOffer, getNearbyOffers, getAuthStatus, getSelectedCity } from '../../store/selector';
+import { getTargetOffer, getNearbyOffers, getAuthStatus, getSortedReviews } from '../../store/selector';
 
 export const Offer = () => {
   const params = useParams();
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
-  const targetReviews = useSelector(getTargetReviews);
+  const dispatch: Dispatch = useDispatch();
+  const targetReviews = useSelector(getSortedReviews);
   const targetOffer = useSelector(getTargetOffer);
   const selectedCity: CityData = targetOffer.city;
   const nearbyOffers = useSelector(getNearbyOffers);
@@ -111,7 +110,7 @@ export const Offer = () => {
                 avatarUrl={targetOffer.host.avatarUrl}
                 description={targetOffer.description}
               />
-              <OfferReviews reviews={targetReviews} id={targetOffer.id} />
+              {<OfferReviews reviews={targetReviews} id={targetOffer.id} />}
             </div>
           </div>
           {nearbyOffers && <Map city={selectedCity} points={activePoints} selectedPoint={selectedPoint} className='offer__map map'/>}

@@ -2,12 +2,11 @@ import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { setAuthStatus } from '../../store/reducer';
 import { getFavorites } from '../../store/selector';
-import { State } from '../../types';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { Dispatch } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 export const AuthUser = () => {
   const favoriteOffers = useSelector(getFavorites);
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const handleSignOut = () => {
     dispatch(setAuthStatus('NO_AUTH'));
   };

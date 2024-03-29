@@ -3,13 +3,12 @@ import { useEffect } from 'react';
 import { loadFavorites } from '../../store/action';
 import { FavoritesList } from './favorites-list';
 import { getFavorites } from '../../store/selector';
-import { State } from '../../types';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { Dispatch } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 export const Favorites = () => {
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const favoriteOffers = useSelector(getFavorites);
   useEffect(() => {
     if (favoriteOffers === null) {

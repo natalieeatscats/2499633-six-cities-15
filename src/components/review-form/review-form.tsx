@@ -1,9 +1,9 @@
 import { FormEvent, useState } from 'react';
 import { RatingSelect } from './rating-select/rating-select';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
-import { State } from '../../types';
+import { Dispatch, State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { postComment } from '../../store/action';
+import { COMMENT_REQUIREMENTS } from '../../const';
 
 type ReviewFormProps = {
   id: string;
@@ -20,7 +20,7 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
     }));
   };
   const errorMessage = useSelector((state: State) => state.error);
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const handlePostReview = (evt: FormEvent) => {
     evt.preventDefault();
     dispatch(postComment({ ...values, id }));
@@ -32,7 +32,9 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
     }
   };
 
-  const isValidReview = values.rating !== 0 && values.comment.length > 50 && values.comment.length < 300;
+  const { MIN_LENGTH, MAX_LENGTH } = COMMENT_REQUIREMENTS;
+
+  const isValidReview = values.rating !== 0 && values.comment.length >= MIN_LENGTH && values.comment.length <= MAX_LENGTH;
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handlePostReview}>

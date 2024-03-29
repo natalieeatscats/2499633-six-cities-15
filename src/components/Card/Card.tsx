@@ -1,10 +1,9 @@
 import { MouseEventHandler, memo } from 'react';
 import { Addresses, handleStars } from '../../const';
-import { OfferData, State } from '../../types';
+import { Dispatch, OfferData } from '../../types';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import { toggleFavorite } from '../../store/action';
 import { getAuthStatus } from '../../store/selector';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +14,7 @@ type CardProps = {
 
 
 const Card = ({ offer, type }: CardProps) => {
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuth = useSelector(getAuthStatus) === 'AUTH';
   const ratingStyle = { width: '80%' };

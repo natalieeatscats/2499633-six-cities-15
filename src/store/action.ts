@@ -138,8 +138,9 @@ export const postComment = createAsyncThunk(
     try {
       const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
-      await api.post(`/comments/${data.id}`, { comment: data.comment, rating: data.rating }, { headers: { 'X-Token': user?.token } });
+      const response = await api.post(`/comments/${data.id}`, { comment: data.comment, rating: data.rating }, { headers: { 'X-Token': user?.token } });
       thunk.dispatch(setError(null));
+      thunk.dispatch(setReviews([...state.reviews, response.data as ReviewData]));
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
@@ -165,19 +166,30 @@ export const loadFavorites = createAsyncThunk(
   }
 );
 
+
 export const toggleFavorite = createAsyncThunk(
   'TOGGLE_FAVORITE',
   async (data: { id: string; status: boolean}, thunk) => {
+    const state: State = thunk.getState() as State;
+    const currentOffer = state.offers.find((offer) => offer.id === data.id);
+    if (!currentOffer) {
+      return;
+    }
     try {
-      const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
-      const setStatus = Number(!data.status);
-      const response = await api.post(`/favorite/${data.id}/${setStatus}`, {},{ headers: { 'X-Token': user?.token } });
+      const newStatus = Number(!data.status);
+      thunk.dispatch(updateOffer({ id: data.id, offer: {...currentOffer, isFavorite: !currentOffer?.isFavorite} }));
+      const response = await api.post(`/favorite/${data.id}/${newStatus}`, {},{ headers: { 'X-Token': user?.token } });
       thunk.dispatch(setError(null));
-      thunk.dispatch(updateOffer({ id: data.id, offer: response.data as OfferData }));
+      if (newStatus === 0) {
+        thunk.dispatch(setFavorites([...state.favoriteOffers].toSpliced(state.favoriteOffers.findIndex((offer) => offer.id === data.id), 1)));
+      } else {
+        thunk.dispatch(setFavorites([...state.favoriteOffers, response.data as OfferData]));
+      }
       thunk.dispatch(loadActiveOffer(data.id));
       thunk.dispatch(loadNearbyOffers(data.id));
     } catch (err: unknown) {
+      thunk.dispatch(updateOffer({ id: data.id, offer: {...currentOffer, isFavorite: !currentOffer?.isFavorite} }));
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
       thunk.dispatch(setError(errorMessage));

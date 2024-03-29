@@ -1,12 +1,12 @@
 import {useRef, useEffect} from 'react';
 import {Icon, Marker, latLng, layerGroup} from 'leaflet';
 import useMap from './useMap';
-import { City, Points, Point } from '../../types';
+import { Points, Point, CityData } from '../../types';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  city: City;
+  city: CityData;
   points: Points | null;
   selectedPoint: Point | undefined;
   className: string;

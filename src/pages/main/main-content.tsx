@@ -1,5 +1,5 @@
 import { OffersList } from '../../components/offers-list/offers-list';
-import { OfferData, CityName, State, CityData } from '../../types';
+import { OfferData, CityData, Dispatch } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
 import Map from '../../components/map/map';
@@ -9,13 +9,12 @@ import { SORT_BY_VALUES } from '../../const';
 import { Spinner } from './spinner';
 import { MainEmpty } from './main-empty';
 import { extractCitiesData, getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
 export const MainContent = () => {
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const params = useParams();
   const cities: CityData[] = useSelector(extractCitiesData);
   const selectedCity: CityData = useSelector(getSelectedCity);
