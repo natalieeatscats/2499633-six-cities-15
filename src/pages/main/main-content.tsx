@@ -11,7 +11,7 @@ import { MainEmpty } from './main-empty';
 import { extractCitiesData, getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 export const MainContent = () => {
@@ -21,17 +21,19 @@ export const MainContent = () => {
   const selectedCity: CityData = useSelector(getSelectedCity);
   const cityFromParams = cities.find((city) => city.name === params.city);
   const offers = useSelector(getOffers);
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(loadOffers());
   }, []);
 
   useEffect(() => {
-    if (cityFromParams === undefined) {
+    if (cityFromParams === undefined && cities.length > 0) {
       dispatch(setCity(cities[0]));
-    } else {
+      navigate(`/${cities[0].name}`);
+    } else if (cityFromParams && cityFromParams !== selectedCity) {
       dispatch(setCity(cityFromParams));
     }
-  }, [cityFromParams]);
+  }, [cityFromParams, cities]);
 
 
   const filteredOffers: OfferData[] = useSelector(getOffersByCity);
@@ -106,7 +108,6 @@ export const MainContent = () => {
             </div>
           </section>
           <section className='cities__right-section'>
-            {/* take city data from state instead of active offer */}
             {<Map city={selectedCity} points={activePoints} selectedPoint={selectedPoint} className='cities__map map'/>}
           </section>
         </div> : <MainEmpty city={selectedCity ? selectedCity.name : 'Unknown'}/>}

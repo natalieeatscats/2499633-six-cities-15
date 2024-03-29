@@ -21,37 +21,27 @@ export const Layout = ({ children }: LayoutProps) => {
   const params = useParams();
   const paramPathname = Object.values(params)[0] as string;
   const pathname: string = location.pathname.replace(paramPathname, '');
-  const getClassName = (() => {
-    switch (pathname) {
-      case '/':
-        return {
-          wrapper: 'page page--gray page--main',
-          main: 'page__main page__main--index',
-        };
-      case '/favorites':
-        return {
-          wrapper: 'page',
-          main: 'page__main page__main--favorites',
-        };
-      case '/offer/':
-        return {
-          wrapper: 'page',
-          main: 'page__main page__main--offer',
-        };
-      case '/login':
-        return {
-          wrapper: 'page page--gray page--login',
-          main: 'page__main page__main--login'
-        };
-      default:
-        return {
-          wrapper: 'page page--gray',
-          main: 'page__main',
-        };
+  const classNamesMap: { [key: string]: { wrapper: string; main: string } } = {
+    '/': {
+      wrapper: 'page page--gray page--main',
+      main: 'page__main page__main--index',
+    },
+    '/favorites': {
+      wrapper: 'page',
+      main: 'page__main page__main--favorites',
+    },
+    '/offer/': {
+      wrapper: 'page',
+      main: 'page__main page__main--offer',
+    },
+    '/login': {
+      wrapper: 'page page--gray page--login',
+      main: 'page__main page__main--login'
     }
-  });
+  };
+  const getClassName = () => classNamesMap[pathname] || classNamesMap['/'];
+
   const { wrapper, main } = getClassName();
-  console.log(pathname);
 
   useEffect(() => {
     if (authStatus === 'UNKNOWN') {
