@@ -6,6 +6,7 @@ import { toggleFavorite } from '../../store/action';
 import { getAuthStatus } from '../../store/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import '../../util.ts';
 
 type CardProps = {
   offer: OfferData;
@@ -58,9 +59,9 @@ const Card = ({ offer, type }: CardProps) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          {offer.title}
+          {offer.title.toCapitalized()}
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{offer.type.toCapitalized()}</p>
       </div>
     </article>
   );

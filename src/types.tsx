@@ -64,7 +64,7 @@ export type AuthStatus = typeof AUTH_STATUS_VALUES[number];
 
 export type State = {
   city: CityData;
-  offers: OfferData[];
+  offers: OfferData[] | null;
   reviews: ReviewData[];
   activeOffer: SelectedOfferData;
   nearbyOffers: OfferData[] | null;

@@ -13,7 +13,7 @@ export const MainPage = () => {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {CITIES.map((city) => (
+              {CITIES ? CITIES.map((city) => (
                 <NavLink
                   className={({ isActive }) => `locations__item-link tabs__item ${isActive && 'tabs__item--active'}`}
                   to={`/${city}`}
@@ -21,11 +21,11 @@ export const MainPage = () => {
                 >
                   <span>{city}</span>
                 </NavLink>
-              ))}
+              )) : null}
             </ul>
           </section>
         </div>
-        {!params.city && <Navigate to={`/${CITIES[0]}`} />}
+        {!params.city && <Navigate to={`/${CITIES ? CITIES[0] : ' '}`} />}
         <Outlet />
       </>
     </Layout>

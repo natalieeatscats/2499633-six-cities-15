@@ -1,4 +1,5 @@
 import { SelectedOfferData } from '../../types';
+import '../../util';
 
 type Props = {
   features: SelectedOfferData;
@@ -15,12 +16,13 @@ export const OfferFeatures = ({ features }: Props) => {
       value: features.maxAdults,
     },
   };
+
   return (
     <ul className="offer__features">
-      <li className='offer__feature offer__feature--entire'>{features.type}</li>
+      <li className='offer__feature offer__feature--entire'>{features.type.toCapitalized()}</li>
       {Object.entries(FEATURES).map(([key, value]) => (
         <li className={`offer__feature offer__feature--${key}`} key={key} >
-          {value.value} {value.text}{value.value > 1 && 's'}
+          {value.value} {value.text.toCapitalized()}{value.value > 1 && 's'}
         </li>
       ))}
     </ul>

@@ -16,17 +16,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const MainContent = () => {
   const dispatch: Dispatch = useDispatch();
   const params = useParams();
-  const cities: CityData[] = useSelector(extractCitiesData);
+  const cities: CityData[] | undefined = useSelector(extractCitiesData);
   const selectedCity: CityData = useSelector(getSelectedCity);
-  const cityFromParams = cities.find((city) => city.name === params.city);
+  const cityFromParams = cities?.find((city) => city.name === params.city);
   const offers = useSelector(getOffers);
   const navigate = useNavigate();
-  useEffect(() => {
-    dispatch(loadOffers());
-  }, []);
 
   useEffect(() => {
-    if (cityFromParams === undefined && cities.length > 0) {
+    if (cityFromParams === undefined && cities && cities.length > 0) {
       dispatch(setCity(cities[0]));
       navigate(`/${cities[0].name}`);
     } else if (cityFromParams && cityFromParams !== selectedCity) {
@@ -50,7 +47,7 @@ export const MainContent = () => {
     sortBy
   })), []);
   const sortedOffers = useMemo(() =>
-    filteredOffers.sort((a, b) => {
+    filteredOffers?.sort((a, b) => {
       switch (sortState.sortBy) {
         case 'Price: low to high':
           return a.price - b.price;
@@ -64,9 +61,9 @@ export const MainContent = () => {
     }),
   [sortState, filteredOffers]);
 
-  const [activeOffer, setActiveOffer] = useState(sortedOffers[0]);
+  const [activeOffer, setActiveOffer] = useState(sortedOffers && sortedOffers[0]);
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []);
-  const activePoints = useMemo(() => sortedOffers.map(({ id, location: { latitude, longitude } }) => ({
+  const activePoints = useMemo(() => sortedOffers?.map(({ id, location: { latitude, longitude } }) => ({
     id,
     latitude,
     longitude,
@@ -80,12 +77,12 @@ export const MainContent = () => {
 
   return (
     <div className="cities">
-      {sortedOffers.length !== 0 ?
+      {offers === null && <Spinner/>}
+      {sortedOffers && sortedOffers.length !== 0 ?
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            {offers.length === 0 && <Spinner/>}
-            <b className="places__found">{sortedOffers.length} place{sortedOffers.length > 1 && 's' } to stay in {selectedCity.name}</b>
+            <b className="places__found">{sortedOffers.length} Place{sortedOffers.length > 1 && 's' } to stay in {selectedCity.name}</b>
             <form className="places__sorting" action="#" method="get" >
               <span className="places__sorting-caption">Sort by{' '}</span>
               <span className="places__sorting-type" tabIndex={0} onClick={() => sortVisibilityHandler()}>
@@ -109,7 +106,7 @@ export const MainContent = () => {
           <section className='cities__right-section'>
             {<Map city={selectedCity} points={activePoints} selectedPoint={selectedPoint} className='cities__map map'/>}
           </section>
-        </div> : <MainEmpty city={selectedCity ? selectedCity.name : 'Unknown'}/>}
+        </div> : sortedOffers && <MainEmpty city={selectedCity ? selectedCity.name : 'Unknown'}/>}
     </div>
   );
 };

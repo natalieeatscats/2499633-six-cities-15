@@ -3,9 +3,9 @@ import { Layout } from '../../components/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthStatus, Dispatch, State } from '../../types';
 import { tryAuth } from '../../store/action';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Addresses } from '../../const';
-import { getAuthStatus } from '../../store/selector';
+import { getAuthStatus, getRandomCity } from '../../store/selector';
 
 
 export const Login = () => {
@@ -13,6 +13,7 @@ export const Login = () => {
   const authStatus: AuthStatus = useSelector(getAuthStatus);
   const errorMessage = useSelector((state: State) => state.error);
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const randomCity = useSelector(getRandomCity);
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
@@ -62,9 +63,9 @@ export const Login = () => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" to={`/${randomCity}`}>
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>

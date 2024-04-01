@@ -3,20 +3,9 @@ import { Review } from './review';
 import { getAuthStatus } from '../../store/selector';
 import { useSelector } from 'react-redux';
 import { REVIEWS_TO_DISPLAY } from '../../const';
-
-type TReview = {
-  date: string;
-  comment: string;
-  rating: number;
-  id: string;
-  user: {
-    name: string;
-    avatarUrl: string;
-  };
-};
-
+import { ReviewData } from '../../types';
 type Props = {
-  reviews: TReview[];
+  reviews: ReviewData[];
   id: string;
 };
 

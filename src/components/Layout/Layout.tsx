@@ -1,7 +1,7 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { useEffect } from 'react';
-import { loadAuthStatus, loadFavorites } from '../../store/action';
+import { loadAuthStatus, loadFavorites, loadOffers } from '../../store/action';
 import { AuthStatus, Dispatch } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthUser } from './auth-user';
@@ -41,6 +41,11 @@ export const Layout = ({ children }: LayoutProps) => {
   const getClassName = () => classNamesMap[pathname] || classNamesMap['/'];
 
   const { wrapper, main } = getClassName();
+
+  useEffect(() => {
+    console.log('loadOffers');
+    dispatch(loadOffers());
+  }, []);
 
   useEffect(() => {
     if (authStatus === 'UNKNOWN') {

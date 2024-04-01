@@ -14,7 +14,7 @@ export const FavoritesList = ({ offers, onActiveOfferChangeHandler}: FavoritesPr
   const cities = useSelector(extractCityNames);
   return (
     <ul className="favorites__list">
-      {cities.map((city) => {
+      {cities?.map((city) => {
         if (offers.some((offer) => offer.city.name === city)) {
           return(
             <li className="favorites__locations-items" key={city}>

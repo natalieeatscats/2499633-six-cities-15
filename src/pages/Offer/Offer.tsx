@@ -14,6 +14,7 @@ import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
 import Map from '../../components/map/map';
 import { getTargetOffer, getNearbyOffers, getAuthStatus, getSortedReviews } from '../../store/selector';
+import '../../util.ts';
 
 export const Offer = () => {
   const params = useParams();
@@ -22,7 +23,7 @@ export const Offer = () => {
   const targetOffer = useSelector(getTargetOffer);
   const selectedCity: CityData = targetOffer.city;
   const nearbyOffers = useSelector(getNearbyOffers);
-  const [activeOffer, setActiveOffer] = useState(nearbyOffers?.[0]);
+  const [, setActiveOffer] = useState(nearbyOffers?.[0]);
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
     setActiveOffer(offer);
   }, []);
@@ -37,16 +38,18 @@ export const Offer = () => {
     navigate(Addresses.Login);
   };
 
-  const activePoints = nearbyOffers && nearbyOffers.map(({ id, location: { latitude, longitude } }) => ({
+  const trimmedNearbyOffers: OfferData[] = nearbyOffers ? [...nearbyOffers].splice(0, 3) : [];
+
+  const activePoints = nearbyOffers && [targetOffer, ...trimmedNearbyOffers].map(({ id, location: { latitude, longitude } }) => ({
     id,
     latitude,
     longitude,
   }));
 
-  const selectedPoint = activeOffer && {
-    id: activeOffer.id,
-    latitude: activeOffer.location.latitude,
-    longitude: activeOffer.location.longitude,
+  const selectedPoint = {
+    id: targetOffer.id,
+    latitude: targetOffer.location.latitude,
+    longitude: targetOffer.location.longitude,
   };
 
   useEffect(() => {
@@ -71,7 +74,7 @@ export const Offer = () => {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
 
-              {targetOffer.images.map((image, index) => {
+              {[...targetOffer.images].splice(0,6).map((image, index) => {
                 const key = index;
                 return(
                   <div className="offer__image-wrapper" key={key}>
@@ -94,7 +97,7 @@ export const Offer = () => {
                 </div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {targetOffer.title}
+                  {targetOffer.title.toCapitalized()}
                 </h1>
                 <BookmarkButton type={'offer'} isBookmarked={targetOffer.isFavorite} handleBookmark={handleBookmark} />
               </div>

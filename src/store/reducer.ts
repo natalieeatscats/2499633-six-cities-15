@@ -10,7 +10,7 @@ export const initialState : State = {
       zoom: 0
     }
   },
-  offers: [],
+  offers: null,
   reviews: [],
   activeOffer: {
     id: '',
@@ -62,6 +62,9 @@ export const offersSlice = createSlice({
       state.offers = action.payload;
     },
     updateOffer: (state, action: PayloadAction<{ id: string; offer: OfferData }>) => {
+      if (state.offers === null) {
+        return;
+      }
       const offerToUpdate = state.offers.findIndex((offer) => offer.id === action.payload.id);
       state.offers[offerToUpdate] = action.payload.offer;
     }

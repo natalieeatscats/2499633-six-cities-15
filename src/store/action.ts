@@ -15,6 +15,7 @@ export const loadOffers = createAsyncThunk(
   'SET_OFFERS',
   async (_, thunk) => {
     try {
+      console.log('loadOffers');
       const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
       const response = await api.get('/offers', {headers: {'X-Token': user?.token}});
@@ -171,7 +172,7 @@ export const toggleFavorite = createAsyncThunk(
   'TOGGLE_FAVORITE',
   async (data: { id: string; status: boolean}, thunk) => {
     const state: State = thunk.getState() as State;
-    const currentOffer = state.offers.find((offer) => offer.id === data.id);
+    const currentOffer = state.offers?.find((offer) => offer.id === data.id);
     if (!currentOffer) {
       return;
     }
