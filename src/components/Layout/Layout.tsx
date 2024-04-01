@@ -73,9 +73,10 @@ export const Layout = ({ children }: LayoutProps) => {
                 />
               </Link>
             </div>
-            <nav className="header__nav">
-              {isAuth ? <AuthUser /> : <NoAuthUser />}
-            </nav>
+            {pathname !== '/login' &&
+              <nav className="header__nav">
+                {isAuth ? <AuthUser /> : <NoAuthUser />}
+              </nav>}
           </div>
         </div>
       </header>

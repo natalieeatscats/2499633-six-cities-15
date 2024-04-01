@@ -15,7 +15,6 @@ export const loadOffers = createAsyncThunk(
   'SET_OFFERS',
   async (_, thunk) => {
     try {
-      console.log('loadOffers');
       const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
       const response = await api.get('/offers', {headers: {'X-Token': user?.token}});
