@@ -43,7 +43,6 @@ export const Layout = ({ children }: LayoutProps) => {
   const { wrapper, main } = getClassName();
 
   useEffect(() => {
-    console.log('loadOffers');
     dispatch(loadOffers());
   }, []);
 

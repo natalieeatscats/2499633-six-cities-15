@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
-import { setAuthStatus } from '../../store/reducer';
 import { getFavorites } from '../../store/selector';
 import { Dispatch } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/action';
+import { setAuthStatus } from '../../store/reducer';
 export const AuthUser = () => {
   const favoriteOffers = useSelector(getFavorites);
   const dispatch: Dispatch = useDispatch();
   const handleSignOut = () => {
     dispatch(setAuthStatus('NO_AUTH'));
+    dispatch(logout());
   };
   return (
     <ul className="header__nav-list">

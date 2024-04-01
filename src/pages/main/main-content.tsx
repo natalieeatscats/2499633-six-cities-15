@@ -3,7 +3,6 @@ import { OfferData, CityData, Dispatch } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
 import Map from '../../components/map/map';
-import { loadOffers } from '../../store/action';
 import { setCity } from '../../store/reducer';
 import { SORT_BY_VALUES } from '../../const';
 import { Spinner } from './spinner';

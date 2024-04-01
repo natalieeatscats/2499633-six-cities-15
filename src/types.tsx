@@ -93,3 +93,12 @@ rating: number;
 }
 
 export type Dispatch = ThunkDispatch<State, void, AnyAction>;
+
+export type loginResData = {
+name: string;
+avatarUrl: string;
+isPro: boolean;
+email: string;
+token: string;
+}
+
