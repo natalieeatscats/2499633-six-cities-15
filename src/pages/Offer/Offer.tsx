@@ -14,7 +14,7 @@ import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
 import Map from '../../components/map/map';
 import { getTargetOffer, getNearbyOffers, getAuthStatus, getSortedReviews } from '../../store/selector';
-import '../../util.ts';
+import '../../string.extensions.ts';
 
 export const Offer = () => {
   const params = useParams();

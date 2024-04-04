@@ -29,7 +29,7 @@ export const loadOffers = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
 
-      thunk.dispatch(setError(errorMessage));
+      thunk.dispatch(setError(`SET_OFFERS: ${errorMessage}`));
     }
   }
 );
@@ -48,7 +48,7 @@ export const loadReviews = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
 
-      thunk.dispatch(setError(errorMessage));
+      thunk.dispatch(setError(`SET_REVIEWS: ${errorMessage}`));
     }
   }
 );
@@ -70,7 +70,7 @@ export const loadActiveOffer = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
 
-      thunk.dispatch(setError(errorMessage));
+      thunk.dispatch(setError(`SET_ACTIVE_OFFER: ${errorMessage}`));
     }
   }
 );
@@ -88,7 +88,7 @@ export const loadNearbyOffers = createAsyncThunk(
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
-      thunk.dispatch(setError(errorMessage));
+      thunk.dispatch(setError(`SET_NEARBY_OFFERS: ${errorMessage}`));
     }
   }
 );
@@ -111,7 +111,7 @@ export const tryAuth = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
 
-      thunk.dispatch(setError(errorMessage));
+      thunk.dispatch(setError(`TRY_AUTH: ${errorMessage}`));
     }
   }
 );
@@ -169,7 +169,7 @@ export const postComment = createAsyncThunk(
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
-      thunk.dispatch(setError(errorMessage));
+      thunk.dispatch(setError(`POST_COMMENT: ${errorMessage}`));
     }
   }
 );
@@ -186,7 +186,7 @@ export const loadFavorites = createAsyncThunk(
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
-      thunk.dispatch(setError(errorMessage));
+      thunk.dispatch(setError(`SET_FAVORITES: ${errorMessage}`));
     }
   }
 );

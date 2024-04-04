@@ -6,7 +6,7 @@ import { toggleFavorite } from '../../store/action';
 import { getAuthStatus } from '../../store/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import '../../util.ts';
+import '../../string.extensions.ts';
 
 type CardProps = {
   offer: OfferData;
