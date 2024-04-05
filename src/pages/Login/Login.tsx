@@ -4,19 +4,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AuthStatus, Dispatch, State } from '../../types';
 import { tryAuth } from '../../store/action';
 import { Link, Navigate } from 'react-router-dom';
-import { Addresses } from '../../const';
-import { getAuthStatus, getRandomCity } from '../../store/selector';
+import { Addresses, CITIES } from '../../const';
+import { getAuthStatus } from '../../store/selector';
 
 
 export const Login = () => {
+  const randomCity = CITIES[Math.floor(Math.random() * CITIES.length)];
   const dispatch: Dispatch = useDispatch();
   const authStatus: AuthStatus = useSelector(getAuthStatus);
   const errorMessage = useSelector((state: State) => state.error);
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const randomCity = useSelector(getRandomCity);
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
+  };
+  const isValidLoginData = (password: string) => {
+    const passwordRegExp = new RegExp('^(?=.*[a-zA-Z])(?=.*\\d).{2,}$');
+    return passwordRegExp.test(password);
   };
   const handleSignIn = (evt: FormEvent) => {
     evt.preventDefault();
@@ -55,7 +59,7 @@ export const Login = () => {
                   value={formData.password}
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">
+              <button className="login__submit form__submit button" type="submit" disabled={!isValidLoginData(formData.password)}>
                 Sign in
               </button>
             </form>
@@ -63,8 +67,8 @@ export const Login = () => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={`/${randomCity}`}>
-                <span>{randomCity}</span>
+              <Link className="locations__item-link" to={`/${randomCity.name}`}>
+                <span>{randomCity.name}</span>
               </Link>
             </div>
           </section>

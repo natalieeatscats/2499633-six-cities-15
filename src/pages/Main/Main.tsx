@@ -1,11 +1,10 @@
 import { NavLink, Navigate, Outlet, useParams } from 'react-router-dom';
 import { Layout } from '../../components/layout/layout';
-import { useSelector } from 'react-redux';
-import { extractCityNames } from '../../store/selector';
+import { CITIES } from '../../const';
 
 export const MainPage = () => {
   const params = useParams();
-  const CITIES = useSelector(extractCityNames);
+  const cities = CITIES;
   return(
     <Layout>
       <>
@@ -13,19 +12,21 @@ export const MainPage = () => {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {CITIES ? CITIES.map((city) => (
-                <NavLink
-                  className={({ isActive }) => `locations__item-link tabs__item ${isActive && 'tabs__item--active'}`}
-                  to={`/${city}`}
-                  key={city}
-                >
-                  <span>{city}</span>
-                </NavLink>
-              )) : null}
+              {cities.map((city) => (
+                <li className="locations__item" key={city.name}>
+                  <NavLink
+                    className={({ isActive }) => `locations__item-link tabs__item ${isActive && 'tabs__item--active'}`}
+                    to={`/${city.name}`}
+
+                  >
+                    <span>{city.name}</span>
+                  </NavLink>
+                </li >
+              ))}
             </ul>
           </section>
         </div>
-        {!params.city && <Navigate to={`/${CITIES ? CITIES[0] : ' '}`} />}
+        {!params.city && <Navigate to={`/${cities[0].name}`} />}
         <Outlet />
       </>
     </Layout>

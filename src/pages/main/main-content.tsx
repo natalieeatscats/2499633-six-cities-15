@@ -4,10 +4,10 @@ import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
 import Map from '../../components/map/map';
 import { setCity } from '../../store/reducer';
-import { SORT_BY_VALUES } from '../../const';
+import { SORT_BY_VALUES, CITIES } from '../../const';
 import { Spinner } from './spinner';
 import { MainEmpty } from './main-empty';
-import { extractCitiesData, getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
+import { getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -15,14 +15,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const MainContent = () => {
   const dispatch: Dispatch = useDispatch();
   const params = useParams();
-  const cities: CityData[] | undefined = useSelector(extractCitiesData);
+  const cities: CityData[] = CITIES;
   const selectedCity: CityData = useSelector(getSelectedCity);
-  const cityFromParams = cities?.find((city) => city.name === params.city);
+  const cityFromParams = cities.find((city) => city.name === params.city);
   const offers = useSelector(getOffers);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (cityFromParams === undefined && cities && cities.length > 0) {
+    if (cityFromParams === undefined) {
       dispatch(setCity(cities[0]));
       navigate(`/${cities[0].name}`);
     } else if (cityFromParams && cityFromParams !== selectedCity) {
@@ -60,19 +60,19 @@ export const MainContent = () => {
     }),
   [sortState, filteredOffers]);
 
-  const [activeOffer, setActiveOffer] = useState(sortedOffers && sortedOffers[0]);
-  const onActiveOfferChangeHandler = useCallback((offer: OfferData) => setActiveOffer(offer), []);
+  const [activeOffer, setActiveOffer] = useState(null);
+  const onActiveOfferChangeHandler = useCallback((offer: OfferData | null) => setActiveOffer(offer), []);
   const activePoints = useMemo(() => sortedOffers?.map(({ id, location: { latitude, longitude } }) => ({
     id,
     latitude,
     longitude,
   })), [sortedOffers]);
 
-  const selectedPoint = activeOffer && {
+  const selectedPoint = activeOffer !== null ? {
     id: activeOffer.id,
     latitude: activeOffer.location.latitude,
     longitude: activeOffer.location.longitude,
-  };
+  } : undefined;
 
   return (
     <div className="cities">

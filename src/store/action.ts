@@ -145,11 +145,14 @@ export const logout = createAsyncThunk(
   'LOGOUT',
   async (_, thunk) => {
     const state: State = thunk.getState() as State;
+    const offers = state.offers;
     try {
       await api.delete('/logout', { headers: { 'X-Token': state.userData?.token } });
       window.localStorage.removeItem('six-cities-token');
       thunk.dispatch(setAuthStatus('NO_AUTH'));
       thunk.dispatch(setUserData(null));
+      thunk.dispatch(setFavorites([]));
+      offers?.map((offer) => thunk.dispatch(updateOffer({ id: offer.id, offer: { ...offer, isFavorite: false } })));
     } catch (err) {
       thunk.dispatch(setAuthStatus('NO_AUTH'));
       thunk.dispatch(setUserData(null));
@@ -163,13 +166,13 @@ export const postComment = createAsyncThunk(
     try {
       const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
-      const response = await api.post(`/comments/${data.id}`, { comment: data.comment, rating: data.rating }, { headers: { 'X-Token': user?.token } });
+      const response = await api.post(`/commentssd/${data.id}`, { comment: data.comment, rating: data.rating }, { headers: { 'X-Token': user?.token } });
       thunk.dispatch(setError(null));
       thunk.dispatch(setReviews([...state.reviews, response.data as ReviewData]));
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
-      thunk.dispatch(setError(`POST_COMMENT: ${errorMessage}`));
+      thunk.dispatch(setError(errorMessage));
     }
   }
 );

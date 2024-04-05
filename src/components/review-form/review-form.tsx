@@ -8,6 +8,7 @@ import { COMMENT_REQUIREMENTS } from '../../const';
 type ReviewFormProps = {
   id: string;
 }
+let forceDisable = false;
 export const ReviewForm = ({id}: ReviewFormProps) => {
   const [values, setValues] = useState({
     rating: 0,
@@ -23,13 +24,17 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
   const dispatch: Dispatch = useDispatch();
   const handlePostReview = (evt: FormEvent) => {
     evt.preventDefault();
+    forceDisable = true;
     dispatch(postComment({ ...values, id }));
-    if (!errorMessage) {
-      setValues({
-        rating: 0,
-        comment: '',
-      });
-    }
+    setTimeout(() => {
+      forceDisable = false;
+      if (errorMessage === null) {
+        setValues({
+          rating: 0,
+          comment: '',
+        });
+      }
+    }, 1000);
   };
 
   const { MIN_LENGTH, MAX_LENGTH } = COMMENT_REQUIREMENTS;
@@ -38,7 +43,7 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handlePostReview}>
-      <RatingSelect onRatingChange={handleRating} selectedRating={values.rating}></RatingSelect>
+      <RatingSelect onRatingChange={handleRating} selectedRating={values.rating} isDisabled={forceDisable}></RatingSelect>
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
@@ -62,7 +67,7 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isValidReview}
+          disabled={!isValidReview || forceDisable}
         >
                       Submit
         </button>

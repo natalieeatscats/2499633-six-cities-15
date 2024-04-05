@@ -21,13 +21,13 @@ export const OfferReviews = ({ reviews, id }: Props) => {
       <ul className="reviews__list">
         {reviewsToMap.map((review) => {
           const date = new Date(review.date);
-          const month = new Intl.DateTimeFormat('en-US', {month: 'long'}).format(date.getMonth());
+          const formattedDate = new Intl.DateTimeFormat('en-US', {month: 'long', year: 'numeric'}).format(date);
 
           return (
             <Review
               review={review}
-              key={`${review.id} (${month} ${date.getFullYear()}) ${review.comment}`}
-              date={`${month} ${date.getFullYear()}`}
+              key={`${review.id} (${formattedDate}) ${review.comment}`}
+              date={`${formattedDate}`}
             />
           );
         })}

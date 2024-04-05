@@ -1,41 +1,32 @@
-import { OfferData } from '../../types';
+import { CityData, OfferData } from '../../types';
 import Card from '../../components/card/card';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { extractCityNames } from '../../store/selector';
+import { CITIES } from '../../const';
 
 type FavoritesProps = {
   offers: OfferData[];
-  onActiveOfferChangeHandler?: (offer: OfferData) => void;
+  onActiveOfferChangeHandler?: (offer: OfferData | null) => void;
 }
 
 export const FavoritesList = ({ offers, onActiveOfferChangeHandler}: FavoritesProps) => {
   const handleScroll = () => window.scrollTo({ top: 0 });
-  const cities = useSelector(extractCityNames);
+  const cities: CityData[] = CITIES;
   return (
     <ul className="favorites__list">
-      {cities?.map((city) => {
-        if (offers.some((offer) => offer.city.name === city)) {
+      {cities.map((city) => {
+        if (offers.some((offer) => offer.city.name === city.name)) {
           return(
-            <li className="favorites__locations-items" key={city}>
+            <li className="favorites__locations-items" key={city.name}>
               <div className="favorites__locations locations locations--current">
                 <div className="locations__item">
-                  <Link className="locations__item-link" to={`/${city}`}>
-                    <span>{city}</span>
+                  <Link className="locations__item-link" to={`/${city.name}`}>
+                    <span>{city.name}</span>
                   </Link>
                 </div>
               </div>
               <div className="favorites__places">
-                {offers.filter((offer) => offer.city.name === city).map((offer) => (
-                  <Link
-                    to={`/offer/${offer.id}`}
-                    className="favorites__card"
-                    key={offer.id}
-                    onMouseEnter={() => onActiveOfferChangeHandler && onActiveOfferChangeHandler(offer)}
-                    onClick={handleScroll}
-                  >
-                    <Card offer={offer} type='favorites' />
-                  </Link>
+                {offers.filter((offer) => offer.city.name === city.name).map((offer) => (
+                  <Card offer={offer} type='favorites' key={offer.id} handleScroll={handleScroll} onActiveOfferChangeHandler={onActiveOfferChangeHandler}/>
                 ))}
               </div>
             </li>

@@ -1,20 +1,21 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { Layout } from '../../components/layout/layout';
-import { Addresses, handleStars } from '../../const';
-import { RatingStars } from './rating-stars';
-import { OfferFeatures } from './offer-features';
-import { OfferInside } from './offer-inside';
-import { Host } from './host';
-import { OfferReviews } from './offer-reviews';
-import NearbyOffers from './nearby-offers';
-import BookmarkButton from '../../components/bookmark-button/bookmark-button';
+import { Layout } from '../../components/layout/layout.tsx';
+import { Addresses, handleStars } from '../../const.ts';
+import { RatingStars } from './rating-stars.tsx';
+import { OfferFeatures } from './offer-features.tsx';
+import { OfferInside } from './offer-inside.tsx';
+import { Host } from './host.tsx';
+import { OfferReviews } from './offer-reviews.tsx';
+import NearbyOffers from './nearby-offers.tsx';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button.tsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { CityData, Dispatch, OfferData } from '../../types';
+import { CityData, Dispatch, OfferData } from '../../types.tsx';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action';
-import Map from '../../components/map/map';
-import { getTargetOffer, getNearbyOffers, getAuthStatus, getSortedReviews } from '../../store/selector';
+import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action.ts';
+import Map from '../../components/map/map.tsx';
+import { getTargetOffer, getNearbyOffers, getAuthStatus, getSortedReviews } from '../../store/selector.ts';
 import '../../string.extensions.ts';
+
 
 export const Offer = () => {
   const params = useParams();

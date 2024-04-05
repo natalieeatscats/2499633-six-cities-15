@@ -1,10 +1,10 @@
 import { OfferData } from '../../types';
 import Card from '../card/card';
-import { Link } from 'react-router-dom';
+
 
 type OffersProps = {
   offers: OfferData[];
-  onActiveOfferChangeHandler?: (offer: OfferData) => void;
+  onActiveOfferChangeHandler?: (offer: OfferData | null) => void;
   type: string;
 }
 
@@ -14,9 +14,7 @@ export const OffersList = ({ offers, onActiveOfferChangeHandler, type }: OffersP
   return (
 
     offers.map((offer) => (
-      <Link to={`/offer/${offer.id}`} onMouseEnter={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(offer))} onClick={handleScroll} key={offer.id} >
-        <Card offer={offer} type={type} />
-      </Link>
+      <Card offer={offer} type={type} onActiveOfferChangeHandler={onActiveOfferChangeHandler} handleScroll={handleScroll} key={offer.id}/>
     ))
   );
 };

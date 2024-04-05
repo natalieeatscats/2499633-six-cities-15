@@ -1,20 +1,22 @@
 import { MouseEventHandler, memo } from 'react';
-import { Addresses, handleStars } from '../../const';
-import { Dispatch, OfferData } from '../../types';
-import BookmarkButton from '../bookmark-button/bookmark-button';
-import { toggleFavorite } from '../../store/action';
-import { getAuthStatus } from '../../store/selector';
+import { Addresses, handleStars } from '../../const.ts';
+import { Dispatch, OfferData } from '../../types.tsx';
+import BookmarkButton from '../bookmark-button/bookmark-button.tsx';
+import { toggleFavorite } from '../../store/action.ts';
+import { getAuthStatus } from '../../store/selector.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../string.extensions.ts';
 
 type CardProps = {
   offer: OfferData;
   type: string;
+  onActiveOfferChangeHandler?: (offer: OfferData | null) => void;
+  handleScroll: () => void;
 }
 
 
-const Card = ({ offer, type }: CardProps) => {
+const Card = ({ offer, type, onActiveOfferChangeHandler, handleScroll }: CardProps) => {
   const dispatch: Dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuth = useSelector(getAuthStatus) === 'AUTH';
@@ -30,19 +32,24 @@ const Card = ({ offer, type }: CardProps) => {
   ratingStyle.width = handleStars(offer.rating);
 
   return (
-    <article className={`${type}__card place-card`}>
+    <article className={`${type}__card place-card`}
+      onMouseEnter={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(offer))}
+      onMouseLeave={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(null))}
+    >
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
       <div className={`${type}__image-wrapper place-card__image-wrapper`}>
-        <img
-          className="place-card__image"
-          src={offer.previewImage}
-          width={260}
-          height={200}
-          alt="Place image"
-        />
+        <Link to={`/offer/${offer.id}`} onClick={handleScroll}>
+          <img
+            className="place-card__image"
+            src={offer.previewImage}
+            width={260}
+            height={200}
+            alt="Place image"
+          />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -59,7 +66,7 @@ const Card = ({ offer, type }: CardProps) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          {offer.title.toCapitalized()}
+          <Link to={`/offer/${offer.id}`} onClick={handleScroll}>{offer.title.toCapitalized()}</Link>
         </h2>
         <p className="place-card__type">{offer.type.toCapitalized()}</p>
       </div>

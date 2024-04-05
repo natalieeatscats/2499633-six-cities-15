@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { getFavorites } from '../../store/selector';
-import { Dispatch } from '../../types';
+import { Dispatch, State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/action';
 import { setAuthStatus } from '../../store/reducer';
 export const AuthUser = () => {
   const favoriteOffers = useSelector(getFavorites);
   const dispatch: Dispatch = useDispatch();
+  const userEmail = useSelector((state: State) => state.userData?.email);
+  const userAvatar = useSelector((state: State) => state.userData?.avatarUrl);
   const handleSignOut = () => {
     dispatch(setAuthStatus('NO_AUTH'));
     dispatch(logout());
@@ -19,15 +21,20 @@ export const AuthUser = () => {
           className="header__nav-link header__nav-link--profile"
           to={Addresses.Favorites}
         >
-          <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+          <div className="header__avatar-wrapper user__avatar-wrapper">
+            <img
+              className="header__avatar user__avatar"
+              src={userAvatar} alt=""
+            />
+          </div>
           <span className="header__user-name user__name">
-                  Oliver.conner@gmail.com
+            {userEmail}
           </span>
           {favoriteOffers && favoriteOffers.length > 0 && <span className="header__favorite-count">{favoriteOffers.length}</span>}
         </Link>
       </li>
       <li className="header__nav-item">
-        <Link className="header__nav-link" to={Addresses.Login} onClick={handleSignOut}>
+        <Link className="header__nav-link" to={Addresses.Main} onClick={handleSignOut}>
           <span className="header__signout">Sign out</span>
         </Link>
       </li>

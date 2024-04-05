@@ -2,7 +2,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { useEffect } from 'react';
 import { loadAuthStatus, loadFavorites, loadOffers } from '../../store/action';
-import { AuthStatus, Dispatch } from '../../types';
+import { AuthStatus, Dispatch, State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthUser } from './auth-user';
 import { NoAuthUser } from './no-auth-user';
@@ -20,6 +20,7 @@ export const Layout = ({ children }: LayoutProps) => {
   const params = useParams();
   const paramPathname = Object.values(params)[0] as string;
   const pathname: string = location.pathname.replace(paramPathname, '');
+  const isEmpty = useSelector((state: State) => state.offers)?.length === 0;
   const classNamesMap: { [key: string]: { wrapper: string; main: string } } = {
     '/': {
       wrapper: 'page page--gray page--main',
@@ -38,7 +39,12 @@ export const Layout = ({ children }: LayoutProps) => {
       main: 'page__main page__main--login'
     }
   };
-  const getClassName = () => classNamesMap[pathname] || classNamesMap['/'];
+  const getClassName = () => {
+    if (isEmpty) {
+      return {wrapper: 'page page--gray page--main', main: 'page__main page__main--index page__main--index-empty'};
+    }
+    return classNamesMap[pathname] || classNamesMap['/'];
+  };
 
   const { wrapper, main } = getClassName();
 
