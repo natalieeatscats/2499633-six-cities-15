@@ -4,6 +4,7 @@ import { Dispatch, State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { postComment } from '../../store/action';
 import { COMMENT_REQUIREMENTS } from '../../const';
+import { Spinner } from '../../pages/main/spinner';
 
 type ReviewFormProps = {
   id: string;
@@ -20,21 +21,20 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
       rating,
     }));
   };
-  const errorMessage = useSelector((state: State) => state.error);
+  const reviewIsSending = useSelector((state: State) => state.isSending.review);
+  const reviewIsFailed = useSelector((state: State) => state.isFailed.review);
   const dispatch: Dispatch = useDispatch();
   const handlePostReview = (evt: FormEvent) => {
     evt.preventDefault();
     forceDisable = true;
     dispatch(postComment({ ...values, id }));
-    setTimeout(() => {
+    if (reviewIsSending === false && reviewIsFailed === false) {
       forceDisable = false;
-      if (errorMessage === null) {
-        setValues({
-          rating: 0,
-          comment: '',
-        });
-      }
-    }, 1000);
+      setValues({
+        rating: 0,
+        comment: '',
+      });
+    }
   };
 
   const { MIN_LENGTH, MAX_LENGTH } = COMMENT_REQUIREMENTS;
@@ -55,6 +55,7 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
             comment: e.target.value,
           })))}
         value={values.comment}
+        disabled={forceDisable}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -62,7 +63,7 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
           <span className="reviews__star">rating</span> and describe
                       your stay with at least{' '}
           <b className="reviews__text-amount">50 characters</b>.
-          <br/> {errorMessage}
+          <br/>
         </p>
         <button
           className="reviews__submit form__submit button"
@@ -72,6 +73,7 @@ export const ReviewForm = ({id}: ReviewFormProps) => {
                       Submit
         </button>
       </div>
+      {reviewIsFailed && <Spinner />}
     </form>
   );
 };

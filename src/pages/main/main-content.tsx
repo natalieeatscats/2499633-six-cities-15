@@ -1,5 +1,5 @@
 import { OffersList } from '../../components/offers-list/offers-list';
-import { OfferData, CityData, Dispatch } from '../../types';
+import { OfferData, CityData, Dispatch, State } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
 import Map from '../../components/map/map';
@@ -7,7 +7,7 @@ import { setCity } from '../../store/reducer';
 import { SORT_BY_VALUES, CITIES } from '../../const';
 import { Spinner } from './spinner';
 import { MainEmpty } from './main-empty';
-import { getOffers, getOffersByCity, getSelectedCity } from '../../store/selector';
+import { getOffersByCity, getSelectedCity } from '../../store/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -18,13 +18,12 @@ export const MainContent = () => {
   const cities: CityData[] = CITIES;
   const selectedCity: CityData = useSelector(getSelectedCity);
   const cityFromParams = cities.find((city) => city.name === params.city);
-  const offers = useSelector(getOffers);
+  const offersIsLoading = useSelector((state: State) => state.isLoading.offers);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (cityFromParams === undefined) {
-      dispatch(setCity(cities[0]));
-      navigate(`/${cities[0].name}`);
+      navigate('*');
     } else if (cityFromParams && cityFromParams !== selectedCity) {
       dispatch(setCity(cityFromParams));
     }
@@ -76,7 +75,7 @@ export const MainContent = () => {
 
   return (
     <div className="cities">
-      {offers === null && <Spinner/>}
+      {offersIsLoading && <Spinner/>}
       {sortedOffers && sortedOffers.length !== 0 ?
         <div className="cities__places-container container">
           <section className="cities__places places">

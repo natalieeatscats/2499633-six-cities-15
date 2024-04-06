@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { getFavorites } from '../../store/selector';
 import { Dispatch, State } from '../../types';
@@ -10,6 +10,8 @@ export const AuthUser = () => {
   const dispatch: Dispatch = useDispatch();
   const userEmail = useSelector((state: State) => state.userData?.email);
   const userAvatar = useSelector((state: State) => state.userData?.avatarUrl);
+  const pathname: string = location.pathname;
+  const isFavorites = new RegExp(Addresses.Favorites);
   const handleSignOut = () => {
     dispatch(setAuthStatus('NO_AUTH'));
     dispatch(logout());
@@ -34,7 +36,7 @@ export const AuthUser = () => {
         </Link>
       </li>
       <li className="header__nav-item">
-        <Link className="header__nav-link" to={Addresses.Main} onClick={handleSignOut}>
+        <Link className="header__nav-link" to={isFavorites.test(pathname) ? Addresses.Login : Addresses.Main} onClick={handleSignOut}>
           <span className="header__signout">Sign out</span>
         </Link>
       </li>

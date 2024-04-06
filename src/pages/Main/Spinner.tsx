@@ -8,7 +8,12 @@ export const Spinner = () => {
 
   return (
     <div className='spinner'>
-      { errorMessage ? <b className='spinner__error'>Error:<br />{errorMessage}</b> : <b className='spinner__loading tabs__item--active'>Loading...</b>}
+      {errorMessage ?
+        <>
+          <b className='spinner__error'>Error:</b><br/>
+          <p className='spinner__error-text'>{errorMessage}</p>
+        </>
+        : <b className='spinner__loading tabs__item--active'>Loading...</b>}
     </div>
 
   );

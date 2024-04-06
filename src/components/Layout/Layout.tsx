@@ -20,7 +20,8 @@ export const Layout = ({ children }: LayoutProps) => {
   const params = useParams();
   const paramPathname = Object.values(params)[0] as string;
   const pathname: string = location.pathname.replace(paramPathname, '');
-  const isEmpty = useSelector((state: State) => state.offers)?.length === 0;
+  const isEmptyMain = useSelector((state: State) => state.offers)?.length === 0 && pathname === '/';
+  const isEmptyFavorites = useSelector((state: State) => state.offers)?.length === 0 && pathname === '/favorites';
   const classNamesMap: { [key: string]: { wrapper: string; main: string } } = {
     '/': {
       wrapper: 'page page--gray page--main',
@@ -40,8 +41,11 @@ export const Layout = ({ children }: LayoutProps) => {
     }
   };
   const getClassName = () => {
-    if (isEmpty) {
+    if (isEmptyMain) {
       return {wrapper: 'page page--gray page--main', main: 'page__main page__main--index page__main--index-empty'};
+    }
+    if (isEmptyFavorites) {
+      return {wrapper: 'page page--favorites-empty', main: 'page__main page__main--favorites page__main--favorites-empty'};
     }
     return classNamesMap[pathname] || classNamesMap['/'];
   };

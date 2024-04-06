@@ -9,12 +9,13 @@ import { OfferReviews } from './offer-reviews.tsx';
 import NearbyOffers from './nearby-offers.tsx';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button.tsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { CityData, Dispatch, OfferData } from '../../types.tsx';
+import { CityData, Dispatch, OfferData, State } from '../../types.tsx';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { loadActiveOffer, loadNearbyOffers, loadReviews, toggleFavorite } from '../../store/action.ts';
 import Map from '../../components/map/map.tsx';
 import { getTargetOffer, getNearbyOffers, getAuthStatus, getSortedReviews } from '../../store/selector.ts';
 import '../../string.extensions.ts';
+import { Spinner } from '../main/spinner.tsx';
 
 
 export const Offer = () => {
@@ -25,6 +26,12 @@ export const Offer = () => {
   const selectedCity: CityData = targetOffer.city;
   const nearbyOffers = useSelector(getNearbyOffers);
   const [, setActiveOffer] = useState(nearbyOffers?.[0]);
+  const offersIsLoading = useSelector((state: State) => state.isLoading.activeOffer);
+  const reviewsIsLoading = useSelector((state: State) => state.isLoading.reviews);
+  const nearbyOffersIsLoading = useSelector((state: State) => state.isLoading.nearbyOffers);
+  const offerIsFailed = useSelector((state: State) => state.isFailed.activeOffer);
+  const reviewsIsFailed = useSelector((state: State) => state.isFailed.reviews);
+  const nearbyOffersIsFailed = useSelector((state: State) => state.isFailed.nearbyOffers);
   const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
     setActiveOffer(offer);
   }, []);
@@ -59,7 +66,10 @@ export const Offer = () => {
       dispatch(loadReviews(params.id));
       dispatch(loadNearbyOffers(params.id));
     }
-  }, [dispatch, params]);
+    if (offerIsFailed) {
+      navigate('*');
+    }
+  }, [dispatch, params, offerIsFailed]);
 
   if (targetOffer === undefined) {
     return <Navigate to='*'/>;
@@ -71,6 +81,8 @@ export const Offer = () => {
   return (
     <Layout>
       <>
+        {offersIsLoading || offerIsFailed && <Spinner />}
+        {!offersIsLoading && !offerIsFailed &&
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
@@ -114,12 +126,14 @@ export const Offer = () => {
                 avatarUrl={targetOffer.host.avatarUrl}
                 description={targetOffer.description}
               />
-              {<OfferReviews reviews={targetReviews} id={targetOffer.id} />}
+              {reviewsIsLoading || reviewsIsFailed && <Spinner/>}
+              {!reviewsIsFailed && !reviewsIsLoading && <OfferReviews reviews={targetReviews} id={targetOffer.id} />}
             </div>
           </div>
           {nearbyOffers && <Map city={selectedCity} points={activePoints} selectedPoint={selectedPoint} className='offer__map map'/>}
-        </section>
-        {nearbyOffers && <NearbyOffers offers={nearbyOffers} onActiveOfferChangeHandler={onActiveOfferChangeHandler}/>}
+        </section>}
+        {nearbyOffersIsLoading || nearbyOffersIsFailed && <Spinner/>}
+        {!nearbyOffersIsLoading && !nearbyOffersIsFailed && nearbyOffers && <NearbyOffers offers={nearbyOffers} onActiveOfferChangeHandler={onActiveOfferChangeHandler}/>}
       </>
     </Layout>
 

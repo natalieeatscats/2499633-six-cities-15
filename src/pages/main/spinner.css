@@ -1,17 +1,15 @@
 .spinner {
-  background-image: url('../../../markup/img/amsterdam@2x.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 100%;
   width: 100%;
   color: white;
+  margin: 32px auto;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
 .spinner__loading {
-  font-size: 32px;
+  font-size: 16px;
   background-color: #4481c3;
   -webkit-transform: skew(-15deg);
     transform: skew(-15deg);
@@ -21,12 +19,18 @@
 }
 
 .spinner__error {
+  margin: 12px 50%;
   text-align: center;
-  font-size: 32px;
+  font-size: 16px;
   background-color: #c34844;
   -webkit-transform: skew(-15deg);
     transform: skew(-15deg);
   border-radius: 5%;
   border-width: 5px;
-  padding: 16px 12px 16px
+  padding: 12px 12px 12px
+}
+
+.spinner__error-text {
+  margin: 12px 0;
+  color: black;
 }

@@ -68,7 +68,6 @@ export type State = {
   reviews: ReviewData[];
   activeOffer: SelectedOfferData;
   nearbyOffers: OfferData[] | null;
-  error: string | null;
   authorizationStatus: AuthStatus;
   userData: {
     name: string;
@@ -78,6 +77,27 @@ export type State = {
     token: string;
   } | null;
   favoriteOffers: OfferData[];
+  error: string | null;
+  isLoading: {
+    offers: boolean;
+    reviews: boolean;
+    activeOffer: boolean;
+    nearbyOffers: boolean;
+    favorites: boolean;
+  };
+  isSending: {
+    review: boolean;
+    login: boolean;
+  };
+  isFailed: {
+    offers: boolean;
+    reviews: boolean;
+    review: boolean;
+    activeOffer: boolean;
+    nearbyOffers: boolean;
+    favorites: boolean;
+    login: boolean;
+  };
 };
 
 export type ReviewData = {

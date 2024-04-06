@@ -57,8 +57,8 @@ export const loadActiveOffer = createAsyncThunk(
   'SET_ACTIVE_OFFER',
   async (id: string, thunk) => {
     const savedToken = window.localStorage.getItem('six-cities-token');
+    const state: State = thunk.getState() as State;
     try {
-      const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
       const response = await api.get(`/offers/${id}`, {headers: {'X-Token': user ? user.token : savedToken}});
       const offer: SelectedOfferData = response.data as SelectedOfferData;
@@ -69,8 +69,8 @@ export const loadActiveOffer = createAsyncThunk(
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
-
       thunk.dispatch(setError(`SET_ACTIVE_OFFER: ${errorMessage}`));
+      state.isFailed.activeOffer = true;
     }
   }
 );
@@ -78,9 +78,9 @@ export const loadActiveOffer = createAsyncThunk(
 export const loadNearbyOffers = createAsyncThunk(
   'SET_NEARBY_OFFERS',
   async (id: string, thunk) => {
+    const state: State = thunk.getState() as State;
     const savedToken = window.localStorage.getItem('six-cities-token');
     try {
-      const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
       const response = await api.get(`/offers/${id}/nearby`, {headers: {'X-Token': user ? user.token : savedToken}});
       const offers: OfferData[] = response.data as OfferData[];
@@ -89,6 +89,7 @@ export const loadNearbyOffers = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
       thunk.dispatch(setError(`SET_NEARBY_OFFERS: ${errorMessage}`));
+      state.isFailed.nearbyOffers = true;
     }
   }
 );
@@ -97,9 +98,9 @@ export const loadNearbyOffers = createAsyncThunk(
 export const tryAuth = createAsyncThunk(
   'TRY_AUTH',
   async (data: { email: string; password: string }, thunk) => {
+    const state: State = thunk.getState() as State;
     try {
       const response = await api.post('/login', data);
-
       thunk.dispatch(setAuthStatus('AUTH'));
       const resData = response.data as loginResData;
       thunk.dispatch(setUserData(resData as State['userData']));
@@ -110,8 +111,8 @@ export const tryAuth = createAsyncThunk(
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
-
       thunk.dispatch(setError(`TRY_AUTH: ${errorMessage}`));
+      state.isFailed.login = true;
     }
   }
 );
@@ -163,16 +164,17 @@ export const logout = createAsyncThunk(
 export const postComment = createAsyncThunk(
   'POST_COMMENT',
   async (data: { comment: string; rating: number; id: string }, thunk) => {
+    const state: State = thunk.getState() as State;
     try {
-      const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
-      const response = await api.post(`/commentssd/${data.id}`, { comment: data.comment, rating: data.rating }, { headers: { 'X-Token': user?.token } });
+      const response = await api.post(`/commensts/${data.id}`, { comment: data.comment, rating: data.rating }, { headers: { 'X-Token': user?.token } });
       thunk.dispatch(setError(null));
       thunk.dispatch(setReviews([...state.reviews, response.data as ReviewData]));
     } catch (err: unknown) {
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
       thunk.dispatch(setError(errorMessage));
+      state.isFailed.review = true;
     }
   }
 );
@@ -180,8 +182,8 @@ export const postComment = createAsyncThunk(
 export const loadFavorites = createAsyncThunk(
   'SET_FAVORITES',
   async (_, thunk) => {
+    const state: State = thunk.getState() as State;
     try {
-      const state: State = thunk.getState() as State;
       const user: State['userData'] = state.userData;
       const response = await api.get('/favorite', { headers: { 'X-Token': user?.token } });
       const offers: OfferData[] = response.data as OfferData[];
@@ -190,6 +192,7 @@ export const loadFavorites = createAsyncThunk(
       const errResponse: AxiosError = err as AxiosError;
       const errorMessage = extractError(errResponse);
       thunk.dispatch(setError(`SET_FAVORITES: ${errorMessage}`));
+      state.isFailed.favorites = true;
     }
   }
 );
@@ -203,8 +206,8 @@ export const toggleFavorite = createAsyncThunk(
     if (!currentOffer) {
       return;
     }
+    const user: State['userData'] = state.userData;
     try {
-      const user: State['userData'] = state.userData;
       const newStatus = Number(!data.status);
       thunk.dispatch(updateOffer({ id: data.id, offer: {...currentOffer, isFavorite: !currentOffer?.isFavorite} }));
       const response = await api.post(`/favorite/${data.id}/${newStatus}`, {},{ headers: { 'X-Token': user?.token } });

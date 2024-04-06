@@ -6,14 +6,16 @@ import { tryAuth } from '../../store/action';
 import { Link, Navigate } from 'react-router-dom';
 import { Addresses, CITIES } from '../../const';
 import { getAuthStatus } from '../../store/selector';
+import { Spinner } from '../main/spinner';
 
 
 export const Login = () => {
   const randomCity = CITIES[Math.floor(Math.random() * CITIES.length)];
   const dispatch: Dispatch = useDispatch();
   const authStatus: AuthStatus = useSelector(getAuthStatus);
-  const errorMessage = useSelector((state: State) => state.error);
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const loginIsSending = useSelector((state: State) => state.isSending.login);
+  const loginError = useSelector((state: State) => state.isFailed.login);
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
@@ -63,7 +65,7 @@ export const Login = () => {
                 Sign in
               </button>
             </form>
-            {errorMessage && <p className="login__error">{errorMessage}</p>}
+            {loginError || loginIsSending && <Spinner />}
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
