@@ -1,8 +1,8 @@
-import { OffersList } from '../../components/offers-list/offers-list';
+import { OffersList } from '../../components/offers-list1/offers-list1';
 import { OfferData, CityData, Dispatch, State } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
-import Map from '../../components/map/map';
+import Map from '../../components/map1/Map1';
 import { setCity } from '../../store/reducer';
 import { SORT_BY_VALUES, CITIES } from '../../const';
 import { Spinner } from './spinner';

@@ -1,4 +1,4 @@
-import { Layout } from '../../components/layout/layout';
+import { Layout } from '../../components/layout1/Layout.1tsx';
 import { useEffect } from 'react';
 import { loadFavorites } from '../../store/action';
 import { FavoritesList } from './favorites-list';

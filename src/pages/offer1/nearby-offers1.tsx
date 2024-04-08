@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { OffersList } from '../../components/offers-list/offers-list';
+import { OffersList } from '../../components/offers-list1/offers-list1';
 import { OfferData } from '../../types';
 
 type NearbyOffersProps = {

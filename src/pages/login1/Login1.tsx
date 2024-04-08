@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Layout } from '../../components/layout/layout';
+import { Layout } from '../../components/layout1/Layout.1tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthStatus, Dispatch, State } from '../../types';
 import { tryAuth } from '../../store/action';

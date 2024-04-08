@@ -5,7 +5,7 @@ import { Login } from '../pages/login/login';
 import { Favorites } from '../pages/favorites/favorites';
 import { Offer } from '../pages/offer/offer';
 import { NotFound } from '../pages/404/404';
-import { PrivateRoute } from '../components/private-route/private-route';
+import { PrivateRoute } from '../components/private-route1/private-route1';
 import { MainContent } from '../pages/main/main-content';
 import { AuthStatus } from '../types';
 import { useSelector } from 'react-redux';

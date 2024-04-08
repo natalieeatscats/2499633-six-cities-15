@@ -1,5 +1,5 @@
 import { OfferData } from '../../types';
-import Card from '../card/card';
+import Card from '../card1/Card1';
 
 
 type OffersProps = {
