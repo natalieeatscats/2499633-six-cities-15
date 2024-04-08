@@ -4,7 +4,7 @@ import { OfferData } from '../../types';
 
 type NearbyOffersProps = {
   offers: OfferData[];
-  onActiveOfferChangeHandler: (offer: OfferData) => void;
+  onActiveOfferChangeHandler: (offer: OfferData | undefined) => void;
 }
 
 const NearbyOffers = ({offers, onActiveOfferChangeHandler}: NearbyOffersProps) => (

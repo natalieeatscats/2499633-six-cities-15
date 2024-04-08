@@ -5,7 +5,7 @@ import { CITIES } from '../../const';
 
 type FavoritesProps = {
   offers: OfferData[];
-  onActiveOfferChangeHandler?: (offer: OfferData | null) => void;
+  onActiveOfferChangeHandler?: (offer: OfferData | undefined) => void;
 }
 
 export const FavoritesList = ({ offers, onActiveOfferChangeHandler}: FavoritesProps) => {

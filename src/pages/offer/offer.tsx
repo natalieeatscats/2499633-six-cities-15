@@ -32,7 +32,7 @@ export const Offer = () => {
   const offerIsFailed = useSelector((state: State) => state.isFailed.activeOffer);
   const reviewsIsFailed = useSelector((state: State) => state.isFailed.reviews);
   const nearbyOffersIsFailed = useSelector((state: State) => state.isFailed.nearbyOffers);
-  const onActiveOfferChangeHandler = useCallback((offer: OfferData) => {
+  const onActiveOfferChangeHandler = useCallback((offer: OfferData | undefined) => {
     setActiveOffer(offer);
   }, []);
   const isAuth = useSelector(getAuthStatus) === 'AUTH';
