@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from './app/app';
+import { App } from './app/app1';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { loadAuthStatus } from './store/action';
