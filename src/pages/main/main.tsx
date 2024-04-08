@@ -1,5 +1,5 @@
 import { NavLink, Navigate, Outlet, useParams } from 'react-router-dom';
-import { Layout } from '../../components/layout1/Layout.1tsx';
+import { Layout } from '../../components/layout/layout.tsx';
 import { CITIES } from '../../const';
 
 export const MainPage = () => {

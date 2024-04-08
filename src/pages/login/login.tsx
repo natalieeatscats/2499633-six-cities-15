@@ -1,11 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Layout } from '../../components/layout1/Layout.1tsx';
+import { Layout } from '../../components/layout/layout.tsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthStatus, Dispatch, State } from '../../types';
-import { tryAuth } from '../../store/action';
+import { AuthStatus, Dispatch, State } from '../../types.tsx';
+import { tryAuth } from '../../store/action.ts';
 import { Link, Navigate } from 'react-router-dom';
-import { Addresses, CITIES } from '../../const';
-import { getAuthStatus } from '../../store/selector';
+import { Addresses, CITIES } from '../../const.ts';
+import { getAuthStatus } from '../../store/selector.ts';
 import { Spinner } from '../main/spinner';
 
 

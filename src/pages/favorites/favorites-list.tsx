@@ -1,5 +1,5 @@
 import { CityData, OfferData } from '../../types';
-import Card from '../../components/card1/Card1';
+import Card from '../../components/card/card';
 import { Link } from 'react-router-dom';
 import { CITIES } from '../../const';
 

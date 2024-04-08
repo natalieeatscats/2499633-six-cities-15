@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
-import { Layout } from '../../components/layout1/Layout.1tsx';
+import { Layout } from '../../components/layout/layout.tsx';
 import '../404/404.css';
 
 export const NotFound = () => (

@@ -1,9 +1,9 @@
-import { Layout } from '../../components/layout1/Layout.1tsx';
+import { Layout } from '../../components/layout/layout.tsx';
 import { useEffect } from 'react';
-import { loadFavorites } from '../../store/action';
-import { FavoritesList } from './favorites-list';
-import { getFavorites } from '../../store/selector';
-import { Dispatch, State } from '../../types';
+import { loadFavorites } from '../../store/action.ts';
+import { FavoritesList } from './favorites-list.tsx';
+import { getFavorites } from '../../store/selector.ts';
+import { Dispatch, State } from '../../types.tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from '../main/spinner';
 
