@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { State } from '../types';
-import { CITIES } from '../const';
 
 export const getOffers = createSelector([(state: State) => state.offers], (offers) => offers);
 export const getTargetReviews = createSelector([(state: State) => state.reviews], (reviews) => reviews);
@@ -19,4 +18,3 @@ export const getOffersByCity = createSelector([(state: State) => state.offers, (
   }
   return offers.filter((offer) => offer.city.name === city.name);
 });
-// export const getRandomCity = () => (CITIES[Math.floor(Math.random() * CITIES.length)]);

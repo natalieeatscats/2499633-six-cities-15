@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Addresses } from '../../const';
 import { getFavorites } from '../../store/selector';
 import { Dispatch, State } from '../../types';

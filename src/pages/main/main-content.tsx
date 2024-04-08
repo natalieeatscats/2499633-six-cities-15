@@ -1,5 +1,5 @@
 import { OffersList } from '../../components/offers-list/offers-list';
-import { OfferData, CityData, Dispatch, State } from '../../types';
+import { OfferData, CityData, Dispatch, State, SelectedOfferData } from '../../types';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { SortOptions } from './sort-options/sort-options';
 import Map from '../../components/map/map';
@@ -59,15 +59,15 @@ export const MainContent = () => {
     }),
   [sortState, filteredOffers]);
 
-  const [activeOffer, setActiveOffer] = useState(null);
-  const onActiveOfferChangeHandler = useCallback((offer: OfferData | null) => setActiveOffer(offer), []);
+  const [activeOffer, setActiveOffer] = useState<SelectedOfferData | undefined>(undefined);
+  const onActiveOfferChangeHandler = useCallback((offer: SelectedOfferData | undefined) => setActiveOffer(offer), []);
   const activePoints = useMemo(() => sortedOffers?.map(({ id, location: { latitude, longitude } }) => ({
     id,
     latitude,
     longitude,
   })), [sortedOffers]);
 
-  const selectedPoint = activeOffer !== null ? {
+  const selectedPoint = activeOffer !== undefined ? {
     id: activeOffer.id,
     latitude: activeOffer.location.latitude,
     longitude: activeOffer.location.longitude,

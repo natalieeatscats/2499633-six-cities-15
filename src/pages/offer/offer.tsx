@@ -1,5 +1,5 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { Layout } from '../../components/layout/layout.tsx/index.ts';
+import { Layout } from '../../components/layout/layout.tsx';
 import { Addresses, handleStars } from '../../const.ts';
 import { RatingStars } from './rating-stars.tsx';
 import { OfferFeatures } from './offer-features.tsx';

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { loadAuthStatus, loadFavorites, loadOffers } from '../../store/action';
 import { AuthStatus, Dispatch, State } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthUser } from './auth-user1';
+import { AuthUser } from './auth-user';
 import { NoAuthUser } from './no-auth-user';
 import { getAuthStatus } from '../../store/selector';
 
