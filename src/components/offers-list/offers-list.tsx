@@ -4,7 +4,7 @@ import Card from '../card/card';
 
 type OffersProps = {
   offers: OfferData[];
-  onActiveOfferChangeHandler?: (offer: OfferData | null) => void;
+  onActiveOfferChangeHandler?: (offer: OfferData | undefined) => void;
   type: string;
 }
 

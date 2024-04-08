@@ -11,7 +11,7 @@ import '../../string.extensions.ts';
 type CardProps = {
   offer: OfferData;
   type: string;
-  onActiveOfferChangeHandler?: (offer: OfferData | null) => void;
+  onActiveOfferChangeHandler?: (offer: OfferData | undefined) => void;
   handleScroll: () => void;
 }
 
@@ -34,7 +34,7 @@ const Card = ({ offer, type, onActiveOfferChangeHandler, handleScroll }: CardPro
   return (
     <article className={`${type}__card place-card`}
       onMouseEnter={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(offer))}
-      onMouseLeave={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(null))}
+      onMouseLeave={onActiveOfferChangeHandler && (() => onActiveOfferChangeHandler(undefined))}
     >
       {offer.isPremium &&
         <div className="place-card__mark">
